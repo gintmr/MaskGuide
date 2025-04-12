@@ -7,15 +7,6 @@ from mobile_sam import sam_model_registry, SamAutomaticMaskGenerator, SamPredict
 import pycocotools.mask as mask_utils
 from segment_anything.build_sam import sam_model_registry as SAM_model_registry
 import matplotlib.pyplot as plt
-import torch.distributed as dist
-
-def sync_tensor(tensor):
-    if dist.is_available() and dist.is_initialized():
-        tensor_list = [torch.empty_like(tensor) for _ in range(dist.get_world_size())]
-        dist.all_gather(tensor_list, tensor)
-        return torch.cat(tensor_list, dim=0)
-    return tensor
-
 
 def combine_visualize_results(pred_mask_array, GT_mask_array, point_array, save_path):
     """
@@ -166,26 +157,22 @@ def calculate_segmentation_losses(pred_masks, ori_masks, include_dice_iou=True):
     
     # 3. Focal Loss
     ce_loss = 0
-    chunk_size = 5
+    chunk_size = 25
+    print(f"len(pred_masks) = {len(pred_masks)}")
+    print(f"len(ori_masks) = {len(ori_masks)}")
     for i in range(0, len(pred_masks), chunk_size):
-        actual_chunk_size = min(chunk_size, len(pred_masks) - i)
-        chunk_pred_masks, chunk_ori_masks  = pred_masks[i:i+actual_chunk_size], ori_masks[i:i+actual_chunk_size].float()
-
-        assert chunk_pred_masks.shape == chunk_ori_masks.shape, f"Shapes do not match: {chunk_pred_masks.shape} vs {chunk_ori_masks.shape}"
-
-        chunk_pred_masks = F.interpolate(chunk_pred_masks.unsqueeze(0), scale_factor=0.75, mode='bilinear').squeeze(0)
-        chunk_ori_masks = F.interpolate(chunk_ori_masks.unsqueeze(0), scale_factor=0.75, mode='bilinear').squeeze(0)
-        ce_loss += F.binary_cross_entropy_with_logits(
-            chunk_pred_masks, chunk_ori_masks, reduction='mean')#g 不使用mean的话输出即为一个矩阵...
-        
-        del chunk_pred_masks, chunk_ori_masks
+        # chunk_pred_masks, chunk_ori_masks = pred_masks[i:i+chunk_size], ori_masks[i:i+chunk_size]
+        if pred_masks.ndim == 4:  # 多分类
+            ce_loss += F.cross_entropy(pred_masks[i:i+chunk_size], ori_masks[i:i+chunk_size].long(), reduction='none')
+        else:  # 二分类
+            ce_loss += F.binary_cross_entropy_with_logits(
+                pred_masks[i:i+chunk_size], ori_masks[i:i+chunk_size].float(), reduction='none')
     
-    # pred_masks = pred_masks.to(device=pred_masks_device)
     # Focal Loss参数
     gamma = 2.0
     alpha = 0.25
     pt = torch.exp(-ce_loss)
-    focal_loss = (alpha * (1 - pt) ** gamma * ce_loss)
+    focal_loss = (alpha * (1 - pt) ** gamma * ce_loss).mean()
     results['focal_loss'] = focal_loss
     
     # 组合损失（可根据需要调整权重）

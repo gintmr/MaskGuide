@@ -166,19 +166,16 @@ def calculate_segmentation_losses(pred_masks, ori_masks, include_dice_iou=True):
     
     # 3. Focal Loss
     ce_loss = 0
-    chunk_size = 5
+    chunk_size = 25
     for i in range(0, len(pred_masks), chunk_size):
         actual_chunk_size = min(chunk_size, len(pred_masks) - i)
         chunk_pred_masks, chunk_ori_masks  = pred_masks[i:i+actual_chunk_size], ori_masks[i:i+actual_chunk_size].float()
 
         assert chunk_pred_masks.shape == chunk_ori_masks.shape, f"Shapes do not match: {chunk_pred_masks.shape} vs {chunk_ori_masks.shape}"
 
-        chunk_pred_masks = F.interpolate(chunk_pred_masks.unsqueeze(0), scale_factor=0.75, mode='bilinear').squeeze(0)
-        chunk_ori_masks = F.interpolate(chunk_ori_masks.unsqueeze(0), scale_factor=0.75, mode='bilinear').squeeze(0)
         ce_loss += F.binary_cross_entropy_with_logits(
             chunk_pred_masks, chunk_ori_masks, reduction='mean')#g 不使用mean的话输出即为一个矩阵...
-        
-        del chunk_pred_masks, chunk_ori_masks
+
     
     # pred_masks = pred_masks.to(device=pred_masks_device)
     # Focal Loss参数

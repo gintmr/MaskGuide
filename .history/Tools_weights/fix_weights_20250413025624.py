@@ -23,4 +23,4 @@ for k, v in state_dict.items():
         if "prompt_encoder" or "mask_decoder" in k:
             save_checkpoint[k.replace("T_model.", "")] = v
 
-torch.save(save_checkpoint, "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/COCO_MIMC_plus_10epoch.pth")
+torch.save(save_checkpoint, "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/COCO_MIMC.pth")

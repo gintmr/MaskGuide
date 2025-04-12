@@ -96,7 +96,7 @@ def main():
     log_dir = "./metrics_logs/" + args.Tar
     if args.Tar == "Img_Encoder":
         output_dir = "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder"
-        save_model_name = "debugging.pth"
+        save_model_name = "COCO_MIMC.pth"
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
 

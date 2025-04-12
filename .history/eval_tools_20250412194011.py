@@ -167,25 +167,28 @@ def calculate_segmentation_losses(pred_masks, ori_masks, include_dice_iou=True):
     # 3. Focal Loss
     ce_loss = 0
     chunk_size = 5
+
+    print(f"pred_masks.shape = {pred_masks.shape}")
+    print(f"ori_masks.shape = {ori_masks.shape}")
+    print(f"len(pred_masks) = {len(pred_masks)}") if len(pred_masks) > chunk_size else None
+    print(f"len(ori_masks) = {len(ori_masks)}") if len(ori_masks) > chunk_size else None
+    # pred_masks_device = pred_masks.device
+    # pred_masks = pred_masks.to(device=ori_masks.device)
     for i in range(0, len(pred_masks), chunk_size):
         actual_chunk_size = min(chunk_size, len(pred_masks) - i)
-        chunk_pred_masks, chunk_ori_masks  = pred_masks[i:i+actual_chunk_size], ori_masks[i:i+actual_chunk_size].float()
-
-        assert chunk_pred_masks.shape == chunk_ori_masks.shape, f"Shapes do not match: {chunk_pred_masks.shape} vs {chunk_ori_masks.shape}"
-
-        chunk_pred_masks = F.interpolate(chunk_pred_masks.unsqueeze(0), scale_factor=0.75, mode='bilinear').squeeze(0)
-        chunk_ori_masks = F.interpolate(chunk_ori_masks.unsqueeze(0), scale_factor=0.75, mode='bilinear').squeeze(0)
-        ce_loss += F.binary_cross_entropy_with_logits(
-            chunk_pred_masks, chunk_ori_masks, reduction='mean')#g 不使用mean的话输出即为一个矩阵...
-        
-        del chunk_pred_masks, chunk_ori_masks
+        chunk_pred_masks, chunk_ori_masks  = pred_masks[i:i+actual_chunk_size], ori_masks[i:i+actual_chunk_size]
+        if pred_masks.ndim == 4:  # 多分类
+            ce_loss += F.cross_entropy(chunk_pred_masks, chunk_ori_masks.long(), reduction='none')
+        else:  # 二分类
+            ce_loss += F.binary_cross_entropy_with_logits(
+                chunk_pred_masks, chunk_ori_masks.float(), reduction='none')
     
     # pred_masks = pred_masks.to(device=pred_masks_device)
     # Focal Loss参数
     gamma = 2.0
     alpha = 0.25
     pt = torch.exp(-ce_loss)
-    focal_loss = (alpha * (1 - pt) ** gamma * ce_loss)
+    focal_loss = (alpha * (1 - pt) ** gamma * ce_loss).mean()
     results['focal_loss'] = focal_loss
     
     # 组合损失（可根据需要调整权重）

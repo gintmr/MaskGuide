@@ -173,8 +173,8 @@ def calculate_segmentation_losses(pred_masks, ori_masks, include_dice_iou=True):
 
         assert chunk_pred_masks.shape == chunk_ori_masks.shape, f"Shapes do not match: {chunk_pred_masks.shape} vs {chunk_ori_masks.shape}"
 
-        chunk_pred_masks = F.interpolate(chunk_pred_masks.unsqueeze(0), scale_factor=0.75, mode='bilinear').squeeze(0)
-        chunk_ori_masks = F.interpolate(chunk_ori_masks.unsqueeze(0), scale_factor=0.75, mode='bilinear').squeeze(0)
+        chunk_pred_masks = F.interpolate(chunk_pred_masks.unsqueeze(0), scale_factor=0.5, mode='bilinear').squeeze(0)
+        chunk_ori_masks = F.interpolate(chunk_ori_masks.unsqueeze(0), scale_factor=0.5, mode='bilinear').squeeze(0)
         ce_loss += F.binary_cross_entropy_with_logits(
             chunk_pred_masks, chunk_ori_masks, reduction='mean')#g 不使用mean的话输出即为一个矩阵...
         

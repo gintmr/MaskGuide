@@ -241,10 +241,7 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                             suffix = ('_combined.jpg')
                             file_to_delete = os.path.join(training_visual_path, f"{prefix}{suffix}")
                             if os.path.exists(file_to_delete):
-                                try: #G 防止误删可视化图后报错
-                                    os.remove(file_to_delete)
-                                except:
-                                    pass
+                                os.remove(file_to_delete)
                     #G ------- 计算IoU + 可视化输出--------G#
                     
                     # penalty_coefficient = 0.5 * (1 + single_img_iou)
