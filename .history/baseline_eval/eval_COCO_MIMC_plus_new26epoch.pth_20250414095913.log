@@ -1,0 +1,47 @@
+2025-04-14 09:54:42 - INFO - Using device: cuda
+2025-04-14 09:54:42 - INFO - Devices num is 4
+2025-04-14 09:54:42 - INFO - args: Namespace(model_type='vit_t', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/COCO_MIMC_plus_new26epoch.pth', test_img_path='/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=1, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False)
+2025-04-14 09:54:47 - INFO - ##################################################INFERENCE_MODE = train##################################################
+2025-04-14 09:54:47 - INFO - ##################################################label_path = /data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_1_prompts.json##################################################
+2025-04-14 09:54:52 - INFO - bbox_PA: 0.98626006891518
+2025-04-14 09:54:52 - INFO - bbox_IoU: 0.8637237161695244
+2025-04-14 09:54:52 - INFO - bbox_Dice: 0.9172957307481375
+2025-04-14 09:54:52 - INFO - bbox_Precision: 0.9307688623116185
+2025-04-14 09:54:52 - INFO - bbox_Recall: 0.9113300562150471
+2025-04-14 09:54:52 - INFO - bbox_F1 Score: 0.9172957307481375
+2025-04-14 09:54:52 - INFO - bbox_MAE: 0.013739931397140026
+2025-04-14 09:54:52 - INFO - bbox_MSE: 0.013739931397140026
+2025-04-14 09:54:52 - INFO - point_PA: 0.9609421252427344
+2025-04-14 09:54:52 - INFO - point_IoU: 0.7560350684049059
+2025-04-14 09:54:52 - INFO - point_Dice: 0.8198112856599279
+2025-04-14 09:54:52 - INFO - point_Precision: 0.8396891282101251
+2025-04-14 09:54:52 - INFO - point_Recall: 0.8994808047833149
+2025-04-14 09:54:52 - INFO - point_F1 Score: 0.8198112856599279
+2025-04-14 09:54:52 - INFO - point_MAE: 0.03905787318944931
+2025-04-14 09:54:52 - INFO - point_MSE: 0.03905787318944931
+2025-04-14 09:58:59 - INFO - Using device: cuda
+2025-04-14 09:58:59 - INFO - Devices num is 1
+2025-04-14 09:58:59 - INFO - args: Namespace(model_type='vit_t', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/COCO_MIMC_plus_new26epoch.pth', test_img_path='/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=1, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/baseline_eval/temp_', ori_SAM=False)
+2025-04-14 09:59:03 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-04-14 09:59:03 - INFO - ##################################################label_path = /data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_1_prompts.json##################################################
+2025-04-14 09:59:08 - INFO - bbox_PA: 0.9858646000663319
+2025-04-14 09:59:08 - INFO - bbox_IoU: 0.8738437763785858
+2025-04-14 09:59:08 - INFO - bbox_Dice: 0.9229974425540507
+2025-04-14 09:59:08 - INFO - bbox_Precision: 0.9308473590689731
+2025-04-14 09:59:08 - INFO - bbox_Recall: 0.9263388480045073
+2025-04-14 09:59:08 - INFO - bbox_F1 Score: 0.9229974425540507
+2025-04-14 09:59:08 - INFO - bbox_MAE: 0.014135399833321571
+2025-04-14 09:59:08 - INFO - bbox_MSE: 0.014135399833321571
+2025-04-14 09:59:08 - INFO - point_PA: 0.9601462259867912
+2025-04-14 09:59:08 - INFO - point_IoU: 0.7545748144252792
+2025-04-14 09:59:08 - INFO - point_Dice: 0.8188849143344524
+2025-04-14 09:59:08 - INFO - point_Precision: 0.8290923470961421
+2025-04-14 09:59:08 - INFO - point_Recall: 0.9117659377143057
+2025-04-14 09:59:08 - INFO - point_F1 Score: 0.8188849143344524
+2025-04-14 09:59:08 - INFO - point_MAE: 0.0398537740111351
+2025-04-14 09:59:08 - INFO - point_MSE: 0.0398537740111351
+2025-04-14 09:59:11 - INFO - Using device: cuda
+2025-04-14 09:59:11 - INFO - Devices num is 1
+2025-04-14 09:59:11 - INFO - args: Namespace(model_type='vit_t', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/COCO_MIMC_plus_new26epoch.pth', test_img_path='/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=3, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/baseline_eval/temp_', ori_SAM=False)
+2025-04-14 09:59:14 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-04-14 09:59:14 - INFO - ##################################################label_path = /data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_3_prompts.json##################################################
