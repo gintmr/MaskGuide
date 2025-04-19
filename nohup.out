@@ -12,157 +12,6 @@
   return register_model(fn_wrapper)
 /data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_512 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_512. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
   return register_model(fn_wrapper)
-loading annotations into memory...
-Done (t=0.21s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.06s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=15.17s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.23s)
-creating index...
-index created!
-T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
-权重文件中以下层在模型结构中不存在：
-  mask_decoder.output_hypernetworks_mlps.1.layers.0.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias
-  mask_decoder.iou_prediction_head.layers.1.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias
-  mask_decoder.output_upscaling.0.weight
-  mask_decoder.iou_prediction_head.layers.0.bias
-  mask_decoder.output_hypernetworks_mlps.1.layers.1.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight
-  prompt_encoder.point_embeddings.3.weight
-  mask_decoder.transformer.layers.1.mlp.lin1.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight
-  mask_decoder.transformer.layers.0.self_attn.q_proj.weight
-  mask_decoder.output_upscaling.3.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight
-  prompt_encoder.no_mask_embed.weight
-  mask_decoder.transformer.layers.1.mlp.lin2.bias
-  mask_decoder.iou_token.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias
-  mask_decoder.transformer.norm_final_attn.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.1.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias
-  prompt_encoder.point_embeddings.0.weight
-  mask_decoder.iou_prediction_head.layers.0.weight
-  mask_decoder.transformer.layers.1.mlp.lin2.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias
-  mask_decoder.transformer.layers.1.self_attn.v_proj.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.2.weight
-  mask_decoder.transformer.layers.1.mlp.lin1.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight
-  prompt_encoder.mask_downscaling.1.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.0.weight
-  prompt_encoder.mask_downscaling.4.bias
-  prompt_encoder.point_embeddings.2.weight
-  mask_decoder.transformer.final_attn_token_to_image.out_proj.bias
-  prompt_encoder.mask_downscaling.4.weight
-  mask_decoder.transformer.layers.1.self_attn.k_proj.weight
-  mask_decoder.transformer.layers.0.self_attn.k_proj.bias
-  mask_decoder.transformer.layers.0.self_attn.q_proj.bias
-  mask_decoder.transformer.norm_final_attn.bias
-  mask_decoder.output_hypernetworks_mlps.1.layers.2.bias
-  mask_decoder.transformer.final_attn_token_to_image.v_proj.bias
-  mask_decoder.output_upscaling.0.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.q_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias
-  mask_decoder.transformer.layers.1.self_attn.v_proj.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight
-  mask_decoder.transformer.final_attn_token_to_image.q_proj.weight
-  mask_decoder.iou_prediction_head.layers.1.weight
-  mask_decoder.transformer.layers.1.self_attn.out_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.1.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.1.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight
-  mask_decoder.transformer.layers.0.norm4.weight
-  mask_decoder.transformer.layers.0.mlp.lin2.weight
-  mask_decoder.transformer.final_attn_token_to_image.k_proj.bias
-  mask_decoder.transformer.layers.1.self_attn.out_proj.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.2.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias
-  mask_decoder.transformer.layers.0.norm1.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.0.bias
-  prompt_encoder.mask_downscaling.3.bias
-  mask_decoder.transformer.final_attn_token_to_image.q_proj.bias
-  prompt_encoder.mask_downscaling.3.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.2.bias
-  prompt_encoder.mask_downscaling.0.weight
-  mask_decoder.transformer.layers.0.mlp.lin1.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight
-  prompt_encoder.mask_downscaling.6.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.1.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias
-  mask_decoder.output_hypernetworks_mlps.1.layers.0.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias
-  mask_decoder.transformer.layers.0.self_attn.out_proj.bias
-  mask_decoder.transformer.layers.1.norm3.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight
-  mask_decoder.transformer.layers.1.norm3.bias
-  mask_decoder.transformer.layers.0.self_attn.v_proj.bias
-  mask_decoder.transformer.layers.0.mlp.lin2.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.2.weight
-  mask_decoder.output_upscaling.1.weight
-  mask_decoder.mask_tokens.weight
-  mask_decoder.transformer.layers.0.norm2.weight
-  mask_decoder.iou_prediction_head.layers.2.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias
-  mask_decoder.transformer.layers.0.norm4.bias
-  mask_decoder.transformer.layers.0.self_attn.v_proj.weight
-  prompt_encoder.mask_downscaling.1.weight
-  prompt_encoder.not_a_point_embed.weight
-  mask_decoder.transformer.layers.1.norm1.bias
-  prompt_encoder.mask_downscaling.0.bias
-  mask_decoder.transformer.layers.1.norm4.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.0.weight
-  mask_decoder.transformer.layers.1.self_attn.q_proj.bias
-  mask_decoder.transformer.layers.0.norm3.bias
-  prompt_encoder.mask_downscaling.6.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.1.weight
-  prompt_encoder.pe_layer.positional_encoding_gaussian_matrix
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight
-  mask_decoder.transformer.layers.0.norm2.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.0.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.2.weight
-  mask_decoder.transformer.layers.0.norm1.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.2.bias
-  mask_decoder.transformer.final_attn_token_to_image.v_proj.weight
-  mask_decoder.transformer.layers.0.mlp.lin1.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.2.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.0.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.1.weight
-  mask_decoder.transformer.layers.0.norm3.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.1.weight
-  mask_decoder.transformer.layers.0.self_attn.k_proj.weight
-  mask_decoder.transformer.layers.0.self_attn.out_proj.weight
-  mask_decoder.transformer.layers.1.norm4.weight
-  prompt_encoder.point_embeddings.1.weight
-  mask_decoder.output_upscaling.3.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.0.bias
-  mask_decoder.output_upscaling.1.bias
-  mask_decoder.transformer.final_attn_token_to_image.out_proj.weight
-  mask_decoder.transformer.layers.1.norm1.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.k_proj.bias
 Using 16bit None Automatic Mixed Precision (AMP)
 GPU available: True (cuda), used: True
 TPU available: False, using: 0 TPU cores
@@ -213,464 +62,9 @@ Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/4
   return register_model(fn_wrapper)
 /data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_512 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_512. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
   return register_model(fn_wrapper)
-loading annotations into memory...
-Done (t=0.20s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.06s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=15.69s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.23s)
-creating index...
-index created!
-T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
-权重文件中以下层在模型结构中不存在：
-  prompt_encoder.mask_downscaling.1.bias
-  mask_decoder.transformer.layers.1.mlp.lin2.bias
-  mask_decoder.transformer.layers.1.self_attn.k_proj.bias
-  mask_decoder.transformer.layers.0.self_attn.q_proj.weight
-  mask_decoder.transformer.layers.0.mlp.lin2.bias
-  prompt_encoder.mask_downscaling.6.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight
-  mask_decoder.iou_token.weight
-  mask_decoder.transformer.layers.0.norm1.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.2.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight
-  prompt_encoder.mask_downscaling.0.weight
-  mask_decoder.transformer.layers.0.norm1.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.0.bias
-  prompt_encoder.mask_downscaling.0.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias
-  mask_decoder.iou_prediction_head.layers.1.weight
-  mask_decoder.transformer.layers.1.mlp.lin1.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.q_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.q_proj.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.0.weight
-  prompt_encoder.pe_layer.positional_encoding_gaussian_matrix
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.1.bias
-  prompt_encoder.mask_downscaling.4.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.1.weight
-  mask_decoder.iou_prediction_head.layers.2.weight
-  mask_decoder.iou_prediction_head.layers.0.weight
-  prompt_encoder.mask_downscaling.3.weight
-  mask_decoder.iou_prediction_head.layers.1.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.2.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.k_proj.bias
-  prompt_encoder.point_embeddings.3.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.2.weight
-  mask_decoder.transformer.layers.0.self_attn.out_proj.bias
-  mask_decoder.transformer.norm_final_attn.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.1.weight
-  mask_decoder.output_upscaling.3.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias
-  mask_decoder.transformer.layers.0.norm3.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight
-  mask_decoder.transformer.layers.1.mlp.lin2.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias
-  mask_decoder.transformer.layers.0.norm2.bias
-  mask_decoder.transformer.layers.1.self_attn.q_proj.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.0.weight
-  mask_decoder.transformer.layers.1.norm1.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.2.weight
-  mask_decoder.transformer.layers.1.norm4.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.0.bias
-  mask_decoder.transformer.layers.0.self_attn.out_proj.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.0.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight
-  mask_decoder.transformer.layers.0.mlp.lin2.weight
-  mask_decoder.transformer.layers.1.norm2.weight
-  mask_decoder.transformer.layers.1.self_attn.out_proj.bias
-  mask_decoder.mask_tokens.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias
-  mask_decoder.transformer.layers.1.norm4.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias
-  mask_decoder.iou_prediction_head.layers.2.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias
-  mask_decoder.transformer.layers.0.norm4.bias
-  mask_decoder.output_hypernetworks_mlps.1.layers.1.bias
-  mask_decoder.transformer.layers.0.self_attn.k_proj.weight
-  mask_decoder.output_upscaling.1.bias
-  mask_decoder.transformer.layers.0.norm4.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.2.bias
-  mask_decoder.transformer.layers.1.norm1.weight
-  mask_decoder.transformer.layers.0.self_attn.q_proj.bias
-  mask_decoder.output_upscaling.0.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.1.weight
-  mask_decoder.transformer.layers.0.mlp.lin1.bias
-  mask_decoder.transformer.final_attn_token_to_image.q_proj.bias
-  prompt_encoder.point_embeddings.0.weight
-  prompt_encoder.no_mask_embed.weight
-  prompt_encoder.point_embeddings.1.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.1.bias
-  mask_decoder.iou_prediction_head.layers.0.bias
-  mask_decoder.output_upscaling.3.bias
-  prompt_encoder.mask_downscaling.6.weight
-  mask_decoder.transformer.layers.0.self_attn.v_proj.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias
-  mask_decoder.transformer.layers.0.norm2.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias
-  mask_decoder.transformer.norm_final_attn.weight
-  prompt_encoder.not_a_point_embed.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight
-  mask_decoder.transformer.layers.1.norm2.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias
-  mask_decoder.transformer.layers.1.self_attn.k_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.out_proj.weight
-  mask_decoder.transformer.layers.0.self_attn.v_proj.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.2.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias
-  mask_decoder.transformer.layers.1.norm3.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.1.bias
-  mask_decoder.output_upscaling.1.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.2.bias
-  mask_decoder.transformer.layers.1.self_attn.v_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias
-  prompt_encoder.mask_downscaling.1.weight
-  mask_decoder.transformer.layers.0.self_attn.k_proj.bias
-  mask_decoder.transformer.layers.0.mlp.lin1.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.2.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.0.weight
-  prompt_encoder.mask_downscaling.3.bias
-  mask_decoder.transformer.layers.0.norm3.bias
-  prompt_encoder.mask_downscaling.4.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight
-  mask_decoder.transformer.final_attn_token_to_image.out_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight
-  mask_decoder.transformer.final_attn_token_to_image.v_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.out_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight
-  mask_decoder.transformer.final_attn_token_to_image.v_proj.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.1.weight
-  mask_decoder.output_upscaling.0.bias
-  mask_decoder.transformer.final_attn_token_to_image.k_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.v_proj.bias
-  mask_decoder.transformer.layers.1.mlp.lin1.weight
-Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
-loading annotations into memory...
-Done (t=0.25s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.07s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=15.58s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.27s)
-creating index...
-index created!
-T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
-权重文件中以下层在模型结构中不存在：
-  mask_decoder.transformer.layers.1.self_attn.q_proj.bias
-  mask_decoder.transformer.layers.0.mlp.lin2.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight
-  mask_decoder.transformer.layers.0.norm1.weight
-  mask_decoder.transformer.final_attn_token_to_image.k_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.0.weight
-  mask_decoder.transformer.layers.0.norm3.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight
-  mask_decoder.transformer.norm_final_attn.weight
-  mask_decoder.transformer.layers.1.self_attn.out_proj.weight
-  prompt_encoder.mask_downscaling.1.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.2.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias
-  mask_decoder.output_hypernetworks_mlps.1.layers.2.weight
-  mask_decoder.output_upscaling.1.bias
-  mask_decoder.transformer.layers.0.norm4.bias
-  prompt_encoder.no_mask_embed.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.1.weight
-  mask_decoder.transformer.layers.1.mlp.lin2.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.1.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias
-  mask_decoder.transformer.layers.1.self_attn.out_proj.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.1.weight
-  mask_decoder.iou_prediction_head.layers.0.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias
-  mask_decoder.transformer.layers.0.mlp.lin1.weight
-  mask_decoder.transformer.layers.0.norm4.weight
-  mask_decoder.transformer.layers.0.norm2.bias
-  mask_decoder.transformer.layers.0.self_attn.q_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight
-  mask_decoder.transformer.layers.0.mlp.lin1.bias
-  mask_decoder.transformer.layers.0.norm1.bias
-  mask_decoder.transformer.layers.1.norm2.bias
-  mask_decoder.transformer.norm_final_attn.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.0.bias
-  prompt_encoder.point_embeddings.2.weight
-  mask_decoder.transformer.layers.1.norm4.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.0.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias
-  mask_decoder.transformer.layers.0.self_attn.q_proj.bias
-  prompt_encoder.mask_downscaling.1.weight
-  mask_decoder.transformer.layers.0.self_attn.k_proj.bias
-  mask_decoder.output_hypernetworks_mlps.1.layers.1.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias
-  mask_decoder.iou_prediction_head.layers.1.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.2.bias
-  mask_decoder.output_hypernetworks_mlps.1.layers.0.bias
-  mask_decoder.transformer.layers.0.norm2.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.out_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.q_proj.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.2.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight
-  mask_decoder.iou_token.weight
-  mask_decoder.transformer.layers.1.self_attn.q_proj.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.1.weight
-  mask_decoder.transformer.layers.0.mlp.lin2.bias
-  prompt_encoder.mask_downscaling.0.weight
-  mask_decoder.transformer.layers.1.norm1.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias
-  mask_decoder.transformer.layers.1.mlp.lin1.weight
-  prompt_encoder.mask_downscaling.6.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.1.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.k_proj.weight
-  mask_decoder.iou_prediction_head.layers.1.bias
-  prompt_encoder.mask_downscaling.4.weight
-  prompt_encoder.pe_layer.positional_encoding_gaussian_matrix
-  mask_decoder.output_hypernetworks_mlps.0.layers.1.bias
-  mask_decoder.transformer.layers.1.norm4.weight
-  mask_decoder.output_upscaling.3.bias
-  mask_decoder.transformer.final_attn_token_to_image.v_proj.weight
-  mask_decoder.output_upscaling.0.bias
-  mask_decoder.transformer.layers.0.norm3.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight
-  mask_decoder.transformer.layers.1.mlp.lin2.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight
-  mask_decoder.iou_prediction_head.layers.2.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight
-  mask_decoder.transformer.layers.1.mlp.lin1.bias
-  mask_decoder.transformer.layers.1.self_attn.k_proj.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.0.weight
-  prompt_encoder.mask_downscaling.3.weight
-  prompt_encoder.point_embeddings.1.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight
-  mask_decoder.transformer.final_attn_token_to_image.out_proj.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.0.weight
-  mask_decoder.iou_prediction_head.layers.0.weight
-  prompt_encoder.mask_downscaling.4.bias
-  prompt_encoder.point_embeddings.0.weight
-  mask_decoder.transformer.layers.1.norm1.bias
-  mask_decoder.transformer.layers.0.self_attn.k_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.v_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.v_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.2.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias
-  mask_decoder.transformer.layers.1.norm3.bias
-  mask_decoder.output_upscaling.1.weight
-  mask_decoder.mask_tokens.weight
-  mask_decoder.output_upscaling.3.weight
-  mask_decoder.transformer.layers.0.self_attn.out_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.k_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight
-  mask_decoder.transformer.layers.0.self_attn.v_proj.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.2.weight
-  mask_decoder.transformer.layers.1.norm2.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.0.bias
-  mask_decoder.transformer.layers.1.norm3.weight
-  mask_decoder.output_upscaling.0.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias
-  mask_decoder.transformer.layers.0.self_attn.out_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.v_proj.bias
-  mask_decoder.iou_prediction_head.layers.2.weight
-  prompt_encoder.not_a_point_embed.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias
-  mask_decoder.transformer.layers.0.self_attn.v_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.1.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias
-  prompt_encoder.mask_downscaling.3.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.2.weight
-  prompt_encoder.mask_downscaling.0.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias
-  prompt_encoder.point_embeddings.3.weight
-  mask_decoder.transformer.final_attn_token_to_image.q_proj.weight
-  prompt_encoder.mask_downscaling.6.weight
-loading annotations into memory...
-Done (t=0.27s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.09s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=15.58s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.27s)
-creating index...
-index created!
-T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
-权重文件中以下层在模型结构中不存在：
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight
-  mask_decoder.transformer.layers.1.norm4.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.2.bias
-  mask_decoder.mask_tokens.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.1.weight
-  prompt_encoder.mask_downscaling.4.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.0.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.2.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.2.bias
-  mask_decoder.transformer.layers.1.norm2.weight
-  mask_decoder.iou_prediction_head.layers.0.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias
-  mask_decoder.transformer.layers.0.norm2.bias
-  mask_decoder.output_upscaling.1.bias
-  prompt_encoder.mask_downscaling.6.weight
-  mask_decoder.transformer.layers.0.self_attn.k_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias
-  mask_decoder.output_hypernetworks_mlps.1.layers.0.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight
-  mask_decoder.transformer.layers.0.self_attn.out_proj.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias
-  mask_decoder.transformer.layers.1.norm1.weight
-  prompt_encoder.mask_downscaling.6.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias
-  mask_decoder.transformer.layers.1.self_attn.k_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.q_proj.weight
-  mask_decoder.transformer.layers.1.mlp.lin1.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.1.bias
-  mask_decoder.iou_prediction_head.layers.1.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.2.weight
-  mask_decoder.transformer.layers.0.norm2.weight
-  mask_decoder.transformer.layers.0.norm3.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias
-  mask_decoder.transformer.layers.0.norm3.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight
-  mask_decoder.transformer.layers.1.norm3.weight
-  mask_decoder.transformer.final_attn_token_to_image.k_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.v_proj.bias
-  mask_decoder.transformer.layers.1.mlp.lin1.weight
-  mask_decoder.transformer.layers.0.self_attn.q_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.out_proj.weight
-  mask_decoder.transformer.final_attn_token_to_image.q_proj.bias
-  prompt_encoder.mask_downscaling.4.weight
-  mask_decoder.output_hypernetworks_mlps.3.layers.0.weight
-  mask_decoder.transformer.layers.0.norm1.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.0.weight
-  mask_decoder.iou_prediction_head.layers.0.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.0.bias
-  mask_decoder.transformer.final_attn_token_to_image.v_proj.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.1.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.0.bias
-  prompt_encoder.point_embeddings.0.weight
-  prompt_encoder.mask_downscaling.3.bias
-  mask_decoder.output_upscaling.3.bias
-  prompt_encoder.no_mask_embed.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias
-  mask_decoder.transformer.final_attn_token_to_image.out_proj.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.2.bias
-  mask_decoder.transformer.layers.1.mlp.lin2.weight
-  mask_decoder.transformer.layers.1.self_attn.out_proj.bias
-  mask_decoder.transformer.layers.1.norm2.bias
-  mask_decoder.transformer.norm_final_attn.weight
-  mask_decoder.transformer.final_attn_token_to_image.k_proj.bias
-  mask_decoder.transformer.layers.1.mlp.lin2.bias
-  mask_decoder.iou_token.weight
-  mask_decoder.transformer.layers.0.mlp.lin2.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.2.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.1.weight
-  prompt_encoder.mask_downscaling.0.weight
-  prompt_encoder.not_a_point_embed.weight
-  mask_decoder.transformer.layers.1.self_attn.q_proj.bias
-  mask_decoder.transformer.layers.0.mlp.lin1.bias
-  mask_decoder.output_hypernetworks_mlps.3.layers.2.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.1.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias
-  mask_decoder.output_upscaling.0.bias
-  mask_decoder.iou_prediction_head.layers.2.bias
-  mask_decoder.transformer.layers.0.self_attn.q_proj.weight
-  mask_decoder.output_hypernetworks_mlps.0.layers.1.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.0.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.1.weight
-  prompt_encoder.mask_downscaling.3.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight
-  mask_decoder.transformer.norm_final_attn.bias
-  mask_decoder.output_hypernetworks_mlps.0.layers.1.weight
-  prompt_encoder.mask_downscaling.1.weight
-  mask_decoder.transformer.layers.1.norm1.bias
-  mask_decoder.transformer.final_attn_token_to_image.v_proj.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.2.bias
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight
-  mask_decoder.transformer.layers.0.norm1.weight
-  mask_decoder.transformer.layers.0.self_attn.v_proj.bias
-  mask_decoder.transformer.layers.0.mlp.lin1.weight
-  mask_decoder.iou_prediction_head.layers.1.bias
-  mask_decoder.transformer.layers.0.norm4.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight
-  mask_decoder.output_upscaling.3.weight
-  mask_decoder.output_hypernetworks_mlps.1.layers.0.weight
-  mask_decoder.transformer.layers.1.self_attn.out_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight
-  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias
-  mask_decoder.transformer.layers.0.self_attn.k_proj.weight
-  mask_decoder.transformer.layers.1.self_attn.k_proj.bias
-  mask_decoder.transformer.layers.1.norm3.bias
-  mask_decoder.transformer.layers.0.mlp.lin2.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight
-  prompt_encoder.point_embeddings.1.weight
-  prompt_encoder.mask_downscaling.0.bias
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias
-  prompt_encoder.mask_downscaling.1.bias
-  prompt_encoder.pe_layer.positional_encoding_gaussian_matrix
-  mask_decoder.transformer.layers.0.self_attn.out_proj.weight
-  prompt_encoder.point_embeddings.3.weight
-  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias
-  mask_decoder.transformer.layers.1.norm4.weight
-  prompt_encoder.point_embeddings.2.weight
-  mask_decoder.transformer.layers.0.norm4.bias
-  mask_decoder.transformer.layers.1.self_attn.v_proj.weight
-  mask_decoder.iou_prediction_head.layers.2.weight
-  mask_decoder.transformer.final_attn_token_to_image.q_proj.weight
-  mask_decoder.output_upscaling.0.weight
-Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
 Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
 ----------------------------------------------------------------------------------------------------
 distributed_backend=nccl
 All distributed processes registered. Starting with 4 processes
@@ -680,35 +74,93 @@ All distributed processes registered. Starting with 4 processes
   rank_zero_warn(f"Checkpoint directory {dirpath} exists and is not empty.")
 LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
 LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
-LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
 LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
 
   | Name    | Type | Params
 ---------------------------------
 0 | T_model | Sam  | 10.1 M
-1 | S_model | Sam  | 3.5 M 
+1 | S_model | Sam  | 7.6 M 
 ---------------------------------
-3.5 M     Trainable params
+7.6 M     Trainable params
 10.1 M    Non-trainable params
-13.6 M    Total params
-27.281    Total estimated model params size (MB)
-  mask_decoder.transformer.layers.1.norm2.weight
-  mask_decoder.iou_prediction_head.layers.2.weight
-  mask_decoder.transformer.final_attn_token_to_image.k_proj.weight
-  mask_decoder.transformer.layers.1.norm2.bias
+17.7 M    Total params
+35.410    Total estimated model params size (MB)
+loading annotations into memory...
+Done (t=0.20s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.06s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=14.41s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.22s)
+creating index...
+index created!
+T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
+权重文件中的所有层都存在于模型结构中
 S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth
-Training: 0it [00:00, ?it/s]Training:   0%|          | 0/31390 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/31390 [00:00<?, ?it/s]   mask_decoder.output_upscaling.1.weight
-  mask_decoder.transformer.layers.0.self_attn.v_proj.weight
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias
+Training: 0it [00:00, ?it/s]Training:   0%|          | 0/31390 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/31390 [00:00<?, ?it/s] loading annotations into memory...
+Done (t=0.21s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.06s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=14.23s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.22s)
+creating index...
+index created!
+T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
+权重文件中的所有层都存在于模型结构中
 S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth
-  mask_decoder.output_hypernetworks_mlps.3.layers.0.bias
-  mask_decoder.output_hypernetworks_mlps.2.layers.0.bias
-  mask_decoder.transformer.layers.1.norm3.bias
-  prompt_encoder.point_embeddings.2.weight
+loading annotations into memory...
+Done (t=0.21s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.06s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=14.74s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.22s)
+creating index...
+index created!
+T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
+权重文件中的所有层都存在于模型结构中
 S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth
-  mask_decoder.output_hypernetworks_mlps.2.layers.0.bias
-  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight
-  mask_decoder.output_hypernetworks_mlps.2.layers.2.bias
+loading annotations into memory...
+Done (t=0.22s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.06s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=14.45s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.22s)
+creating index...
+index created!
+T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
+权重文件中的所有层都存在于模型结构中
 S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth
 /data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:131: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
   warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
@@ -718,224 +170,8 @@ S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encode
   warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
 /data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:131: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
   warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
-Epoch 0:   0%|          | 1/31390 [00:06<53:11:58,  6.10s/it]Epoch 0:   0%|          | 1/31390 [00:06<53:13:09,  6.10s/it, loss=59.9, v_num=170, av_BS_IoU=0.0376, av_BS_dice=0.0669, av_BS_loss_focal=0.280, av_BS_loss_dice=0.951, av_BS_loss_IoU=0.973, distill_loss=30.00]Epoch 0:   0%|          | 2/31390 [00:07<31:34:47,  3.62s/it, loss=59.9, v_num=170, av_BS_IoU=0.0376, av_BS_dice=0.0669, av_BS_loss_focal=0.280, av_BS_loss_dice=0.951, av_BS_loss_IoU=0.973, distill_loss=30.00]Epoch 0:   0%|          | 2/31390 [00:07<31:35:18,  3.62s/it, loss=63, v_num=170, av_BS_IoU=0.321, av_BS_dice=0.476, av_BS_loss_focal=0.000941, av_BS_loss_dice=0.666, av_BS_loss_IoU=0.791, distill_loss=29.70] Epoch 0:   0%|          | 3/31390 [00:08<24:14:12,  2.78s/it, loss=63, v_num=170, av_BS_IoU=0.321, av_BS_dice=0.476, av_BS_loss_focal=0.000941, av_BS_loss_dice=0.666, av_BS_loss_IoU=0.791, distill_loss=29.70]Epoch 0:   0%|          | 3/31390 [00:08<24:14:30,  2.78s/it, loss=61.5, v_num=170, av_BS_IoU=0.0419, av_BS_dice=0.0787, av_BS_loss_focal=0.0043, av_BS_loss_dice=0.935, av_BS_loss_IoU=0.965, distill_loss=29.30]Epoch 0:   0%|          | 4/31390 [00:09<20:33:40,  2.36s/it, loss=61.5, v_num=170, av_BS_IoU=0.0419, av_BS_dice=0.0787, av_BS_loss_focal=0.0043, av_BS_loss_dice=0.935, av_BS_loss_IoU=0.965, distill_loss=29.30]Epoch 0:   0%|          | 4/31390 [00:09<20:33:56,  2.36s/it, loss=62, v_num=170, av_BS_IoU=0.458, av_BS_dice=0.628, av_BS_loss_focal=0.0321, av_BS_loss_dice=0.511, av_BS_loss_IoU=0.676, distill_loss=29.30]    Epoch 0:   0%|          | 5/31390 [00:11<19:12:17,  2.20s/it, loss=62, v_num=170, av_BS_IoU=0.458, av_BS_dice=0.628, av_BS_loss_focal=0.0321, av_BS_loss_dice=0.511, av_BS_loss_IoU=0.676, distill_loss=29.30]Epoch 0:   0%|          | 5/31390 [00:11<19:12:23,  2.20s/it, loss=61.6, v_num=170, av_BS_IoU=0.0546, av_BS_dice=0.101, av_BS_loss_focal=0.458, av_BS_loss_dice=0.939, av_BS_loss_IoU=0.968, distill_loss=30.00]Epoch 0:   0%|          | 6/31390 [00:12<18:08:11,  2.08s/it, loss=61.6, v_num=170, av_BS_IoU=0.0546, av_BS_dice=0.101, av_BS_loss_focal=0.458, av_BS_loss_dice=0.939, av_BS_loss_IoU=0.968, distill_loss=30.00]Epoch 0:   0%|          | 6/31390 [00:12<18:08:16,  2.08s/it, loss=61.1, v_num=170, av_BS_IoU=0.0866, av_BS_dice=0.155, av_BS_loss_focal=0.00153, av_BS_loss_dice=0.908, av_BS_loss_IoU=0.950, distill_loss=29.30]Epoch 0:   0%|          | 7/31390 [00:13<17:13:35,  1.98s/it, loss=61.1, v_num=170, av_BS_IoU=0.0866, av_BS_dice=0.155, av_BS_loss_focal=0.00153, av_BS_loss_dice=0.908, av_BS_loss_IoU=0.950, distill_loss=29.30]Epoch 0:   0%|          | 7/31390 [00:13<17:13:39,  1.98s/it, loss=60.7, v_num=170, av_BS_IoU=0.0969, av_BS_dice=0.173, av_BS_loss_focal=0.00278, av_BS_loss_dice=0.893, av_BS_loss_IoU=0.941, distill_loss=29.20]Epoch 0:   0%|          | 8/31390 [00:15<16:35:19,  1.90s/it, loss=60.7, v_num=170, av_BS_IoU=0.0969, av_BS_dice=0.173, av_BS_loss_focal=0.00278, av_BS_loss_dice=0.893, av_BS_loss_IoU=0.941, distill_loss=29.20]Epoch 0:   0%|          | 8/31390 [00:15<16:35:28,  1.90s/it, loss=60.4, v_num=170, av_BS_IoU=0.175, av_BS_dice=0.271, av_BS_loss_focal=0.00408, av_BS_loss_dice=0.797, av_BS_loss_IoU=0.876, distill_loss=29.20] Epoch 0:   0%|          | 9/31390 [00:19<18:42:34,  2.15s/it, loss=60.4, v_num=170, av_BS_IoU=0.175, av_BS_dice=0.271, av_BS_loss_focal=0.00408, av_BS_loss_dice=0.797, av_BS_loss_IoU=0.876, distill_loss=29.20]Epoch 0:   0%|          | 9/31390 [00:19<18:42:42,  2.15s/it, loss=60, v_num=170, av_BS_IoU=0.137, av_BS_dice=0.234, av_BS_loss_focal=0.00274, av_BS_loss_dice=0.865, av_BS_loss_IoU=0.926, distill_loss=28.50]  Epoch 0:   0%|          | 10/31390 [00:20<18:00:17,  2.07s/it, loss=60, v_num=170, av_BS_IoU=0.137, av_BS_dice=0.234, av_BS_loss_focal=0.00274, av_BS_loss_dice=0.865, av_BS_loss_IoU=0.926, distill_loss=28.50]Epoch 0:   0%|          | 10/31390 [00:20<18:00:26,  2.07s/it, loss=59.7, v_num=170, av_BS_IoU=0.137, av_BS_dice=0.232, av_BS_loss_focal=0.0226, av_BS_loss_dice=0.794, av_BS_loss_IoU=0.881, distill_loss=28.50]Epoch 0:   0%|          | 11/31390 [00:25<20:07:10,  2.31s/it, loss=59.7, v_num=170, av_BS_IoU=0.137, av_BS_dice=0.232, av_BS_loss_focal=0.0226, av_BS_loss_dice=0.794, av_BS_loss_IoU=0.881, distill_loss=28.50]Epoch 0:   0%|          | 11/31390 [00:25<20:07:21,  2.31s/it, loss=59.9, v_num=170, av_BS_IoU=0.418, av_BS_dice=0.573, av_BS_loss_focal=0.00818, av_BS_loss_dice=0.470, av_BS_loss_IoU=0.622, distill_loss=28.70]Epoch 0:   0%|          | 12/31390 [00:27<19:40:48,  2.26s/it, loss=59.9, v_num=170, av_BS_IoU=0.418, av_BS_dice=0.573, av_BS_loss_focal=0.00818, av_BS_loss_dice=0.470, av_BS_loss_IoU=0.622, distill_loss=28.70]Epoch 0:   0%|          | 12/31390 [00:27<19:40:50,  2.26s/it, loss=60.2, v_num=170, av_BS_IoU=0.263, av_BS_dice=0.405, av_BS_loss_focal=0.0192, av_BS_loss_dice=0.605, av_BS_loss_IoU=0.745, distill_loss=27.80] Epoch 0:   0%|          | 13/31390 [00:28<18:48:13,  2.16s/it, loss=60.2, v_num=170, av_BS_IoU=0.263, av_BS_dice=0.405, av_BS_loss_focal=0.0192, av_BS_loss_dice=0.605, av_BS_loss_IoU=0.745, distill_loss=27.80]Epoch 0:   0%|          | 13/31390 [00:28<18:48:18,  2.16s/it, loss=60.2, v_num=170, av_BS_IoU=0.449, av_BS_dice=0.620, av_BS_loss_focal=0.0336, av_BS_loss_dice=0.399, av_BS_loss_IoU=0.570, distill_loss=28.10]Epoch 0:   0%|          | 14/31390 [00:29<18:40:09,  2.14s/it, loss=60.2, v_num=170, av_BS_IoU=0.449, av_BS_dice=0.620, av_BS_loss_focal=0.0336, av_BS_loss_dice=0.399, av_BS_loss_IoU=0.570, distill_loss=28.10]Epoch 0:   0%|          | 14/31390 [00:29<18:40:14,  2.14s/it, loss=60.3, v_num=170, av_BS_IoU=0.387, av_BS_dice=0.556, av_BS_loss_focal=0.000123, av_BS_loss_dice=0.473, av_BS_loss_IoU=0.641, distill_loss=28.40]Epoch 0:   0%|          | 15/31390 [00:31<18:06:48,  2.08s/it, loss=60.3, v_num=170, av_BS_IoU=0.387, av_BS_dice=0.556, av_BS_loss_focal=0.000123, av_BS_loss_dice=0.473, av_BS_loss_IoU=0.641, distill_loss=28.40]Epoch 0:   0%|          | 15/31390 [00:31<18:06:53,  2.08s/it, loss=60, v_num=170, av_BS_IoU=0.236, av_BS_dice=0.381, av_BS_loss_focal=0.00178, av_BS_loss_dice=0.625, av_BS_loss_IoU=0.770, distill_loss=27.80]   Epoch 0:   0%|          | 16/31390 [00:32<17:32:21,  2.01s/it, loss=60, v_num=170, av_BS_IoU=0.236, av_BS_dice=0.381, av_BS_loss_focal=0.00178, av_BS_loss_dice=0.625, av_BS_loss_IoU=0.770, distill_loss=27.80]Epoch 0:   0%|          | 16/31390 [00:32<17:32:23,  2.01s/it, loss=59.7, v_num=170, av_BS_IoU=0.0724, av_BS_dice=0.132, av_BS_loss_focal=0.122, av_BS_loss_dice=0.857, av_BS_loss_IoU=0.921, distill_loss=27.60]Epoch 0:   0%|          | 17/31390 [00:34<17:35:45,  2.02s/it, loss=59.7, v_num=170, av_BS_IoU=0.0724, av_BS_dice=0.132, av_BS_loss_focal=0.122, av_BS_loss_dice=0.857, av_BS_loss_IoU=0.921, distill_loss=27.60]Epoch 0:   0%|          | 17/31390 [00:34<17:35:47,  2.02s/it, loss=59.6, v_num=170, av_BS_IoU=0.452, av_BS_dice=0.622, av_BS_loss_focal=0.00238, av_BS_loss_dice=0.442, av_BS_loss_IoU=0.613, distill_loss=27.30]Epoch 0:   0%|          | 18/31390 [00:36<17:28:01,  2.00s/it, loss=59.6, v_num=170, av_BS_IoU=0.452, av_BS_dice=0.622, av_BS_loss_focal=0.00238, av_BS_loss_dice=0.442, av_BS_loss_IoU=0.613, distill_loss=27.30]Epoch 0:   0%|          | 18/31390 [00:36<17:28:04,  2.00s/it, loss=59.5, v_num=170, av_BS_IoU=0.374, av_BS_dice=0.528, av_BS_loss_focal=0.00283, av_BS_loss_dice=0.466, av_BS_loss_IoU=0.624, distill_loss=26.70]Epoch 0:   0%|          | 19/31390 [00:37<17:13:17,  1.98s/it, loss=59.5, v_num=170, av_BS_IoU=0.374, av_BS_dice=0.528, av_BS_loss_focal=0.00283, av_BS_loss_dice=0.466, av_BS_loss_IoU=0.624, distill_loss=26.70]Epoch 0:   0%|          | 19/31390 [00:37<17:13:20,  1.98s/it, loss=59.4, v_num=170, av_BS_IoU=0.364, av_BS_dice=0.532, av_BS_loss_focal=0.0223, av_BS_loss_dice=0.483, av_BS_loss_IoU=0.650, distill_loss=26.50] Epoch 0:   0%|          | 20/31390 [00:39<17:03:58,  1.96s/it, loss=59.4, v_num=170, av_BS_IoU=0.364, av_BS_dice=0.532, av_BS_loss_focal=0.0223, av_BS_loss_dice=0.483, av_BS_loss_IoU=0.650, distill_loss=26.50]Epoch 0:   0%|          | 20/31390 [00:39<17:04:01,  1.96s/it, loss=59.2, v_num=170, av_BS_IoU=0.496, av_BS_dice=0.653, av_BS_loss_focal=0.00347, av_BS_loss_dice=0.352, av_BS_loss_IoU=0.510, distill_loss=25.60]Epoch 0:   0%|          | 21/31390 [00:40<16:48:07,  1.93s/it, loss=59.2, v_num=170, av_BS_IoU=0.496, av_BS_dice=0.653, av_BS_loss_focal=0.00347, av_BS_loss_dice=0.352, av_BS_loss_IoU=0.510, distill_loss=25.60]Epoch 0:   0%|          | 21/31390 [00:40<16:48:09,  1.93s/it, loss=58.8, v_num=170, av_BS_IoU=0.649, av_BS_dice=0.787, av_BS_loss_focal=1.77e-5, av_BS_loss_dice=0.219, av_BS_loss_IoU=0.359, distill_loss=25.70]Epoch 0:   0%|          | 22/31390 [00:41<16:33:35,  1.90s/it, loss=58.8, v_num=170, av_BS_IoU=0.649, av_BS_dice=0.787, av_BS_loss_focal=1.77e-5, av_BS_loss_dice=0.219, av_BS_loss_IoU=0.359, distill_loss=25.70]Epoch 0:   0%|          | 22/31390 [00:41<16:33:38,  1.90s/it, loss=58.4, v_num=170, av_BS_IoU=0.390, av_BS_dice=0.537, av_BS_loss_focal=0.000896, av_BS_loss_dice=0.465, av_BS_loss_IoU=0.613, distill_loss=26.60]Error occurred while processing images: ['000000217433.jpg']
-Error details: CUDA out of memory. Tried to allocate 92.00 MiB (GPU 0; 10.76 GiB total capacity; 2.09 GiB already allocated; 63.12 MiB free; 2.13 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
-Traceback (most recent call last):
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 36, in _call_and_handle_interrupt
-    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 88, in launch
-    return function(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
-    self._run(model, ckpt_path=self.ckpt_path)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1103, in _run
-    results = self._run_stage()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1182, in _run_stage
-    self._run_train()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1205, in _run_train
-    self.fit_loop.run()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
-    self.advance(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
-    self._outputs = self.epoch_loop.run(self._data_fetcher)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
-    self.advance(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
-    batch_output = self.batch_loop.run(kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
-    self.advance(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
-    outputs = self.optimizer_loop.run(optimizers, kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
-    self.advance(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
-    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 249, in _run_optimization
-    self._optimizer_step(optimizer, opt_idx, kwargs.get("batch_idx", 0), closure)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 370, in _optimizer_step
-    self.trainer._call_lightning_module_hook(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1347, in _call_lightning_module_hook
-    output = fn(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/core/module.py", line 1744, in optimizer_step
-    optimizer.step(closure=optimizer_closure)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/core/optimizer.py", line 169, in step
-    step_output = self._strategy.optimizer_step(self._optimizer, self._optimizer_idx, closure, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 280, in optimizer_step
-    optimizer_output = super().optimizer_step(optimizer, opt_idx, closure, model, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/strategy.py", line 234, in optimizer_step
-    return self.precision_plugin.optimizer_step(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/plugins/precision/native_amp.py", line 75, in optimizer_step
-    closure_result = closure()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
-    self._result = self.closure(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
-    step_output = self._step_fn()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
-    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1485, in _call_strategy_hook
-    output = fn(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 351, in training_step
-    return self.model(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 1008, in forward
-    output = self._run_ddp_forward(*inputs, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 969, in _run_ddp_forward
-    return module_to_run(*inputs[0], **kwargs[0])
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/overrides/base.py", line 98, in forward
-    output = self._forward_module.training_step(*inputs, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 290, in training_step
-    outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 283, in forward
-    raise e
-  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 163, in forward
-    low_res_masks, iou_predictions = self.T_model.mask_decoder(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/mask_decoder.py", line 99, in forward
-    masks, iou_pred = self.predict_masks(
-  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/mask_decoder.py", line 158, in predict_masks
-    chunk_hs, chunk_src = self.transformer(chunk_src, chunk_pos_src, chunk_tokens)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/transformer.py", line 92, in forward
-    queries, keys = layer(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/transformer.py", line 180, in forward
-    keys = self.norm4(keys)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/normalization.py", line 189, in forward
-    return F.layer_norm(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/functional.py", line 2503, in layer_norm
-    return torch.layer_norm(input, normalized_shape, weight, bias, eps, torch.backends.cudnn.enabled)
-RuntimeError: CUDA out of memory. Tried to allocate 92.00 MiB (GPU 0; 10.76 GiB total capacity; 2.09 GiB already allocated; 63.12 MiB free; 2.13 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/data2/wuxinrui/RA-L/MobileSAM/distill_tiny_msam.py", line 204, in <module>
-    main()
-  File "/data2/wuxinrui/RA-L/MobileSAM/distill_tiny_msam.py", line 190, in main
-    trainer.fit(model)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 608, in fit
-    call._call_and_handle_interrupt(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 59, in _call_and_handle_interrupt
-    trainer.strategy.reconciliate_processes(traceback.format_exc())
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 460, in reconciliate_processes
-    raise DeadlockDetectedException(f"DeadLock detected from rank: {self.global_rank} \n {trace}")
-pytorch_lightning.utilities.exceptions.DeadlockDetectedException: DeadLock detected from rank: 0 
- Traceback (most recent call last):
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 36, in _call_and_handle_interrupt
-    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 88, in launch
-    return function(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
-    self._run(model, ckpt_path=self.ckpt_path)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1103, in _run
-    results = self._run_stage()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1182, in _run_stage
-    self._run_train()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1205, in _run_train
-    self.fit_loop.run()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
-    self.advance(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
-    self._outputs = self.epoch_loop.run(self._data_fetcher)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
-    self.advance(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
-    batch_output = self.batch_loop.run(kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
-    self.advance(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
-    outputs = self.optimizer_loop.run(optimizers, kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
-    self.advance(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
-    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 249, in _run_optimization
-    self._optimizer_step(optimizer, opt_idx, kwargs.get("batch_idx", 0), closure)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 370, in _optimizer_step
-    self.trainer._call_lightning_module_hook(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1347, in _call_lightning_module_hook
-    output = fn(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/core/module.py", line 1744, in optimizer_step
-    optimizer.step(closure=optimizer_closure)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/core/optimizer.py", line 169, in step
-    step_output = self._strategy.optimizer_step(self._optimizer, self._optimizer_idx, closure, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 280, in optimizer_step
-    optimizer_output = super().optimizer_step(optimizer, opt_idx, closure, model, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/strategy.py", line 234, in optimizer_step
-    return self.precision_plugin.optimizer_step(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/plugins/precision/native_amp.py", line 75, in optimizer_step
-    closure_result = closure()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
-    self._result = self.closure(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
-    step_output = self._step_fn()
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
-    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1485, in _call_strategy_hook
-    output = fn(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 351, in training_step
-    return self.model(*args, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 1008, in forward
-    output = self._run_ddp_forward(*inputs, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 969, in _run_ddp_forward
-    return module_to_run(*inputs[0], **kwargs[0])
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/overrides/base.py", line 98, in forward
-    output = self._forward_module.training_step(*inputs, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 290, in training_step
-    outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 283, in forward
-    raise e
-  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 163, in forward
-    low_res_masks, iou_predictions = self.T_model.mask_decoder(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/mask_decoder.py", line 99, in forward
-    masks, iou_pred = self.predict_masks(
-  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/mask_decoder.py", line 158, in predict_masks
-    chunk_hs, chunk_src = self.transformer(chunk_src, chunk_pos_src, chunk_tokens)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/transformer.py", line 92, in forward
-    queries, keys = layer(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/transformer.py", line 180, in forward
-    keys = self.norm4(keys)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/normalization.py", line 189, in forward
-    return F.layer_norm(
-  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/functional.py", line 2503, in layer_norm
-    return torch.layer_norm(input, normalized_shape, weight, bias, eps, torch.backends.cudnn.enabled)
-RuntimeError: CUDA out of memory. Tried to allocate 92.00 MiB (GPU 0; 10.76 GiB total capacity; 2.09 GiB already allocated; 63.12 MiB free; 2.13 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
-
-Epoch 0:   0%|          | 22/31390 [00:50<20:03:40,  2.30s/it, loss=58.4, v_num=170, av_BS_IoU=0.390, av_BS_dice=0.537, av_BS_loss_focal=0.000896, av_BS_loss_dice=0.465, av_BS_loss_IoU=0.613, distill_loss=26.60]
-/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
-/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/registry.py:4: FutureWarning: Importing from timm.models.registry is deprecated, please import via timm.models
-  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", FutureWarning)
-/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_5m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_5m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
-  return register_model(fn_wrapper)
-/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_11m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_11m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
-  return register_model(fn_wrapper)
-/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
-  return register_model(fn_wrapper)
-/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_384 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_384. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
-  return register_model(fn_wrapper)
-/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_512 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_512. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
-  return register_model(fn_wrapper)
+Epoch 0:   0%|          | 1/31390 [00:03<33:32:13,  3.85s/it]Epoch 0:   0%|          | 1/31390 [00:03<33:33:08,  3.85s/it, loss=18.6, v_num=173, av_BS_IoU=0.599, av_BS_dice=0.697, av_BS_loss_focal=0.00873, av_BS_loss_dice=0.349, av_BS_loss_IoU=0.469, distill_loss=8.010]Epoch 0:   0%|          | 2/31390 [00:05<25:26:50,  2.92s/it, loss=18.6, v_num=173, av_BS_IoU=0.599, av_BS_dice=0.697, av_BS_loss_focal=0.00873, av_BS_loss_dice=0.349, av_BS_loss_IoU=0.469, distill_loss=8.010]Epoch 0:   0%|          | 2/31390 [00:05<25:27:11,  2.92s/it, loss=16.4, v_num=173, av_BS_IoU=0.662, av_BS_dice=0.781, av_BS_loss_focal=0.00115, av_BS_loss_dice=0.230, av_BS_loss_IoU=0.354, distill_loss=6.330]Epoch 0:   0%|          | 3/31390 [00:07<21:54:06,  2.51s/it, loss=16.4, v_num=173, av_BS_IoU=0.662, av_BS_dice=0.781, av_BS_loss_focal=0.00115, av_BS_loss_dice=0.230, av_BS_loss_IoU=0.354, distill_loss=6.330]Epoch 0:   0%|          | 3/31390 [00:07<21:54:29,  2.51s/it, loss=16.9, v_num=173, av_BS_IoU=0.394, av_BS_dice=0.519, av_BS_loss_focal=0.00324, av_BS_loss_dice=0.501, av_BS_loss_IoU=0.641, distill_loss=6.700]Epoch 0:   0%|          | 4/31390 [00:08<19:10:46,  2.20s/it, loss=16.9, v_num=173, av_BS_IoU=0.394, av_BS_dice=0.519, av_BS_loss_focal=0.00324, av_BS_loss_dice=0.501, av_BS_loss_IoU=0.641, distill_loss=6.700]Epoch 0:   0%|          | 4/31390 [00:08<19:10:56,  2.20s/it, loss=16.2, v_num=173, av_BS_IoU=0.598, av_BS_dice=0.720, av_BS_loss_focal=1.76e-6, av_BS_loss_dice=0.281, av_BS_loss_IoU=0.404, distill_loss=6.060]Epoch 0:   0%|          | 5/31390 [00:10<18:09:25,  2.08s/it, loss=16.2, v_num=173, av_BS_IoU=0.598, av_BS_dice=0.720, av_BS_loss_focal=1.76e-6, av_BS_loss_dice=0.281, av_BS_loss_IoU=0.404, distill_loss=6.060]Epoch 0:   0%|          | 5/31390 [00:10<18:09:29,  2.08s/it, loss=15.8, v_num=173, av_BS_IoU=0.552, av_BS_dice=0.676, av_BS_loss_focal=0.001, av_BS_loss_dice=0.327, av_BS_loss_IoU=0.454, distill_loss=5.740]  Epoch 0:   0%|          | 6/31390 [00:12<18:01:30,  2.07s/it, loss=15.8, v_num=173, av_BS_IoU=0.552, av_BS_dice=0.676, av_BS_loss_focal=0.001, av_BS_loss_dice=0.327, av_BS_loss_IoU=0.454, distill_loss=5.740]Epoch 0:   0%|          | 6/31390 [00:12<18:01:34,  2.07s/it, loss=16.1, v_num=173, av_BS_IoU=0.425, av_BS_dice=0.559, av_BS_loss_focal=4.47e-6, av_BS_loss_dice=0.443, av_BS_loss_IoU=0.577, distill_loss=7.010]Epoch 0:   0%|          | 7/31390 [00:13<17:10:02,  1.97s/it, loss=16.1, v_num=173, av_BS_IoU=0.425, av_BS_dice=0.559, av_BS_loss_focal=4.47e-6, av_BS_loss_dice=0.443, av_BS_loss_IoU=0.577, distill_loss=7.010]Epoch 0:   0%|          | 7/31390 [00:13<17:10:05,  1.97s/it, loss=15.7, v_num=173, av_BS_IoU=0.822, av_BS_dice=0.902, av_BS_loss_focal=3.86e-5, av_BS_loss_dice=0.103, av_BS_loss_IoU=0.186, distill_loss=6.380]Epoch 0:   0%|          | 8/31390 [00:15<16:24:00,  1.88s/it, loss=15.7, v_num=173, av_BS_IoU=0.822, av_BS_dice=0.902, av_BS_loss_focal=3.86e-5, av_BS_loss_dice=0.103, av_BS_loss_IoU=0.186, distill_loss=6.380]Epoch 0:   0%|          | 8/31390 [00:15<16:24:03,  1.88s/it, loss=15.7, v_num=173, av_BS_IoU=0.539, av_BS_dice=0.678, av_BS_loss_focal=0.000784, av_BS_loss_dice=0.334, av_BS_loss_IoU=0.472, distill_loss=6.400]Epoch 0:   0%|          | 9/31390 [00:19<18:27:56,  2.12s/it, loss=15.7, v_num=173, av_BS_IoU=0.539, av_BS_dice=0.678, av_BS_loss_focal=0.000784, av_BS_loss_dice=0.334, av_BS_loss_IoU=0.472, distill_loss=6.400]Epoch 0:   0%|          | 9/31390 [00:19<18:27:58,  2.12s/it, loss=15.6, v_num=173, av_BS_IoU=0.590, av_BS_dice=0.729, av_BS_loss_focal=0.000759, av_BS_loss_dice=0.281, av_BS_loss_IoU=0.425, distill_loss=6.710]Epoch 0:   0%|          | 10/31390 [00:20<17:58:20,  2.06s/it, loss=15.6, v_num=173, av_BS_IoU=0.590, av_BS_dice=0.729, av_BS_loss_focal=0.000759, av_BS_loss_dice=0.281, av_BS_loss_IoU=0.425, distill_loss=6.710]Epoch 0:   0%|          | 10/31390 [00:20<17:58:22,  2.06s/it, loss=15.5, v_num=173, av_BS_IoU=0.919, av_BS_dice=0.958, av_BS_loss_focal=3.07e-6, av_BS_loss_dice=0.0433, av_BS_loss_IoU=0.0828, distill_loss=6.720]Epoch 0:   0%|          | 11/31390 [00:24<19:14:55,  2.21s/it, loss=15.5, v_num=173, av_BS_IoU=0.919, av_BS_dice=0.958, av_BS_loss_focal=3.07e-6, av_BS_loss_dice=0.0433, av_BS_loss_IoU=0.0828, distill_loss=6.720]Epoch 0:   0%|          | 11/31390 [00:24<19:14:57,  2.21s/it, loss=16.2, v_num=173, av_BS_IoU=0.255, av_BS_dice=0.357, av_BS_loss_focal=0.0223, av_BS_loss_dice=0.668, av_BS_loss_IoU=0.771, distill_loss=7.320]   Epoch 0:   0%|          | 12/31390 [00:25<18:32:26,  2.13s/it, loss=16.2, v_num=173, av_BS_IoU=0.255, av_BS_dice=0.357, av_BS_loss_focal=0.0223, av_BS_loss_dice=0.668, av_BS_loss_IoU=0.771, distill_loss=7.320]Epoch 0:   0%|          | 12/31390 [00:25<18:32:28,  2.13s/it, loss=15.9, v_num=173, av_BS_IoU=0.730, av_BS_dice=0.834, av_BS_loss_focal=7.69e-5, av_BS_loss_dice=0.174, av_BS_loss_IoU=0.283, distill_loss=6.130]Epoch 0:   0%|          | 13/31390 [00:26<17:54:06,  2.05s/it, loss=15.9, v_num=173, av_BS_IoU=0.730, av_BS_dice=0.834, av_BS_loss_focal=7.69e-5, av_BS_loss_dice=0.174, av_BS_loss_IoU=0.283, distill_loss=6.130]Epoch 0:   0%|          | 13/31390 [00:26<17:54:08,  2.05s/it, loss=16.1, v_num=173, av_BS_IoU=0.323, av_BS_dice=0.445, av_BS_loss_focal=0.00226, av_BS_loss_dice=0.570, av_BS_loss_IoU=0.693, distill_loss=5.990]Epoch 0:   0%|          | 14/31390 [00:27<17:08:44,  1.97s/it, loss=16.1, v_num=173, av_BS_IoU=0.323, av_BS_dice=0.445, av_BS_loss_focal=0.00226, av_BS_loss_dice=0.570, av_BS_loss_IoU=0.693, distill_loss=5.990]Epoch 0:   0%|          | 14/31390 [00:27<17:08:45,  1.97s/it, loss=16, v_num=173, av_BS_IoU=0.487, av_BS_dice=0.626, av_BS_loss_focal=5.94e-7, av_BS_loss_dice=0.374, av_BS_loss_IoU=0.513, distill_loss=6.270]  Epoch 0:   0%|          | 15/31390 [00:28<16:40:49,  1.91s/it, loss=16, v_num=173, av_BS_IoU=0.487, av_BS_dice=0.626, av_BS_loss_focal=5.94e-7, av_BS_loss_dice=0.374, av_BS_loss_IoU=0.513, distill_loss=6.270]Epoch 0:   0%|          | 15/31390 [00:28<16:40:50,  1.91s/it, loss=15.9, v_num=173, av_BS_IoU=0.565, av_BS_dice=0.688, av_BS_loss_focal=5.69e-6, av_BS_loss_dice=0.315, av_BS_loss_IoU=0.438, distill_loss=6.290]Epoch 0:   0%|          | 16/31390 [00:31<17:19:09,  1.99s/it, loss=15.9, v_num=173, av_BS_IoU=0.565, av_BS_dice=0.688, av_BS_loss_focal=5.69e-6, av_BS_loss_dice=0.315, av_BS_loss_IoU=0.438, distill_loss=6.290]Epoch 0:   0%|          | 16/31390 [00:31<17:19:11,  1.99s/it, loss=15.8, v_num=173, av_BS_IoU=0.668, av_BS_dice=0.786, av_BS_loss_focal=0.000263, av_BS_loss_dice=0.221, av_BS_loss_IoU=0.342, distill_loss=6.270]Epoch 0:   0%|          | 17/31390 [00:33<16:59:54,  1.95s/it, loss=15.8, v_num=173, av_BS_IoU=0.668, av_BS_dice=0.786, av_BS_loss_focal=0.000263, av_BS_loss_dice=0.221, av_BS_loss_IoU=0.342, distill_loss=6.270]Epoch 0:   0%|          | 17/31390 [00:33<16:59:56,  1.95s/it, loss=15.7, v_num=173, av_BS_IoU=0.708, av_BS_dice=0.829, av_BS_loss_focal=0.000147, av_BS_loss_dice=0.212, av_BS_loss_IoU=0.348, distill_loss=6.040]Epoch 0:   0%|          | 18/31390 [00:34<16:34:19,  1.90s/it, loss=15.7, v_num=173, av_BS_IoU=0.708, av_BS_dice=0.829, av_BS_loss_focal=0.000147, av_BS_loss_dice=0.212, av_BS_loss_IoU=0.348, distill_loss=6.040]Epoch 0:   0%|          | 18/31390 [00:34<16:34:20,  1.90s/it, loss=15.8, v_num=173, av_BS_IoU=0.346, av_BS_dice=0.481, av_BS_loss_focal=0.00265, av_BS_loss_dice=0.541, av_BS_loss_IoU=0.675, distill_loss=5.930] Epoch 0:   0%|          | 19/31390 [00:35<16:13:19,  1.86s/it, loss=15.8, v_num=173, av_BS_IoU=0.346, av_BS_dice=0.481, av_BS_loss_focal=0.00265, av_BS_loss_dice=0.541, av_BS_loss_IoU=0.675, distill_loss=5.930]Epoch 0:   0%|          | 19/31390 [00:35<16:13:20,  1.86s/it, loss=15.8, v_num=173, av_BS_IoU=0.470, av_BS_dice=0.607, av_BS_loss_focal=0.00276, av_BS_loss_dice=0.406, av_BS_loss_IoU=0.549, distill_loss=6.700]Epoch 0:   0%|          | 20/31390 [00:37<16:17:26,  1.87s/it, loss=15.8, v_num=173, av_BS_IoU=0.470, av_BS_dice=0.607, av_BS_loss_focal=0.00276, av_BS_loss_dice=0.406, av_BS_loss_IoU=0.549, distill_loss=6.700]Epoch 0:   0%|          | 20/31390 [00:37<16:17:27,  1.87s/it, loss=15.7, v_num=173, av_BS_IoU=0.586, av_BS_dice=0.700, av_BS_loss_focal=1.63e-5, av_BS_loss_dice=0.307, av_BS_loss_IoU=0.421, distill_loss=6.000]Epoch 0:   0%|          | 21/31390 [00:38<16:06:07,  1.85s/it, loss=15.7, v_num=173, av_BS_IoU=0.586, av_BS_dice=0.700, av_BS_loss_focal=1.63e-5, av_BS_loss_dice=0.307, av_BS_loss_IoU=0.421, distill_loss=6.000]Epoch 0:   0%|          | 21/31390 [00:38<16:06:08,  1.85s/it, loss=15.6, v_num=173, av_BS_IoU=0.468, av_BS_dice=0.584, av_BS_loss_focal=0.000906, av_BS_loss_dice=0.434, av_BS_loss_IoU=0.555, distill_loss=6.430]Epoch 0:   0%|          | 22/31390 [00:39<15:49:09,  1.82s/it, loss=15.6, v_num=173, av_BS_IoU=0.468, av_BS_dice=0.584, av_BS_loss_focal=0.000906, av_BS_loss_dice=0.434, av_BS_loss_IoU=0.555, distill_loss=6.430]Epoch 0:   0%|          | 22/31390 [00:39<15:49:10,  1.82s/it, loss=15.6, v_num=173, av_BS_IoU=0.750, av_BS_dice=0.849, av_BS_loss_focal=0.000329, av_BS_loss_dice=0.187, av_BS_loss_IoU=0.308, distill_loss=5.840]Epoch 0:   0%|          | 23/31390 [00:41<15:39:32,  1.80s/it, loss=15.6, v_num=173, av_BS_IoU=0.750, av_BS_dice=0.849, av_BS_loss_focal=0.000329, av_BS_loss_dice=0.187, av_BS_loss_IoU=0.308, distill_loss=5.840]Epoch 0:   0%|          | 23/31390 [00:41<15:39:32,  1.80s/it, loss=15.4, v_num=173, av_BS_IoU=0.858, av_BS_dice=0.924, av_BS_loss_focal=0.00019, av_BS_loss_dice=0.0984, av_BS_loss_IoU=0.179, distill_loss=7.130]Epoch 0:   0%|          | 24/31390 [00:42<15:26:41,  1.77s/it, loss=15.4, v_num=173, av_BS_IoU=0.858, av_BS_dice=0.924, av_BS_loss_focal=0.00019, av_BS_loss_dice=0.0984, av_BS_loss_IoU=0.179, distill_loss=7.130]Epoch 0:   0%|          | 24/31390 [00:42<15:26:42,  1.77s/it, loss=15.4, v_num=173, av_BS_IoU=0.556, av_BS_dice=0.700, av_BS_loss_focal=0.00164, av_BS_loss_dice=0.318, av_BS_loss_IoU=0.467, distill_loss=6.100] Epoch 0:   0%|          | 25/31390 [00:43<15:11:41,  1.74s/it, loss=15.4, v_num=173, av_BS_IoU=0.556, av_BS_dice=0.700, av_BS_loss_focal=0.00164, av_BS_loss_dice=0.318, av_BS_loss_IoU=0.467, distill_loss=6.100]Epoch 0:   0%|          | 25/31390 [00:43<15:11:42,  1.74s/it, loss=15.5, v_num=173, av_BS_IoU=0.846, av_BS_dice=0.916, av_BS_loss_focal=3.01e-5, av_BS_loss_dice=0.0851, av_BS_loss_IoU=0.156, distill_loss=6.940]Epoch 0:   0%|          | 26/31390 [00:45<15:07:49,  1.74s/it, loss=15.5, v_num=173, av_BS_IoU=0.846, av_BS_dice=0.916, av_BS_loss_focal=3.01e-5, av_BS_loss_dice=0.0851, av_BS_loss_IoU=0.156, distill_loss=6.940]Epoch 0:   0%|          | 26/31390 [00:45<15:07:50,  1.74s/it, loss=15.3, v_num=173, av_BS_IoU=0.704, av_BS_dice=0.811, av_BS_loss_focal=0.000415, av_BS_loss_dice=0.199, av_BS_loss_IoU=0.308, distill_loss=6.250]Epoch 0:   0%|          | 27/31390 [00:46<15:04:55,  1.73s/it, loss=15.3, v_num=173, av_BS_IoU=0.704, av_BS_dice=0.811, av_BS_loss_focal=0.000415, av_BS_loss_dice=0.199, av_BS_loss_IoU=0.308, distill_loss=6.250]Epoch 0:   0%|          | 27/31390 [00:46<15:04:55,  1.73s/it, loss=15.2, v_num=173, av_BS_IoU=0.617, av_BS_dice=0.747, av_BS_loss_focal=0.000429, av_BS_loss_dice=0.259, av_BS_loss_IoU=0.391, distill_loss=5.310]/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/utils/transforms.py:88: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  coords = np.array(deepcopy(coords))
+Epoch 0:   0%|          | 28/31390 [00:47<14:48:41,  1.70s/it, loss=15.2, v_num=173, av_BS_IoU=0.617, av_BS_dice=0.747, av_BS_loss_focal=0.000429, av_BS_loss_dice=0.259, av_BS_loss_IoU=0.391, distill_loss=5.310]Epoch 0:   0%|          | 28/31390 [00:47<14:48:42,  1.70s/it, loss=15.1, v_num=173, av_BS_IoU=0.754, av_BS_dice=0.860, av_BS_loss_focal=0.000133, av_BS_loss_dice=0.204, av_BS_loss_IoU=0.339, distill_loss=5.670]Epoch 0:   0%|          | 29/31390 [00:49<14:48:27,  1.70s/it, loss=15.1, v_num=173, av_BS_IoU=0.754, av_BS_dice=0.860, av_BS_loss_focal=0.000133, av_BS_loss_dice=0.204, av_BS_loss_IoU=0.339, distill_loss=5.670]Epoch 0:   0%|          | 29/31390 [00:49<14:48:27,  1.70s/it, loss=15.1, v_num=173, av_BS_IoU=0.497, av_BS_dice=0.643, av_BS_loss_focal=0.000988, av_BS_loss_dice=0.365, av_BS_loss_IoU=0.513, distill_loss=6.340]Epoch 0:   0%|          | 30/31390 [00:51<14:48:50,  1.70s/it, loss=15.1, v_num=173, av_BS_IoU=0.497, av_BS_dice=0.643, av_BS_loss_focal=0.000988, av_BS_loss_dice=0.365, av_BS_loss_IoU=0.513, distill_loss=6.340]Epoch 0:   0%|          | 30/31390 [00:51<14:48:51,  1.70s/it, loss=15.2, v_num=173, av_BS_IoU=0.671, av_BS_dice=0.792, av_BS_loss_focal=0.00434, av_BS_loss_dice=0.236, av_BS_loss_IoU=0.363, distill_loss=6.740] Epoch 0:   0%|          | 31/31390 [00:52<14:45:02,  1.69s/it, loss=15.2, v_num=173, av_BS_IoU=0.671, av_BS_dice=0.792, av_BS_loss_focal=0.00434, av_BS_loss_dice=0.236, av_BS_loss_IoU=0.363, distill_loss=6.740]Epoch 0:   0%|          | 31/31390 [00:52<14:45:03,  1.69s/it, loss=15.1, v_num=173, av_BS_IoU=0.311, av_BS_dice=0.436, av_BS_loss_focal=0.104, av_BS_loss_dice=0.620, av_BS_loss_IoU=0.742, distill_loss=6.150]  Epoch 0:   0%|          | 32/31390 [00:54<14:54:18,  1.71s/it, loss=15.1, v_num=173, av_BS_IoU=0.311, av_BS_dice=0.436, av_BS_loss_focal=0.104, av_BS_loss_dice=0.620, av_BS_loss_IoU=0.742, distill_loss=6.150]Epoch 0:   0%|          | 32/31390 [00:54<14:54:19,  1.71s/it, loss=15.3, v_num=173, av_BS_IoU=0.515, av_BS_dice=0.651, av_BS_loss_focal=0.0127, av_BS_loss_dice=0.353, av_BS_loss_IoU=0.490, distill_loss=7.230]Epoch 0:   0%|          | 33/31390 [00:56<14:54:47,  1.71s/it, loss=15.3, v_num=173, av_BS_IoU=0.515, av_BS_dice=0.651, av_BS_loss_focal=0.0127, av_BS_loss_dice=0.353, av_BS_loss_IoU=0.490, distill_loss=7.230]Epoch 0:   0%|          | 33/31390 [00:56<14:54:47,  1.71s/it, loss=15.2, v_num=173, av_BS_IoU=0.438, av_BS_dice=0.571, av_BS_loss_focal=0.00387, av_BS_loss_dice=0.436, av_BS_loss_IoU=0.570, distill_loss=6.120]Epoch 0:   0%|          | 34/31390 [00:57<14:50:39,  1.70s/it, loss=15.2, v_num=173, av_BS_IoU=0.438, av_BS_dice=0.571, av_BS_loss_focal=0.00387, av_BS_loss_dice=0.436, av_BS_loss_IoU=0.570, distill_loss=6.120]Epoch 0:   0%|          | 34/31390 [00:57<14:50:40,  1.70s/it, loss=15.2, v_num=173, av_BS_IoU=0.771, av_BS_dice=0.865, av_BS_loss_focal=3.87e-5, av_BS_loss_dice=0.181, av_BS_loss_IoU=0.304, distill_loss=6.860]Epoch 0:   0%|          | 35/31390 [00:59<14:43:24,  1.69s/it, loss=15.2, v_num=173, av_BS_IoU=0.771, av_BS_dice=0.865, av_BS_loss_focal=3.87e-5, av_BS_loss_dice=0.181, av_BS_loss_IoU=0.304, distill_loss=6.860]Epoch 0:   0%|          | 35/31390 [00:59<14:43:25,  1.69s/it, loss=15.2, v_num=173, av_BS_IoU=0.889, av_BS_dice=0.941, av_BS_loss_focal=7.56e-5, av_BS_loss_dice=0.0689, av_BS_loss_IoU=0.127, distill_loss=7.010]Epoch 0:   0%|          | 36/31390 [01:00<14:35:54,  1.68s/it, loss=15.2, v_num=173, av_BS_IoU=0.889, av_BS_dice=0.941, av_BS_loss_focal=7.56e-5, av_BS_loss_dice=0.0689, av_BS_loss_IoU=0.127, distill_loss=7.010]Epoch 0:   0%|          | 36/31390 [01:00<14:35:55,  1.68s/it, loss=15.1, v_num=173, av_BS_IoU=0.762, av_BS_dice=0.865, av_BS_loss_focal=0.000228, av_BS_loss_dice=0.143, av_BS_loss_IoU=0.250, distill_loss=5.900]Epoch 0:   0%|          | 37/31390 [01:01<14:28:05,  1.66s/it, loss=15.1, v_num=173, av_BS_IoU=0.762, av_BS_dice=0.865, av_BS_loss_focal=0.000228, av_BS_loss_dice=0.143, av_BS_loss_IoU=0.250, distill_loss=5.900]Epoch 0:   0%|          | 37/31390 [01:01<14:28:06,  1.66s/it, loss=15.1, v_num=173, av_BS_IoU=0.591, av_BS_dice=0.714, av_BS_loss_focal=0.00038, av_BS_loss_dice=0.289, av_BS_loss_IoU=0.414, distill_loss=5.610] Epoch 0:   0%|          | 38/31390 [01:02<14:18:11,  1.64s/it, loss=15.1, v_num=173, av_BS_IoU=0.591, av_BS_dice=0.714, av_BS_loss_focal=0.00038, av_BS_loss_dice=0.289, av_BS_loss_IoU=0.414, distill_loss=5.610]Epoch 0:   0%|          | 38/31390 [01:02<14:18:11,  1.64s/it, loss=15, v_num=173, av_BS_IoU=0.653, av_BS_dice=0.777, av_BS_loss_focal=1.42e-5, av_BS_loss_dice=0.307, av_BS_loss_IoU=0.447, distill_loss=6.910]  Epoch 0:   0%|          | 39/31390 [01:03<14:14:00,  1.63s/it, loss=15, v_num=173, av_BS_IoU=0.653, av_BS_dice=0.777, av_BS_loss_focal=1.42e-5, av_BS_loss_dice=0.307, av_BS_loss_IoU=0.447, distill_loss=6.910]Epoch 0:   0%|          | 39/31390 [01:03<14:14:00,  1.63s/it, loss=15, v_num=173, av_BS_IoU=0.542, av_BS_dice=0.657, av_BS_loss_focal=0.000307, av_BS_loss_dice=0.357, av_BS_loss_IoU=0.476, distill_loss=6.730]Epoch 0:   0%|          | 40/31390 [01:04<14:04:13,  1.62s/it, loss=15, v_num=173, av_BS_IoU=0.542, av_BS_dice=0.657, av_BS_loss_focal=0.000307, av_BS_loss_dice=0.357, av_BS_loss_IoU=0.476, distill_loss=6.730]Epoch 0:   0%|          | 40/31390 [01:04<14:04:13,  1.62s/it, loss=15, v_num=173, av_BS_IoU=0.620, av_BS_dice=0.753, av_BS_loss_focal=9.85e-6, av_BS_loss_dice=0.249, av_BS_loss_IoU=0.383, distill_loss=6.690] Epoch 0:   0%|          | 41/31390 [01:06<14:05:10,  1.62s/it, loss=15, v_num=173, av_BS_IoU=0.620, av_BS_dice=0.753, av_BS_loss_focal=9.85e-6, av_BS_loss_dice=0.249, av_BS_loss_IoU=0.383, distill_loss=6.690]Epoch 0:   0%|          | 41/31390 [01:06<14:05:11,  1.62s/it, loss=14.9, v_num=173, av_BS_IoU=0.658, av_BS_dice=0.780, av_BS_loss_focal=0.000838, av_BS_loss_dice=0.229, av_BS_loss_IoU=0.352, distill_loss=6.190]Epoch 0:   0%|          | 42/31390 [01:07<14:04:13,  1.62s/it, loss=14.9, v_num=173, av_BS_IoU=0.658, av_BS_dice=0.780, av_BS_loss_focal=0.000838, av_BS_loss_dice=0.229, av_BS_loss_IoU=0.352, distill_loss=6.190]Epoch 0:   0%|          | 42/31390 [01:07<14:04:14,  1.62s/it, loss=15, v_num=173, av_BS_IoU=0.944, av_BS_dice=0.971, av_BS_loss_focal=2.01e-6, av_BS_loss_dice=0.036, av_BS_loss_IoU=0.0695, distill_loss=6.900]  Epoch 0:   0%|          | 43/31390 [01:09<13:58:51,  1.61s/it, loss=15, v_num=173, av_BS_IoU=0.944, av_BS_dice=0.971, av_BS_loss_focal=2.01e-6, av_BS_loss_dice=0.036, av_BS_loss_IoU=0.0695, distill_loss=6.900]Epoch 0:   0%|          | 43/31390 [01:09<13:58:52,  1.61s/it, loss=15, v_num=173, av_BS_IoU=0.929, av_BS_dice=0.963, av_BS_loss_focal=3.32e-6, av_BS_loss_dice=0.0458, av_BS_loss_IoU=0.0876, distill_loss=7.540]Epoch 0:   0%|          | 44/31390 [01:10<13:59:00,  1.61s/it, loss=15, v_num=173, av_BS_IoU=0.929, av_BS_dice=0.963, av_BS_loss_focal=3.32e-6, av_BS_loss_dice=0.0458, av_BS_loss_IoU=0.0876, distill_loss=7.540]Epoch 0:   0%|          | 44/31390 [01:10<13:59:01,  1.61s/it, loss=15.1, v_num=173, av_BS_IoU=0.303, av_BS_dice=0.422, av_BS_loss_focal=0.000906, av_BS_loss_dice=0.576, av_BS_loss_IoU=0.699, distill_loss=5.450]Epoch 0:   0%|          | 45/31390 [01:11<13:53:58,  1.60s/it, loss=15.1, v_num=173, av_BS_IoU=0.303, av_BS_dice=0.422, av_BS_loss_focal=0.000906, av_BS_loss_dice=0.576, av_BS_loss_IoU=0.699, distill_loss=5.450]Epoch 0:   0%|          | 45/31390 [01:11<13:53:58,  1.60s/it, loss=15.2, v_num=173, av_BS_IoU=0.542, av_BS_dice=0.684, av_BS_loss_focal=8.79e-7, av_BS_loss_dice=0.320, av_BS_loss_IoU=0.461, distill_loss=6.570] Epoch 0:   0%|          | 46/31390 [01:13<13:53:12,  1.59s/it, loss=15.2, v_num=173, av_BS_IoU=0.542, av_BS_dice=0.684, av_BS_loss_focal=8.79e-7, av_BS_loss_dice=0.320, av_BS_loss_IoU=0.461, distill_loss=6.570]Epoch 0:   0%|          | 46/31390 [01:13<13:53:12,  1.59s/it, loss=15.2, v_num=173, av_BS_IoU=0.634, av_BS_dice=0.770, av_BS_loss_focal=0.000411, av_BS_loss_dice=0.242, av_BS_loss_IoU=0.381, distill_loss=6.060]Epoch 0:   0%|          | 47/31390 [01:14<13:43:55,  1.58s/it, loss=15.2, v_num=173, av_BS_IoU=0.634, av_BS_dice=0.770, av_BS_loss_focal=0.000411, av_BS_loss_dice=0.242, av_BS_loss_IoU=0.381, distill_loss=6.060]Epoch 0:   0%|          | 47/31390 [01:14<13:43:55,  1.58s/it, loss=15.4, v_num=173, av_BS_IoU=0.495, av_BS_dice=0.662, av_BS_loss_focal=0.00714, av_BS_loss_dice=0.374, av_BS_loss_IoU=0.545, distill_loss=7.060] Epoch 0:   0%|          | 48/31390 [01:15<13:45:18,  1.58s/it, loss=15.4, v_num=173, av_BS_IoU=0.495, av_BS_dice=0.662, av_BS_loss_focal=0.00714, av_BS_loss_dice=0.374, av_BS_loss_IoU=0.545, distill_loss=7.060]Epoch 0:   0%|          | 48/31390 [01:15<13:45:19,  1.58s/it, loss=15.5, v_num=173, av_BS_IoU=0.699, av_BS_dice=0.816, av_BS_loss_focal=0.000278, av_BS_loss_dice=0.194, av_BS_loss_IoU=0.316, distill_loss=6.160]Epoch 0:   0%|          | 49/31390 [01:16<13:40:14,  1.57s/it, loss=15.5, v_num=173, av_BS_IoU=0.699, av_BS_dice=0.816, av_BS_loss_focal=0.000278, av_BS_loss_dice=0.194, av_BS_loss_IoU=0.316, distill_loss=6.160]Epoch 0:   0%|          | 49/31390 [01:16<13:40:14,  1.57s/it, loss=15.3, v_num=173, av_BS_IoU=0.823, av_BS_dice=0.897, av_BS_loss_focal=1.59e-5, av_BS_loss_dice=0.104, av_BS_loss_IoU=0.179, distill_loss=5.970] Epoch 0:   0%|          | 50/31390 [01:19<13:54:04,  1.60s/it, loss=15.3, v_num=173, av_BS_IoU=0.823, av_BS_dice=0.897, av_BS_loss_focal=1.59e-5, av_BS_loss_dice=0.104, av_BS_loss_IoU=0.179, distill_loss=5.970]Epoch 0:   0%|          | 50/31390 [01:19<13:54:05,  1.60s/it, loss=15.5, v_num=173, av_BS_IoU=0.298, av_BS_dice=0.419, av_BS_loss_focal=0.0143, av_BS_loss_dice=0.609, av_BS_loss_IoU=0.725, distill_loss=5.690] Epoch 0:   0%|          | 51/31390 [01:21<13:57:32,  1.60s/it, loss=15.5, v_num=173, av_BS_IoU=0.298, av_BS_dice=0.419, av_BS_loss_focal=0.0143, av_BS_loss_dice=0.609, av_BS_loss_IoU=0.725, distill_loss=5.690]Epoch 0:   0%|          | 51/31390 [01:21<13:57:32,  1.60s/it, loss=15.2, v_num=173, av_BS_IoU=0.613, av_BS_dice=0.725, av_BS_loss_focal=0.0616, av_BS_loss_dice=0.269, av_BS_loss_IoU=0.380, distill_loss=7.020]Epoch 0:   0%|          | 52/31390 [01:22<13:50:16,  1.59s/it, loss=15.2, v_num=173, av_BS_IoU=0.613, av_BS_dice=0.725, av_BS_loss_focal=0.0616, av_BS_loss_dice=0.269, av_BS_loss_IoU=0.380, distill_loss=7.020]Epoch 0:   0%|          | 52/31390 [01:22<13:50:16,  1.59s/it, loss=15.2, v_num=173, av_BS_IoU=0.755, av_BS_dice=0.857, av_BS_loss_focal=0.000261, av_BS_loss_dice=0.172, av_BS_loss_IoU=0.285, distill_loss=7.650]Epoch 0:   0%|          | 53/31390 [01:24<13:55:18,  1.60s/it, loss=15.2, v_num=173, av_BS_IoU=0.755, av_BS_dice=0.857, av_BS_loss_focal=0.000261, av_BS_loss_dice=0.172, av_BS_loss_IoU=0.285, distill_loss=7.650]Epoch 0:   0%|          | 53/31390 [01:24<13:55:18,  1.60s/it, loss=15, v_num=173, av_BS_IoU=0.779, av_BS_dice=0.867, av_BS_loss_focal=1.42e-5, av_BS_loss_dice=0.136, av_BS_loss_IoU=0.227, distill_loss=6.090]   Epoch 0:   0%|          | 54/31390 [01:25<13:49:35,  1.59s/it, loss=15, v_num=173, av_BS_IoU=0.779, av_BS_dice=0.867, av_BS_loss_focal=1.42e-5, av_BS_loss_dice=0.136, av_BS_loss_IoU=0.227, distill_loss=6.090]Epoch 0:   0%|          | 54/31390 [01:25<13:49:36,  1.59s/it, loss=14.8, v_num=173, av_BS_IoU=0.00848, av_BS_dice=0.0168, av_BS_loss_focal=0.437, av_BS_loss_dice=0.979, av_BS_loss_IoU=0.990, distill_loss=5.460]Epoch 0:   0%|          | 55/31390 [01:26<13:45:37,  1.58s/it, loss=14.8, v_num=173, av_BS_IoU=0.00848, av_BS_dice=0.0168, av_BS_loss_focal=0.437, av_BS_loss_dice=0.979, av_BS_loss_IoU=0.990, distill_loss=5.460]Epoch 0:   0%|          | 55/31390 [01:26<13:45:37,  1.58s/it, loss=14.8, v_num=173, av_BS_IoU=0.670, av_BS_dice=0.777, av_BS_loss_focal=8.96e-5, av_BS_loss_dice=0.233, av_BS_loss_IoU=0.344, distill_loss=5.880] Epoch 0:   0%|          | 56/31390 [01:28<13:48:51,  1.59s/it, loss=14.8, v_num=173, av_BS_IoU=0.670, av_BS_dice=0.777, av_BS_loss_focal=8.96e-5, av_BS_loss_dice=0.233, av_BS_loss_IoU=0.344, distill_loss=5.880]Epoch 0:   0%|          | 56/31390 [01:28<13:48:52,  1.59s/it, loss=14.9, v_num=173, av_BS_IoU=0.487, av_BS_dice=0.612, av_BS_loss_focal=0.000134, av_BS_loss_dice=0.411, av_BS_loss_IoU=0.542, distill_loss=5.500]Epoch 0:   0%|          | 57/31390 [01:29<13:43:26,  1.58s/it, loss=14.9, v_num=173, av_BS_IoU=0.487, av_BS_dice=0.612, av_BS_loss_focal=0.000134, av_BS_loss_dice=0.411, av_BS_loss_IoU=0.542, distill_loss=5.500]Epoch 0:   0%|          | 57/31390 [01:29<13:43:26,  1.58s/it, loss=14.9, v_num=173, av_BS_IoU=0.667, av_BS_dice=0.800, av_BS_loss_focal=7.74e-5, av_BS_loss_dice=0.204, av_BS_loss_IoU=0.339, distill_loss=6.020] Epoch 0:   0%|          | 58/31390 [01:30<13:37:57,  1.57s/it, loss=14.9, v_num=173, av_BS_IoU=0.667, av_BS_dice=0.800, av_BS_loss_focal=7.74e-5, av_BS_loss_dice=0.204, av_BS_loss_IoU=0.339, distill_loss=6.020]Epoch 0:   0%|          | 58/31390 [01:30<13:37:58,  1.57s/it, loss=14.7, v_num=173, av_BS_IoU=0.903, av_BS_dice=0.949, av_BS_loss_focal=1.25e-7, av_BS_loss_dice=0.0687, av_BS_loss_IoU=0.129, distill_loss=6.130]Epoch 0:   0%|          | 59/31390 [01:31<13:30:27,  1.55s/it, loss=14.7, v_num=173, av_BS_IoU=0.903, av_BS_dice=0.949, av_BS_loss_focal=1.25e-7, av_BS_loss_dice=0.0687, av_BS_loss_IoU=0.129, distill_loss=6.130]Epoch 0:   0%|          | 59/31390 [01:31<13:30:28,  1.55s/it, loss=14.7, v_num=173, av_BS_IoU=0.432, av_BS_dice=0.604, av_BS_loss_focal=9.27e-6, av_BS_loss_dice=0.438, av_BS_loss_IoU=0.609, distill_loss=6.100] Epoch 0:   0%|          | 60/31390 [01:32<13:25:58,  1.54s/it, loss=14.7, v_num=173, av_BS_IoU=0.432, av_BS_dice=0.604, av_BS_loss_focal=9.27e-6, av_BS_loss_dice=0.438, av_BS_loss_IoU=0.609, distill_loss=6.100]Epoch 0:   0%|          | 60/31390 [01:32<13:25:58,  1.54s/it, loss=14.7, v_num=173, av_BS_IoU=0.778, av_BS_dice=0.875, av_BS_loss_focal=0.000259, av_BS_loss_dice=0.146, av_BS_loss_IoU=0.255, distill_loss=7.320]Epoch 0:   0%|          | 61/31390 [01:33<13:21:06,  1.53s/it, loss=14.7, v_num=173, av_BS_IoU=0.778, av_BS_dice=0.875, av_BS_loss_focal=0.000259, av_BS_loss_dice=0.146, av_BS_loss_IoU=0.255, distill_loss=7.320]Epoch 0:   0%|          | 61/31390 [01:33<13:21:07,  1.53s/it, loss=14.7, v_num=173, av_BS_IoU=0.920, av_BS_dice=0.959, av_BS_loss_focal=4.78e-7, av_BS_loss_dice=0.0432, av_BS_loss_IoU=0.0828, distill_loss=6.200]Epoch 0:   0%|          | 62/31390 [01:34<13:18:30,  1.53s/it, loss=14.7, v_num=173, av_BS_IoU=0.920, av_BS_dice=0.959, av_BS_loss_focal=4.78e-7, av_BS_loss_dice=0.0432, av_BS_loss_IoU=0.0828, distill_loss=6.200]Epoch 0:   0%|          | 62/31390 [01:34<13:18:31,  1.53s/it, loss=14.6, v_num=173, av_BS_IoU=0.730, av_BS_dice=0.834, av_BS_loss_focal=0.000533, av_BS_loss_dice=0.171, av_BS_loss_IoU=0.279, distill_loss=5.930] Epoch 0:   0%|          | 63/31390 [01:35<13:13:14,  1.52s/it, loss=14.6, v_num=173, av_BS_IoU=0.730, av_BS_dice=0.834, av_BS_loss_focal=0.000533, av_BS_loss_dice=0.171, av_BS_loss_IoU=0.279, distill_loss=5.930]Epoch 0:   0%|          | 63/31390 [01:35<13:13:14,  1.52s/it, loss=14.6, v_num=173, av_BS_IoU=0.532, av_BS_dice=0.691, av_BS_loss_focal=1.03e-5, av_BS_loss_dice=0.356, av_BS_loss_IoU=0.524, distill_loss=6.480] Epoch 0:   0%|          | 64/31390 [01:37<13:11:31,  1.52s/it, loss=14.6, v_num=173, av_BS_IoU=0.532, av_BS_dice=0.691, av_BS_loss_focal=1.03e-5, av_BS_loss_dice=0.356, av_BS_loss_IoU=0.524, distill_loss=6.480]Epoch 0:   0%|          | 64/31390 [01:37<13:11:31,  1.52s/it, loss=14.4, v_num=173, av_BS_IoU=0.888, av_BS_dice=0.941, av_BS_loss_focal=2.53e-6, av_BS_loss_dice=0.0639, av_BS_loss_IoU=0.120, distill_loss=6.170]Epoch 0:   0%|          | 65/31390 [01:37<13:06:51,  1.51s/it, loss=14.4, v_num=173, av_BS_IoU=0.888, av_BS_dice=0.941, av_BS_loss_focal=2.53e-6, av_BS_loss_dice=0.0639, av_BS_loss_IoU=0.120, distill_loss=6.170]Epoch 0:   0%|          | 65/31390 [01:37<13:06:52,  1.51s/it, loss=14.3, v_num=173, av_BS_IoU=0.759, av_BS_dice=0.855, av_BS_loss_focal=0.000217, av_BS_loss_dice=0.147, av_BS_loss_IoU=0.245, distill_loss=6.520]Epoch 0:   0%|          | 66/31390 [01:39<13:03:31,  1.50s/it, loss=14.3, v_num=173, av_BS_IoU=0.759, av_BS_dice=0.855, av_BS_loss_focal=0.000217, av_BS_loss_dice=0.147, av_BS_loss_IoU=0.245, distill_loss=6.520]Epoch 0:   0%|          | 66/31390 [01:39<13:03:31,  1.50s/it, loss=14.4, v_num=173, av_BS_IoU=0.706, av_BS_dice=0.819, av_BS_loss_focal=0.00231, av_BS_loss_dice=0.208, av_BS_loss_IoU=0.333, distill_loss=6.330] Epoch 0:   0%|          | 67/31390 [01:40<13:02:15,  1.50s/it, loss=14.4, v_num=173, av_BS_IoU=0.706, av_BS_dice=0.819, av_BS_loss_focal=0.00231, av_BS_loss_dice=0.208, av_BS_loss_IoU=0.333, distill_loss=6.330]Epoch 0:   0%|          | 67/31390 [01:40<13:02:15,  1.50s/it, loss=14.1, v_num=173, av_BS_IoU=0.659, av_BS_dice=0.786, av_BS_loss_focal=8.9e-6, av_BS_loss_dice=0.216, av_BS_loss_IoU=0.344, distill_loss=5.760] Epoch 0:   0%|          | 68/31390 [01:41<13:00:46,  1.50s/it, loss=14.1, v_num=173, av_BS_IoU=0.659, av_BS_dice=0.786, av_BS_loss_focal=8.9e-6, av_BS_loss_dice=0.216, av_BS_loss_IoU=0.344, distill_loss=5.760]Epoch 0:   0%|          | 68/31390 [01:41<13:00:47,  1.50s/it, loss=14.1, v_num=173, av_BS_IoU=0.805, av_BS_dice=0.892, av_BS_loss_focal=4.58e-6, av_BS_loss_dice=0.116, av_BS_loss_IoU=0.208, distill_loss=5.810]Epoch 0:   0%|          | 69/31390 [01:42<12:59:01,  1.49s/it, loss=14.1, v_num=173, av_BS_IoU=0.805, av_BS_dice=0.892, av_BS_loss_focal=4.58e-6, av_BS_loss_dice=0.116, av_BS_loss_IoU=0.208, distill_loss=5.810]Epoch 0:   0%|          | 69/31390 [01:42<12:59:01,  1.49s/it, loss=14.2, v_num=173, av_BS_IoU=0.551, av_BS_dice=0.670, av_BS_loss_focal=0.00115, av_BS_loss_dice=0.341, av_BS_loss_IoU=0.464, distill_loss=6.330]Epoch 0:   0%|          | 70/31390 [01:44<13:02:53,  1.50s/it, loss=14.2, v_num=173, av_BS_IoU=0.551, av_BS_dice=0.670, av_BS_loss_focal=0.00115, av_BS_loss_dice=0.341, av_BS_loss_IoU=0.464, distill_loss=6.330]Epoch 0:   0%|          | 70/31390 [01:44<13:02:54,  1.50s/it, loss=14.1, v_num=173, av_BS_IoU=0.438, av_BS_dice=0.566, av_BS_loss_focal=0.0235, av_BS_loss_dice=0.463, av_BS_loss_IoU=0.598, distill_loss=6.100] Epoch 0:   0%|          | 71/31390 [01:45<12:57:17,  1.49s/it, loss=14.1, v_num=173, av_BS_IoU=0.438, av_BS_dice=0.566, av_BS_loss_focal=0.0235, av_BS_loss_dice=0.463, av_BS_loss_IoU=0.598, distill_loss=6.100]Epoch 0:   0%|          | 71/31390 [01:45<12:57:17,  1.49s/it, loss=14.2, v_num=173, av_BS_IoU=0.387, av_BS_dice=0.558, av_BS_loss_focal=2.99e-6, av_BS_loss_dice=0.442, av_BS_loss_IoU=0.613, distill_loss=6.940]Epoch 0:   0%|          | 72/31390 [01:46<12:53:39,  1.48s/it, loss=14.2, v_num=173, av_BS_IoU=0.387, av_BS_dice=0.558, av_BS_loss_focal=2.99e-6, av_BS_loss_dice=0.442, av_BS_loss_IoU=0.613, distill_loss=6.940]Epoch 0:   0%|          | 72/31390 [01:46<12:53:40,  1.48s/it, loss=14.1, v_num=173, av_BS_IoU=0.589, av_BS_dice=0.722, av_BS_loss_focal=3.77e-6, av_BS_loss_dice=0.278, av_BS_loss_IoU=0.412, distill_loss=6.530]Epoch 0:   0%|          | 73/31390 [01:47<12:48:52,  1.47s/it, loss=14.1, v_num=173, av_BS_IoU=0.589, av_BS_dice=0.722, av_BS_loss_focal=3.77e-6, av_BS_loss_dice=0.278, av_BS_loss_IoU=0.412, distill_loss=6.530]Epoch 0:   0%|          | 73/31390 [01:47<12:48:52,  1.47s/it, loss=14.2, v_num=173, av_BS_IoU=0.594, av_BS_dice=0.668, av_BS_loss_focal=6.03e-6, av_BS_loss_dice=0.334, av_BS_loss_IoU=0.409, distill_loss=6.850]Epoch 0:   0%|          | 74/31390 [01:49<12:49:54,  1.48s/it, loss=14.2, v_num=173, av_BS_IoU=0.594, av_BS_dice=0.668, av_BS_loss_focal=6.03e-6, av_BS_loss_dice=0.334, av_BS_loss_IoU=0.409, distill_loss=6.850]Epoch 0:   0%|          | 74/31390 [01:49<12:49:54,  1.48s/it, loss=14.3, v_num=173, av_BS_IoU=0.710, av_BS_dice=0.805, av_BS_loss_focal=0.000598, av_BS_loss_dice=0.210, av_BS_loss_IoU=0.309, distill_loss=5.590]Epoch 0:   0%|          | 75/31390 [01:50<12:48:31,  1.47s/it, loss=14.3, v_num=173, av_BS_IoU=0.710, av_BS_dice=0.805, av_BS_loss_focal=0.000598, av_BS_loss_dice=0.210, av_BS_loss_IoU=0.309, distill_loss=5.590]Epoch 0:   0%|          | 75/31390 [01:50<12:48:31,  1.47s/it, loss=14.3, v_num=173, av_BS_IoU=0.119, av_BS_dice=0.198, av_BS_loss_focal=0.000363, av_BS_loss_dice=0.823, av_BS_loss_IoU=0.896, distill_loss=6.090]Epoch 0:   0%|          | 76/31390 [01:51<12:45:26,  1.47s/it, loss=14.3, v_num=173, av_BS_IoU=0.119, av_BS_dice=0.198, av_BS_loss_focal=0.000363, av_BS_loss_dice=0.823, av_BS_loss_IoU=0.896, distill_loss=6.090]Epoch 0:   0%|          | 76/31390 [01:51<12:45:27,  1.47s/it, loss=14.3, v_num=173, av_BS_IoU=0.435, av_BS_dice=0.582, av_BS_loss_focal=0.000698, av_BS_loss_dice=0.424, av_BS_loss_IoU=0.574, distill_loss=5.390]Epoch 0:   0%|          | 77/31390 [01:52<12:43:09,  1.46s/it, loss=14.3, v_num=173, av_BS_IoU=0.435, av_BS_dice=0.582, av_BS_loss_focal=0.000698, av_BS_loss_dice=0.424, av_BS_loss_IoU=0.574, distill_loss=5.390]Epoch 0:   0%|          | 77/31390 [01:52<12:43:09,  1.46s/it, loss=14.3, v_num=173, av_BS_IoU=0.776, av_BS_dice=0.874, av_BS_loss_focal=0.000343, av_BS_loss_dice=0.143, av_BS_loss_IoU=0.251, distill_loss=6.920]Epoch 0:   0%|          | 78/31390 [01:54<12:46:41,  1.47s/it, loss=14.3, v_num=173, av_BS_IoU=0.776, av_BS_dice=0.874, av_BS_loss_focal=0.000343, av_BS_loss_dice=0.143, av_BS_loss_IoU=0.251, distill_loss=6.920]Epoch 0:   0%|          | 78/31390 [01:54<12:46:42,  1.47s/it, loss=14.4, v_num=173, av_BS_IoU=0.498, av_BS_dice=0.645, av_BS_loss_focal=0.00577, av_BS_loss_dice=0.373, av_BS_loss_IoU=0.522, distill_loss=5.400] Epoch 0:   0%|          | 79/31390 [01:56<12:48:50,  1.47s/it, loss=14.4, v_num=173, av_BS_IoU=0.498, av_BS_dice=0.645, av_BS_loss_focal=0.00577, av_BS_loss_dice=0.373, av_BS_loss_IoU=0.522, distill_loss=5.400]Epoch 0:   0%|          | 79/31390 [01:56<12:48:51,  1.47s/it, loss=14.4, v_num=173, av_BS_IoU=0.873, av_BS_dice=0.931, av_BS_loss_focal=2.8e-6, av_BS_loss_dice=0.0782, av_BS_loss_IoU=0.143, distill_loss=7.240]Epoch 0:   0%|          | 80/31390 [01:57<12:44:10,  1.46s/it, loss=14.4, v_num=173, av_BS_IoU=0.873, av_BS_dice=0.931, av_BS_loss_focal=2.8e-6, av_BS_loss_dice=0.0782, av_BS_loss_IoU=0.143, distill_loss=7.240]Epoch 0:   0%|          | 80/31390 [01:57<12:44:10,  1.46s/it, loss=14.4, v_num=173, av_BS_IoU=0.545, av_BS_dice=0.705, av_BS_loss_focal=0.00134, av_BS_loss_dice=0.323, av_BS_loss_IoU=0.488, distill_loss=6.980]Epoch 0:   0%|          | 81/31390 [01:58<12:45:55,  1.47s/it, loss=14.4, v_num=173, av_BS_IoU=0.545, av_BS_dice=0.705, av_BS_loss_focal=0.00134, av_BS_loss_dice=0.323, av_BS_loss_IoU=0.488, distill_loss=6.980]Epoch 0:   0%|          | 81/31390 [01:58<12:45:55,  1.47s/it, loss=14.5, v_num=173, av_BS_IoU=0.553, av_BS_dice=0.688, av_BS_loss_focal=0.000234, av_BS_loss_dice=0.321, av_BS_loss_IoU=0.458, distill_loss=6.260]Epoch 0:   0%|          | 82/31390 [02:00<12:48:09,  1.47s/it, loss=14.5, v_num=173, av_BS_IoU=0.553, av_BS_dice=0.688, av_BS_loss_focal=0.000234, av_BS_loss_dice=0.321, av_BS_loss_IoU=0.458, distill_loss=6.260]Epoch 0:   0%|          | 82/31390 [02:00<12:48:09,  1.47s/it, loss=14.6, v_num=173, av_BS_IoU=0.491, av_BS_dice=0.644, av_BS_loss_focal=7.71e-7, av_BS_loss_dice=0.360, av_BS_loss_IoU=0.513, distill_loss=6.340] /data2/wuxinrui/RA-L/MobileSAM/mobile_sam/utils/transforms.py:88: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  coords = np.array(deepcopy(coords))
+Epoch 0:   0%|          | 83/31390 [02:02<12:50:17,  1.48s/it, loss=14.6, v_num=173, av_BS_IoU=0.491, av_BS_dice=0.644, av_BS_loss_focal=7.71e-7, av_BS_loss_dice=0.360, av_BS_loss_IoU=0.513, distill_loss=6.340]Epoch 0:   0%|          | 83/31390 [02:02<12:50:17,  1.48s/it, loss=14.6, v_num=173, av_BS_IoU=0.874, av_BS_dice=0.933, av_BS_loss_focal=3.35e-5, av_BS_loss_dice=0.079, av_BS_loss_IoU=0.146, distill_loss=6.820]Epoch 0:   0%|          | 84/31390 [02:03<12:46:33,  1.47s/it, loss=14.6, v_num=173, av_BS_IoU=0.874, av_BS_dice=0.933, av_BS_loss_focal=3.35e-5, av_BS_loss_dice=0.079, av_BS_loss_IoU=0.146, distill_loss=6.820]Epoch 0:   0%|          | 84/31390 [02:03<12:46:33,  1.47s/it, loss=14.7, v_num=173, av_BS_IoU=0.696, av_BS_dice=0.816, av_BS_loss_focal=0.00552, av_BS_loss_dice=0.218, av_BS_loss_IoU=0.351, distill_loss=7.030]Epoch 0:   0%|          | 85/31390 [02:04<12:45:47,  1.47s/it, loss=14.7, v_num=173, av_BS_IoU=0.696, av_BS_dice=0.816, av_BS_loss_focal=0.00552, av_BS_loss_dice=0.218, av_BS_loss_IoU=0.351, distill_loss=7.030]Epoch 0:   0%|          | 85/31390 [02:04<12:45:47,  1.47s/it, loss=14.8, v_num=173, av_BS_IoU=0.475, av_BS_dice=0.580, av_BS_loss_focal=0.000243, av_BS_loss_dice=0.459, av_BS_loss_IoU=0.568, distill_loss=6.110]Epoch 0:   0%|          | 86/31390 [02:06<12:45:11,  1.47s/it, loss=14.8, v_num=173, av_BS_IoU=0.475, av_BS_dice=0.580, av_BS_loss_focal=0.000243, av_BS_loss_dice=0.459, av_BS_loss_IoU=0.568, distill_loss=6.110]Epoch 0:   0%|          | 86/31390 [02:06<12:45:11,  1.47s/it, loss=14.8, v_num=173, av_BS_IoU=0.614, av_BS_dice=0.727, av_BS_loss_focal=4.78e-5, av_BS_loss_dice=0.280, av_BS_loss_IoU=0.397, distill_loss=6.180] Epoch 0:   0%|          | 87/31390 [02:07<12:45:30,  1.47s/it, loss=14.8, v_num=173, av_BS_IoU=0.614, av_BS_dice=0.727, av_BS_loss_focal=4.78e-5, av_BS_loss_dice=0.280, av_BS_loss_IoU=0.397, distill_loss=6.180]Epoch 0:   0%|          | 87/31390 [02:07<12:45:30,  1.47s/it, loss=14.7, v_num=173, av_BS_IoU=0.0186, av_BS_dice=0.0363, av_BS_loss_focal=0.792, av_BS_loss_dice=0.960, av_BS_loss_IoU=0.980, distill_loss=6.010]Epoch 0:   0%|          | 88/31390 [02:09<12:49:02,  1.47s/it, loss=14.7, v_num=173, av_BS_IoU=0.0186, av_BS_dice=0.0363, av_BS_loss_focal=0.792, av_BS_loss_dice=0.960, av_BS_loss_IoU=0.980, distill_loss=6.010]Epoch 0:   0%|          | 88/31390 [02:09<12:49:02,  1.47s/it, loss=14.8, v_num=173, av_BS_IoU=0.734, av_BS_dice=0.835, av_BS_loss_focal=5.74e-6, av_BS_loss_dice=0.241, av_BS_loss_IoU=0.366, distill_loss=6.080]Epoch 0:   0%|          | 89/31390 [02:11<12:49:44,  1.48s/it, loss=14.8, v_num=173, av_BS_IoU=0.734, av_BS_dice=0.835, av_BS_loss_focal=5.74e-6, av_BS_loss_dice=0.241, av_BS_loss_IoU=0.366, distill_loss=6.080]Epoch 0:   0%|          | 89/31390 [02:11<12:49:44,  1.48s/it, loss=14.8, v_num=173, av_BS_IoU=0.596, av_BS_dice=0.724, av_BS_loss_focal=0.0014, av_BS_loss_dice=0.293, av_BS_loss_IoU=0.430, distill_loss=6.610] Epoch 0:   0%|          | 90/31390 [02:12<12:49:59,  1.48s/it, loss=14.8, v_num=173, av_BS_IoU=0.596, av_BS_dice=0.724, av_BS_loss_focal=0.0014, av_BS_loss_dice=0.293, av_BS_loss_IoU=0.430, distill_loss=6.610]Epoch 0:   0%|          | 90/31390 [02:12<12:49:59,  1.48s/it, loss=14.6, v_num=173, av_BS_IoU=0.780, av_BS_dice=0.859, av_BS_loss_focal=2.82e-5, av_BS_loss_dice=0.146, av_BS_loss_IoU=0.230, distill_loss=5.990]Epoch 0:   0%|          | 91/31390 [02:15<12:55:17,  1.49s/it, loss=14.6, v_num=173, av_BS_IoU=0.780, av_BS_dice=0.859, av_BS_loss_focal=2.82e-5, av_BS_loss_dice=0.146, av_BS_loss_IoU=0.230, distill_loss=5.990]Epoch 0:   0%|          | 91/31390 [02:15<12:55:18,  1.49s/it, loss=14.6, v_num=173, av_BS_IoU=0.363, av_BS_dice=0.488, av_BS_loss_focal=0.00642, av_BS_loss_dice=0.529, av_BS_loss_IoU=0.654, distill_loss=6.200]Epoch 0:   0%|          | 92/31390 [02:16<12:55:50,  1.49s/it, loss=14.6, v_num=173, av_BS_IoU=0.363, av_BS_dice=0.488, av_BS_loss_focal=0.00642, av_BS_loss_dice=0.529, av_BS_loss_IoU=0.654, distill_loss=6.200]Epoch 0:   0%|          | 92/31390 [02:16<12:55:50,  1.49s/it, loss=14.7, v_num=173, av_BS_IoU=0.491, av_BS_dice=0.644, av_BS_loss_focal=2.63e-5, av_BS_loss_dice=0.359, av_BS_loss_IoU=0.512, distill_loss=6.690]Epoch 0:   0%|          | 93/31390 [02:18<12:56:00,  1.49s/it, loss=14.7, v_num=173, av_BS_IoU=0.491, av_BS_dice=0.644, av_BS_loss_focal=2.63e-5, av_BS_loss_dice=0.359, av_BS_loss_IoU=0.512, distill_loss=6.690]Epoch 0:   0%|          | 93/31390 [02:18<12:56:00,  1.49s/it, loss=14.5, v_num=173, av_BS_IoU=0.629, av_BS_dice=0.746, av_BS_loss_focal=0.000515, av_BS_loss_dice=0.254, av_BS_loss_IoU=0.374, distill_loss=5.760]Epoch 0:   0%|          | 94/31390 [02:19<12:53:49,  1.48s/it, loss=14.5, v_num=173, av_BS_IoU=0.629, av_BS_dice=0.746, av_BS_loss_focal=0.000515, av_BS_loss_dice=0.254, av_BS_loss_IoU=0.374, distill_loss=5.760]Epoch 0:   0%|          | 94/31390 [02:19<12:53:49,  1.48s/it, loss=14.5, v_num=173, av_BS_IoU=0.855, av_BS_dice=0.920, av_BS_loss_focal=0.000402, av_BS_loss_dice=0.0845, av_BS_loss_IoU=0.153, distill_loss=5.900]Epoch 0:   0%|          | 95/31390 [02:20<12:50:58,  1.48s/it, loss=14.5, v_num=173, av_BS_IoU=0.855, av_BS_dice=0.920, av_BS_loss_focal=0.000402, av_BS_loss_dice=0.0845, av_BS_loss_IoU=0.153, distill_loss=5.900]Epoch 0:   0%|          | 95/31390 [02:20<12:50:58,  1.48s/it, loss=14.5, v_num=173, av_BS_IoU=0.741, av_BS_dice=0.846, av_BS_loss_focal=0.000117, av_BS_loss_dice=0.163, av_BS_loss_IoU=0.273, distill_loss=5.750] Epoch 0:   0%|          | 96/31390 [02:21<12:49:18,  1.47s/it, loss=14.5, v_num=173, av_BS_IoU=0.741, av_BS_dice=0.846, av_BS_loss_focal=0.000117, av_BS_loss_dice=0.163, av_BS_loss_IoU=0.273, distill_loss=5.750]Epoch 0:   0%|          | 96/31390 [02:21<12:49:18,  1.48s/it, loss=14.7, v_num=173, av_BS_IoU=0.388, av_BS_dice=0.506, av_BS_loss_focal=0.000291, av_BS_loss_dice=0.515, av_BS_loss_IoU=0.639, distill_loss=6.180]Epoch 0:   0%|          | 97/31390 [02:22<12:45:31,  1.47s/it, loss=14.7, v_num=173, av_BS_IoU=0.388, av_BS_dice=0.506, av_BS_loss_focal=0.000291, av_BS_loss_dice=0.515, av_BS_loss_IoU=0.639, distill_loss=6.180]Epoch 0:   0%|          | 97/31390 [02:22<12:45:31,  1.47s/it, loss=14.6, v_num=173, av_BS_IoU=0.888, av_BS_dice=0.941, av_BS_loss_focal=2.88e-5, av_BS_loss_dice=0.0654, av_BS_loss_IoU=0.123, distill_loss=6.590]Epoch 0:   0%|          | 98/31390 [02:23<12:46:12,  1.47s/it, loss=14.6, v_num=173, av_BS_IoU=0.888, av_BS_dice=0.941, av_BS_loss_focal=2.88e-5, av_BS_loss_dice=0.0654, av_BS_loss_IoU=0.123, distill_loss=6.590]Epoch 0:   0%|          | 98/31390 [02:23<12:46:13,  1.47s/it, loss=14.7, v_num=173, av_BS_IoU=0.656, av_BS_dice=0.786, av_BS_loss_focal=0.000194, av_BS_loss_dice=0.215, av_BS_loss_IoU=0.346, distill_loss=7.340]Epoch 0:   0%|          | 99/31390 [02:26<12:52:38,  1.48s/it, loss=14.7, v_num=173, av_BS_IoU=0.656, av_BS_dice=0.786, av_BS_loss_focal=0.000194, av_BS_loss_dice=0.215, av_BS_loss_IoU=0.346, distill_loss=7.340]Epoch 0:   0%|          | 99/31390 [02:26<12:52:38,  1.48s/it, loss=14.7, v_num=173, av_BS_IoU=0.666, av_BS_dice=0.794, av_BS_loss_focal=0.00362, av_BS_loss_dice=0.228, av_BS_loss_IoU=0.365, distill_loss=6.630] Epoch 0:   0%|          | 100/31390 [02:28<12:53:06,  1.48s/it, loss=14.7, v_num=173, av_BS_IoU=0.666, av_BS_dice=0.794, av_BS_loss_focal=0.00362, av_BS_loss_dice=0.228, av_BS_loss_IoU=0.365, distill_loss=6.630]Epoch 0:   0%|          | 100/31390 [02:28<12:53:06,  1.48s/it, loss=14.6, v_num=173, av_BS_IoU=0.677, av_BS_dice=0.801, av_BS_loss_focal=0.000125, av_BS_loss_dice=0.204, av_BS_loss_IoU=0.330, distill_loss=6.290]Epoch 0:   0%|          | 101/31390 [02:29<12:52:09,  1.48s/it, loss=14.6, v_num=173, av_BS_IoU=0.677, av_BS_dice=0.801, av_BS_loss_focal=0.000125, av_BS_loss_dice=0.204, av_BS_loss_IoU=0.330, distill_loss=6.290]Epoch 0:   0%|          | 101/31390 [02:29<12:52:09,  1.48s/it, loss=14.6, v_num=173, av_BS_IoU=0.736, av_BS_dice=0.843, av_BS_loss_focal=0.000253, av_BS_loss_dice=0.165, av_BS_loss_IoU=0.277, distill_loss=6.750]Epoch 0:   0%|          | 102/31390 [02:31<12:55:57,  1.49s/it, loss=14.6, v_num=173, av_BS_IoU=0.736, av_BS_dice=0.843, av_BS_loss_focal=0.000253, av_BS_loss_dice=0.165, av_BS_loss_IoU=0.277, distill_loss=6.750]Epoch 0:   0%|          | 102/31390 [02:31<12:55:57,  1.49s/it, loss=14.5, v_num=173, av_BS_IoU=0.455, av_BS_dice=0.625, av_BS_loss_focal=4.65e-5, av_BS_loss_dice=0.402, av_BS_loss_IoU=0.573, distill_loss=5.480] Epoch 0:   0%|          | 103/31390 [02:32<12:52:48,  1.48s/it, loss=14.5, v_num=173, av_BS_IoU=0.455, av_BS_dice=0.625, av_BS_loss_focal=4.65e-5, av_BS_loss_dice=0.402, av_BS_loss_IoU=0.573, distill_loss=5.480]Epoch 0:   0%|          | 103/31390 [02:32<12:52:48,  1.48s/it, loss=14.8, v_num=173, av_BS_IoU=0.282, av_BS_dice=0.431, av_BS_loss_focal=0.00124, av_BS_loss_dice=0.568, av_BS_loss_IoU=0.717, distill_loss=6.270]Epoch 0:   0%|          | 104/31390 [02:33<12:51:52,  1.48s/it, loss=14.8, v_num=173, av_BS_IoU=0.282, av_BS_dice=0.431, av_BS_loss_focal=0.00124, av_BS_loss_dice=0.568, av_BS_loss_IoU=0.717, distill_loss=6.270]Epoch 0:   0%|          | 104/31390 [02:33<12:51:52,  1.48s/it, loss=14.7, v_num=173, av_BS_IoU=0.600, av_BS_dice=0.729, av_BS_loss_focal=0.00128, av_BS_loss_dice=0.276, av_BS_loss_IoU=0.407, distill_loss=5.860]
