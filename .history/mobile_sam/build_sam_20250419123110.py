@@ -115,7 +115,7 @@ def build_sam_wxr_t(checkpoint=None):
     image_size = 1024
     vit_patch_size = 16
     image_embedding_size = image_size // vit_patch_size
-    if os.environ['MODEL_MODE'] == "test":
+    if os.environ['INFERENCE_MODE'] == "test":
         mobile_sam = Sam(
                 image_encoder=TinyViT(img_size=1024, in_chans=3, num_classes=1000,
                     embed_dims=[64, 96, 128, 256],
@@ -167,7 +167,7 @@ def build_sam_wxr_t(checkpoint=None):
         mobile_sam.eval()
         return mobile_sam
     
-    elif os.environ['MODEL_MODE'] == "train":
+    elif os.environ['INFERENCE_MODE'] == "train":
         mobile_sam = Sam(
                 image_encoder=TinyViT(img_size=1024, in_chans=3, num_classes=1000,
                     embed_dims=[64, 96, 128, 256],
@@ -208,7 +208,7 @@ def build_tiny_msam(checkpoint=None):
     image_size = 1024
     vit_patch_size = 16
     image_embedding_size = image_size // vit_patch_size
-    if os.environ['MODEL_MODE'] == "test":
+    if os.environ['INFERENCE_MODE'] == "test":
         mobile_sam = Sam(
                 image_encoder=TinyViT(img_size=1024, in_chans=3, num_classes=1000,
                     embed_dims=[64, 96, 128, 320],
@@ -261,7 +261,7 @@ def build_tiny_msam(checkpoint=None):
         mobile_sam.eval()
         return mobile_sam
     
-    elif os.environ['MODEL_MODE'] == "train":
+    elif os.environ['INFERENCE_MODE'] == "train":
         mobile_sam = Sam(
                 image_encoder=TinyViT(img_size=1024, in_chans=3, num_classes=1000,
                     embed_dims=[64, 96, 128, 320],

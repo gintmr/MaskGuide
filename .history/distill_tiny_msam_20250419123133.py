@@ -18,8 +18,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
 DEVICE = 'cuda'
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:32'
-os.environ['INFERENCE_MODE'] = "train"# 是否下采样1/2
-os.environ['MODEL_MODE'] = "train" # 是否构造完整模型
+os.environ['INFERENCE_MODE'] = "train"
 os.environ['DISTILL'] = "T"
 
 # torch.cuda.set_per_process_memory_fraction(0.9, device=0)

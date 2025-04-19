@@ -67,7 +67,7 @@ def print_model_info(state_dict):
 
 
 # 加载模型的 state_dict
-state_dict_path = '/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt'  # 替换为你的 .pt 文件路径
+state_dict_path = '/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth'  # 替换为你的 .pt 文件路径
 state_dict = torch.load(state_dict_path, map_location=torch.device('cpu'))
 
 # 打印模型信息

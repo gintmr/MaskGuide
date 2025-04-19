@@ -17,11 +17,10 @@ checkpoint = torch.load("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled
 state_dict = checkpoint['state_dict']
 save_checkpoint = {}
 for k, v in state_dict.items():
-    if "S_model.image_encoder" in k:
-        save_checkpoint[k.replace("S_model.image_encoder", "image_encoder")] = v
-    elif "T_model.prompt_encoder" in k:
-        save_checkpoint[k.replace("T_model.prompt_encoder", "prompt_encoder")] = v
-    elif "T_model.mask_decoder" in k:
-        save_checkpoint[k.replace("T_model.mask_decoder", "mask_decoder")] = v
+    if "S_model." in k and "image_encoder" in k:
+        save_checkpoint[k.replace("S_model.", "")] = v
+    elif "T_model." in k and "image_encoder":
+        if "prompt_encoder" or "mask_decoder" in k:
+            save_checkpoint[k.replace("T_model.", "")] = v
 
-torch.save(save_checkpoint, "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth")
+torch.save(save_checkpoint, "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_qepoch.pth")

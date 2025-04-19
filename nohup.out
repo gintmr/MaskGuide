@@ -1,0 +1,941 @@
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/registry.py:4: FutureWarning: Importing from timm.models.registry is deprecated, please import via timm.models
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", FutureWarning)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_5m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_5m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_11m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_11m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_384 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_384. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_512 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_512. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+loading annotations into memory...
+Done (t=0.21s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.06s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=15.17s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.23s)
+creating index...
+index created!
+T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
+权重文件中以下层在模型结构中不存在：
+  mask_decoder.output_hypernetworks_mlps.1.layers.0.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias
+  mask_decoder.iou_prediction_head.layers.1.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias
+  mask_decoder.output_upscaling.0.weight
+  mask_decoder.iou_prediction_head.layers.0.bias
+  mask_decoder.output_hypernetworks_mlps.1.layers.1.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight
+  prompt_encoder.point_embeddings.3.weight
+  mask_decoder.transformer.layers.1.mlp.lin1.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight
+  mask_decoder.transformer.layers.0.self_attn.q_proj.weight
+  mask_decoder.output_upscaling.3.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight
+  prompt_encoder.no_mask_embed.weight
+  mask_decoder.transformer.layers.1.mlp.lin2.bias
+  mask_decoder.iou_token.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias
+  mask_decoder.transformer.norm_final_attn.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.1.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias
+  prompt_encoder.point_embeddings.0.weight
+  mask_decoder.iou_prediction_head.layers.0.weight
+  mask_decoder.transformer.layers.1.mlp.lin2.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias
+  mask_decoder.transformer.layers.1.self_attn.v_proj.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.2.weight
+  mask_decoder.transformer.layers.1.mlp.lin1.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight
+  prompt_encoder.mask_downscaling.1.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.0.weight
+  prompt_encoder.mask_downscaling.4.bias
+  prompt_encoder.point_embeddings.2.weight
+  mask_decoder.transformer.final_attn_token_to_image.out_proj.bias
+  prompt_encoder.mask_downscaling.4.weight
+  mask_decoder.transformer.layers.1.self_attn.k_proj.weight
+  mask_decoder.transformer.layers.0.self_attn.k_proj.bias
+  mask_decoder.transformer.layers.0.self_attn.q_proj.bias
+  mask_decoder.transformer.norm_final_attn.bias
+  mask_decoder.output_hypernetworks_mlps.1.layers.2.bias
+  mask_decoder.transformer.final_attn_token_to_image.v_proj.bias
+  mask_decoder.output_upscaling.0.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.q_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias
+  mask_decoder.transformer.layers.1.self_attn.v_proj.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight
+  mask_decoder.transformer.final_attn_token_to_image.q_proj.weight
+  mask_decoder.iou_prediction_head.layers.1.weight
+  mask_decoder.transformer.layers.1.self_attn.out_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.1.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.1.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight
+  mask_decoder.transformer.layers.0.norm4.weight
+  mask_decoder.transformer.layers.0.mlp.lin2.weight
+  mask_decoder.transformer.final_attn_token_to_image.k_proj.bias
+  mask_decoder.transformer.layers.1.self_attn.out_proj.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.2.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias
+  mask_decoder.transformer.layers.0.norm1.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.0.bias
+  prompt_encoder.mask_downscaling.3.bias
+  mask_decoder.transformer.final_attn_token_to_image.q_proj.bias
+  prompt_encoder.mask_downscaling.3.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.2.bias
+  prompt_encoder.mask_downscaling.0.weight
+  mask_decoder.transformer.layers.0.mlp.lin1.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight
+  prompt_encoder.mask_downscaling.6.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.1.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias
+  mask_decoder.output_hypernetworks_mlps.1.layers.0.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias
+  mask_decoder.transformer.layers.0.self_attn.out_proj.bias
+  mask_decoder.transformer.layers.1.norm3.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight
+  mask_decoder.transformer.layers.1.norm3.bias
+  mask_decoder.transformer.layers.0.self_attn.v_proj.bias
+  mask_decoder.transformer.layers.0.mlp.lin2.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.2.weight
+  mask_decoder.output_upscaling.1.weight
+  mask_decoder.mask_tokens.weight
+  mask_decoder.transformer.layers.0.norm2.weight
+  mask_decoder.iou_prediction_head.layers.2.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias
+  mask_decoder.transformer.layers.0.norm4.bias
+  mask_decoder.transformer.layers.0.self_attn.v_proj.weight
+  prompt_encoder.mask_downscaling.1.weight
+  prompt_encoder.not_a_point_embed.weight
+  mask_decoder.transformer.layers.1.norm1.bias
+  prompt_encoder.mask_downscaling.0.bias
+  mask_decoder.transformer.layers.1.norm4.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.0.weight
+  mask_decoder.transformer.layers.1.self_attn.q_proj.bias
+  mask_decoder.transformer.layers.0.norm3.bias
+  prompt_encoder.mask_downscaling.6.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.1.weight
+  prompt_encoder.pe_layer.positional_encoding_gaussian_matrix
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight
+  mask_decoder.transformer.layers.0.norm2.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.0.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.2.weight
+  mask_decoder.transformer.layers.0.norm1.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.2.bias
+  mask_decoder.transformer.final_attn_token_to_image.v_proj.weight
+  mask_decoder.transformer.layers.0.mlp.lin1.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.2.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.0.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.1.weight
+  mask_decoder.transformer.layers.0.norm3.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.1.weight
+  mask_decoder.transformer.layers.0.self_attn.k_proj.weight
+  mask_decoder.transformer.layers.0.self_attn.out_proj.weight
+  mask_decoder.transformer.layers.1.norm4.weight
+  prompt_encoder.point_embeddings.1.weight
+  mask_decoder.output_upscaling.3.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.0.bias
+  mask_decoder.output_upscaling.1.bias
+  mask_decoder.transformer.final_attn_token_to_image.out_proj.weight
+  mask_decoder.transformer.layers.1.norm1.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.k_proj.bias
+Using 16bit None Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/configuration_validator.py:106: UserWarning: You passed in a `val_dataloader` but have no `validation_step`. Skipping val loop.
+  rank_zero_warn("You passed in a `val_dataloader` but have no `validation_step`. Skipping val loop.")
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/4
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/registry.py:4: FutureWarning: Importing from timm.models.registry is deprecated, please import via timm.models
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", FutureWarning)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_5m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_5m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_11m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_11m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_384 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_384. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_512 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_512. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/registry.py:4: FutureWarning: Importing from timm.models.registry is deprecated, please import via timm.models
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", FutureWarning)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_5m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_5m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_11m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_11m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_384 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_384. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_512 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_512. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/registry.py:4: FutureWarning: Importing from timm.models.registry is deprecated, please import via timm.models
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", FutureWarning)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_5m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_5m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_11m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_11m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_384 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_384. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_512 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_512. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+loading annotations into memory...
+Done (t=0.20s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.06s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=15.69s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.23s)
+creating index...
+index created!
+T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
+权重文件中以下层在模型结构中不存在：
+  prompt_encoder.mask_downscaling.1.bias
+  mask_decoder.transformer.layers.1.mlp.lin2.bias
+  mask_decoder.transformer.layers.1.self_attn.k_proj.bias
+  mask_decoder.transformer.layers.0.self_attn.q_proj.weight
+  mask_decoder.transformer.layers.0.mlp.lin2.bias
+  prompt_encoder.mask_downscaling.6.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight
+  mask_decoder.iou_token.weight
+  mask_decoder.transformer.layers.0.norm1.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.2.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight
+  prompt_encoder.mask_downscaling.0.weight
+  mask_decoder.transformer.layers.0.norm1.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.0.bias
+  prompt_encoder.mask_downscaling.0.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias
+  mask_decoder.iou_prediction_head.layers.1.weight
+  mask_decoder.transformer.layers.1.mlp.lin1.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.q_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.q_proj.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.0.weight
+  prompt_encoder.pe_layer.positional_encoding_gaussian_matrix
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.1.bias
+  prompt_encoder.mask_downscaling.4.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.1.weight
+  mask_decoder.iou_prediction_head.layers.2.weight
+  mask_decoder.iou_prediction_head.layers.0.weight
+  prompt_encoder.mask_downscaling.3.weight
+  mask_decoder.iou_prediction_head.layers.1.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.2.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.k_proj.bias
+  prompt_encoder.point_embeddings.3.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.2.weight
+  mask_decoder.transformer.layers.0.self_attn.out_proj.bias
+  mask_decoder.transformer.norm_final_attn.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.1.weight
+  mask_decoder.output_upscaling.3.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias
+  mask_decoder.transformer.layers.0.norm3.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight
+  mask_decoder.transformer.layers.1.mlp.lin2.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias
+  mask_decoder.transformer.layers.0.norm2.bias
+  mask_decoder.transformer.layers.1.self_attn.q_proj.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.0.weight
+  mask_decoder.transformer.layers.1.norm1.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.2.weight
+  mask_decoder.transformer.layers.1.norm4.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.0.bias
+  mask_decoder.transformer.layers.0.self_attn.out_proj.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.0.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight
+  mask_decoder.transformer.layers.0.mlp.lin2.weight
+  mask_decoder.transformer.layers.1.norm2.weight
+  mask_decoder.transformer.layers.1.self_attn.out_proj.bias
+  mask_decoder.mask_tokens.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias
+  mask_decoder.transformer.layers.1.norm4.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias
+  mask_decoder.iou_prediction_head.layers.2.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias
+  mask_decoder.transformer.layers.0.norm4.bias
+  mask_decoder.output_hypernetworks_mlps.1.layers.1.bias
+  mask_decoder.transformer.layers.0.self_attn.k_proj.weight
+  mask_decoder.output_upscaling.1.bias
+  mask_decoder.transformer.layers.0.norm4.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.2.bias
+  mask_decoder.transformer.layers.1.norm1.weight
+  mask_decoder.transformer.layers.0.self_attn.q_proj.bias
+  mask_decoder.output_upscaling.0.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.1.weight
+  mask_decoder.transformer.layers.0.mlp.lin1.bias
+  mask_decoder.transformer.final_attn_token_to_image.q_proj.bias
+  prompt_encoder.point_embeddings.0.weight
+  prompt_encoder.no_mask_embed.weight
+  prompt_encoder.point_embeddings.1.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.1.bias
+  mask_decoder.iou_prediction_head.layers.0.bias
+  mask_decoder.output_upscaling.3.bias
+  prompt_encoder.mask_downscaling.6.weight
+  mask_decoder.transformer.layers.0.self_attn.v_proj.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias
+  mask_decoder.transformer.layers.0.norm2.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias
+  mask_decoder.transformer.norm_final_attn.weight
+  prompt_encoder.not_a_point_embed.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight
+  mask_decoder.transformer.layers.1.norm2.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias
+  mask_decoder.transformer.layers.1.self_attn.k_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.out_proj.weight
+  mask_decoder.transformer.layers.0.self_attn.v_proj.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.2.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias
+  mask_decoder.transformer.layers.1.norm3.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.1.bias
+  mask_decoder.output_upscaling.1.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.2.bias
+  mask_decoder.transformer.layers.1.self_attn.v_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias
+  prompt_encoder.mask_downscaling.1.weight
+  mask_decoder.transformer.layers.0.self_attn.k_proj.bias
+  mask_decoder.transformer.layers.0.mlp.lin1.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.2.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.0.weight
+  prompt_encoder.mask_downscaling.3.bias
+  mask_decoder.transformer.layers.0.norm3.bias
+  prompt_encoder.mask_downscaling.4.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight
+  mask_decoder.transformer.final_attn_token_to_image.out_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight
+  mask_decoder.transformer.final_attn_token_to_image.v_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.out_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight
+  mask_decoder.transformer.final_attn_token_to_image.v_proj.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.1.weight
+  mask_decoder.output_upscaling.0.bias
+  mask_decoder.transformer.final_attn_token_to_image.k_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.v_proj.bias
+  mask_decoder.transformer.layers.1.mlp.lin1.weight
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+loading annotations into memory...
+Done (t=0.25s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.07s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=15.58s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.27s)
+creating index...
+index created!
+T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
+权重文件中以下层在模型结构中不存在：
+  mask_decoder.transformer.layers.1.self_attn.q_proj.bias
+  mask_decoder.transformer.layers.0.mlp.lin2.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight
+  mask_decoder.transformer.layers.0.norm1.weight
+  mask_decoder.transformer.final_attn_token_to_image.k_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.0.weight
+  mask_decoder.transformer.layers.0.norm3.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight
+  mask_decoder.transformer.norm_final_attn.weight
+  mask_decoder.transformer.layers.1.self_attn.out_proj.weight
+  prompt_encoder.mask_downscaling.1.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.2.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias
+  mask_decoder.output_hypernetworks_mlps.1.layers.2.weight
+  mask_decoder.output_upscaling.1.bias
+  mask_decoder.transformer.layers.0.norm4.bias
+  prompt_encoder.no_mask_embed.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.1.weight
+  mask_decoder.transformer.layers.1.mlp.lin2.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.1.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias
+  mask_decoder.transformer.layers.1.self_attn.out_proj.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.1.weight
+  mask_decoder.iou_prediction_head.layers.0.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias
+  mask_decoder.transformer.layers.0.mlp.lin1.weight
+  mask_decoder.transformer.layers.0.norm4.weight
+  mask_decoder.transformer.layers.0.norm2.bias
+  mask_decoder.transformer.layers.0.self_attn.q_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight
+  mask_decoder.transformer.layers.0.mlp.lin1.bias
+  mask_decoder.transformer.layers.0.norm1.bias
+  mask_decoder.transformer.layers.1.norm2.bias
+  mask_decoder.transformer.norm_final_attn.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.0.bias
+  prompt_encoder.point_embeddings.2.weight
+  mask_decoder.transformer.layers.1.norm4.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.0.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias
+  mask_decoder.transformer.layers.0.self_attn.q_proj.bias
+  prompt_encoder.mask_downscaling.1.weight
+  mask_decoder.transformer.layers.0.self_attn.k_proj.bias
+  mask_decoder.output_hypernetworks_mlps.1.layers.1.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias
+  mask_decoder.iou_prediction_head.layers.1.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.2.bias
+  mask_decoder.output_hypernetworks_mlps.1.layers.0.bias
+  mask_decoder.transformer.layers.0.norm2.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.out_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.q_proj.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.2.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight
+  mask_decoder.iou_token.weight
+  mask_decoder.transformer.layers.1.self_attn.q_proj.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.1.weight
+  mask_decoder.transformer.layers.0.mlp.lin2.bias
+  prompt_encoder.mask_downscaling.0.weight
+  mask_decoder.transformer.layers.1.norm1.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias
+  mask_decoder.transformer.layers.1.mlp.lin1.weight
+  prompt_encoder.mask_downscaling.6.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.1.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.k_proj.weight
+  mask_decoder.iou_prediction_head.layers.1.bias
+  prompt_encoder.mask_downscaling.4.weight
+  prompt_encoder.pe_layer.positional_encoding_gaussian_matrix
+  mask_decoder.output_hypernetworks_mlps.0.layers.1.bias
+  mask_decoder.transformer.layers.1.norm4.weight
+  mask_decoder.output_upscaling.3.bias
+  mask_decoder.transformer.final_attn_token_to_image.v_proj.weight
+  mask_decoder.output_upscaling.0.bias
+  mask_decoder.transformer.layers.0.norm3.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight
+  mask_decoder.transformer.layers.1.mlp.lin2.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight
+  mask_decoder.iou_prediction_head.layers.2.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight
+  mask_decoder.transformer.layers.1.mlp.lin1.bias
+  mask_decoder.transformer.layers.1.self_attn.k_proj.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.0.weight
+  prompt_encoder.mask_downscaling.3.weight
+  prompt_encoder.point_embeddings.1.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight
+  mask_decoder.transformer.final_attn_token_to_image.out_proj.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.0.weight
+  mask_decoder.iou_prediction_head.layers.0.weight
+  prompt_encoder.mask_downscaling.4.bias
+  prompt_encoder.point_embeddings.0.weight
+  mask_decoder.transformer.layers.1.norm1.bias
+  mask_decoder.transformer.layers.0.self_attn.k_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.v_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.v_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.2.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias
+  mask_decoder.transformer.layers.1.norm3.bias
+  mask_decoder.output_upscaling.1.weight
+  mask_decoder.mask_tokens.weight
+  mask_decoder.output_upscaling.3.weight
+  mask_decoder.transformer.layers.0.self_attn.out_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.k_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight
+  mask_decoder.transformer.layers.0.self_attn.v_proj.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.2.weight
+  mask_decoder.transformer.layers.1.norm2.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.0.bias
+  mask_decoder.transformer.layers.1.norm3.weight
+  mask_decoder.output_upscaling.0.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias
+  mask_decoder.transformer.layers.0.self_attn.out_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.v_proj.bias
+  mask_decoder.iou_prediction_head.layers.2.weight
+  prompt_encoder.not_a_point_embed.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias
+  mask_decoder.transformer.layers.0.self_attn.v_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.1.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias
+  prompt_encoder.mask_downscaling.3.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.2.weight
+  prompt_encoder.mask_downscaling.0.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias
+  prompt_encoder.point_embeddings.3.weight
+  mask_decoder.transformer.final_attn_token_to_image.q_proj.weight
+  prompt_encoder.mask_downscaling.6.weight
+loading annotations into memory...
+Done (t=0.27s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.09s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=15.58s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.27s)
+creating index...
+index created!
+T_model inited by /data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt
+权重文件中以下层在模型结构中不存在：
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.weight
+  mask_decoder.transformer.layers.1.norm4.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.2.bias
+  mask_decoder.mask_tokens.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.1.weight
+  prompt_encoder.mask_downscaling.4.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.0.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.2.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.2.bias
+  mask_decoder.transformer.layers.1.norm2.weight
+  mask_decoder.iou_prediction_head.layers.0.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.bias
+  mask_decoder.transformer.layers.0.norm2.bias
+  mask_decoder.output_upscaling.1.bias
+  prompt_encoder.mask_downscaling.6.weight
+  mask_decoder.transformer.layers.0.self_attn.k_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.q_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.bias
+  mask_decoder.output_hypernetworks_mlps.1.layers.0.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.weight
+  mask_decoder.transformer.layers.0.self_attn.out_proj.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.bias
+  mask_decoder.transformer.layers.1.norm1.weight
+  prompt_encoder.mask_downscaling.6.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.bias
+  mask_decoder.transformer.layers.1.self_attn.k_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.q_proj.weight
+  mask_decoder.transformer.layers.1.mlp.lin1.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.1.bias
+  mask_decoder.iou_prediction_head.layers.1.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.2.weight
+  mask_decoder.transformer.layers.0.norm2.weight
+  mask_decoder.transformer.layers.0.norm3.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.bias
+  mask_decoder.transformer.layers.0.norm3.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight
+  mask_decoder.transformer.layers.1.norm3.weight
+  mask_decoder.transformer.final_attn_token_to_image.k_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.v_proj.bias
+  mask_decoder.transformer.layers.1.mlp.lin1.weight
+  mask_decoder.transformer.layers.0.self_attn.q_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.out_proj.weight
+  mask_decoder.transformer.final_attn_token_to_image.q_proj.bias
+  prompt_encoder.mask_downscaling.4.weight
+  mask_decoder.output_hypernetworks_mlps.3.layers.0.weight
+  mask_decoder.transformer.layers.0.norm1.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.0.weight
+  mask_decoder.iou_prediction_head.layers.0.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.v_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.v_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.0.bias
+  mask_decoder.transformer.final_attn_token_to_image.v_proj.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.1.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.0.bias
+  prompt_encoder.point_embeddings.0.weight
+  prompt_encoder.mask_downscaling.3.bias
+  mask_decoder.output_upscaling.3.bias
+  prompt_encoder.no_mask_embed.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.bias
+  mask_decoder.transformer.final_attn_token_to_image.out_proj.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.2.bias
+  mask_decoder.transformer.layers.1.mlp.lin2.weight
+  mask_decoder.transformer.layers.1.self_attn.out_proj.bias
+  mask_decoder.transformer.layers.1.norm2.bias
+  mask_decoder.transformer.norm_final_attn.weight
+  mask_decoder.transformer.final_attn_token_to_image.k_proj.bias
+  mask_decoder.transformer.layers.1.mlp.lin2.bias
+  mask_decoder.iou_token.weight
+  mask_decoder.transformer.layers.0.mlp.lin2.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.2.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.1.weight
+  prompt_encoder.mask_downscaling.0.weight
+  prompt_encoder.not_a_point_embed.weight
+  mask_decoder.transformer.layers.1.self_attn.q_proj.bias
+  mask_decoder.transformer.layers.0.mlp.lin1.bias
+  mask_decoder.output_hypernetworks_mlps.3.layers.2.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.1.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.bias
+  mask_decoder.output_upscaling.0.bias
+  mask_decoder.iou_prediction_head.layers.2.bias
+  mask_decoder.transformer.layers.0.self_attn.q_proj.weight
+  mask_decoder.output_hypernetworks_mlps.0.layers.1.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.0.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.1.weight
+  prompt_encoder.mask_downscaling.3.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.out_proj.weight
+  mask_decoder.transformer.norm_final_attn.bias
+  mask_decoder.output_hypernetworks_mlps.0.layers.1.weight
+  prompt_encoder.mask_downscaling.1.weight
+  mask_decoder.transformer.layers.1.norm1.bias
+  mask_decoder.transformer.final_attn_token_to_image.v_proj.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.2.bias
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.out_proj.bias
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.q_proj.weight
+  mask_decoder.transformer.layers.0.norm1.weight
+  mask_decoder.transformer.layers.0.self_attn.v_proj.bias
+  mask_decoder.transformer.layers.0.mlp.lin1.weight
+  mask_decoder.iou_prediction_head.layers.1.bias
+  mask_decoder.transformer.layers.0.norm4.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.v_proj.weight
+  mask_decoder.output_upscaling.3.weight
+  mask_decoder.output_hypernetworks_mlps.1.layers.0.weight
+  mask_decoder.transformer.layers.1.self_attn.out_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.q_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_image_to_token.k_proj.weight
+  mask_decoder.transformer.layers.0.cross_attn_token_to_image.k_proj.bias
+  mask_decoder.transformer.layers.0.self_attn.k_proj.weight
+  mask_decoder.transformer.layers.1.self_attn.k_proj.bias
+  mask_decoder.transformer.layers.1.norm3.bias
+  mask_decoder.transformer.layers.0.mlp.lin2.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.k_proj.weight
+  prompt_encoder.point_embeddings.1.weight
+  prompt_encoder.mask_downscaling.0.bias
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.out_proj.bias
+  prompt_encoder.mask_downscaling.1.bias
+  prompt_encoder.pe_layer.positional_encoding_gaussian_matrix
+  mask_decoder.transformer.layers.0.self_attn.out_proj.weight
+  prompt_encoder.point_embeddings.3.weight
+  mask_decoder.transformer.layers.0.cross_attn_image_to_token.k_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.v_proj.bias
+  mask_decoder.transformer.layers.1.norm4.weight
+  prompt_encoder.point_embeddings.2.weight
+  mask_decoder.transformer.layers.0.norm4.bias
+  mask_decoder.transformer.layers.1.self_attn.v_proj.weight
+  mask_decoder.iou_prediction_head.layers.2.weight
+  mask_decoder.transformer.final_attn_token_to_image.q_proj.weight
+  mask_decoder.output_upscaling.0.weight
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:612: UserWarning: Checkpoint directory /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder exists and is not empty.
+  rank_zero_warn(f"Checkpoint directory {dirpath} exists and is not empty.")
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name    | Type | Params
+---------------------------------
+0 | T_model | Sam  | 10.1 M
+1 | S_model | Sam  | 3.5 M 
+---------------------------------
+3.5 M     Trainable params
+10.1 M    Non-trainable params
+13.6 M    Total params
+27.281    Total estimated model params size (MB)
+  mask_decoder.transformer.layers.1.norm2.weight
+  mask_decoder.iou_prediction_head.layers.2.weight
+  mask_decoder.transformer.final_attn_token_to_image.k_proj.weight
+  mask_decoder.transformer.layers.1.norm2.bias
+S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth
+Training: 0it [00:00, ?it/s]Training:   0%|          | 0/31390 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/31390 [00:00<?, ?it/s]   mask_decoder.output_upscaling.1.weight
+  mask_decoder.transformer.layers.0.self_attn.v_proj.weight
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.out_proj.bias
+S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth
+  mask_decoder.output_hypernetworks_mlps.3.layers.0.bias
+  mask_decoder.output_hypernetworks_mlps.2.layers.0.bias
+  mask_decoder.transformer.layers.1.norm3.bias
+  prompt_encoder.point_embeddings.2.weight
+S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth
+  mask_decoder.output_hypernetworks_mlps.2.layers.0.bias
+  mask_decoder.transformer.layers.1.cross_attn_token_to_image.q_proj.weight
+  mask_decoder.output_hypernetworks_mlps.2.layers.2.bias
+S_model inited by /data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:131: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:131: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:131: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:131: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+Epoch 0:   0%|          | 1/31390 [00:06<53:11:58,  6.10s/it]Epoch 0:   0%|          | 1/31390 [00:06<53:13:09,  6.10s/it, loss=59.9, v_num=170, av_BS_IoU=0.0376, av_BS_dice=0.0669, av_BS_loss_focal=0.280, av_BS_loss_dice=0.951, av_BS_loss_IoU=0.973, distill_loss=30.00]Epoch 0:   0%|          | 2/31390 [00:07<31:34:47,  3.62s/it, loss=59.9, v_num=170, av_BS_IoU=0.0376, av_BS_dice=0.0669, av_BS_loss_focal=0.280, av_BS_loss_dice=0.951, av_BS_loss_IoU=0.973, distill_loss=30.00]Epoch 0:   0%|          | 2/31390 [00:07<31:35:18,  3.62s/it, loss=63, v_num=170, av_BS_IoU=0.321, av_BS_dice=0.476, av_BS_loss_focal=0.000941, av_BS_loss_dice=0.666, av_BS_loss_IoU=0.791, distill_loss=29.70] Epoch 0:   0%|          | 3/31390 [00:08<24:14:12,  2.78s/it, loss=63, v_num=170, av_BS_IoU=0.321, av_BS_dice=0.476, av_BS_loss_focal=0.000941, av_BS_loss_dice=0.666, av_BS_loss_IoU=0.791, distill_loss=29.70]Epoch 0:   0%|          | 3/31390 [00:08<24:14:30,  2.78s/it, loss=61.5, v_num=170, av_BS_IoU=0.0419, av_BS_dice=0.0787, av_BS_loss_focal=0.0043, av_BS_loss_dice=0.935, av_BS_loss_IoU=0.965, distill_loss=29.30]Epoch 0:   0%|          | 4/31390 [00:09<20:33:40,  2.36s/it, loss=61.5, v_num=170, av_BS_IoU=0.0419, av_BS_dice=0.0787, av_BS_loss_focal=0.0043, av_BS_loss_dice=0.935, av_BS_loss_IoU=0.965, distill_loss=29.30]Epoch 0:   0%|          | 4/31390 [00:09<20:33:56,  2.36s/it, loss=62, v_num=170, av_BS_IoU=0.458, av_BS_dice=0.628, av_BS_loss_focal=0.0321, av_BS_loss_dice=0.511, av_BS_loss_IoU=0.676, distill_loss=29.30]    Epoch 0:   0%|          | 5/31390 [00:11<19:12:17,  2.20s/it, loss=62, v_num=170, av_BS_IoU=0.458, av_BS_dice=0.628, av_BS_loss_focal=0.0321, av_BS_loss_dice=0.511, av_BS_loss_IoU=0.676, distill_loss=29.30]Epoch 0:   0%|          | 5/31390 [00:11<19:12:23,  2.20s/it, loss=61.6, v_num=170, av_BS_IoU=0.0546, av_BS_dice=0.101, av_BS_loss_focal=0.458, av_BS_loss_dice=0.939, av_BS_loss_IoU=0.968, distill_loss=30.00]Epoch 0:   0%|          | 6/31390 [00:12<18:08:11,  2.08s/it, loss=61.6, v_num=170, av_BS_IoU=0.0546, av_BS_dice=0.101, av_BS_loss_focal=0.458, av_BS_loss_dice=0.939, av_BS_loss_IoU=0.968, distill_loss=30.00]Epoch 0:   0%|          | 6/31390 [00:12<18:08:16,  2.08s/it, loss=61.1, v_num=170, av_BS_IoU=0.0866, av_BS_dice=0.155, av_BS_loss_focal=0.00153, av_BS_loss_dice=0.908, av_BS_loss_IoU=0.950, distill_loss=29.30]Epoch 0:   0%|          | 7/31390 [00:13<17:13:35,  1.98s/it, loss=61.1, v_num=170, av_BS_IoU=0.0866, av_BS_dice=0.155, av_BS_loss_focal=0.00153, av_BS_loss_dice=0.908, av_BS_loss_IoU=0.950, distill_loss=29.30]Epoch 0:   0%|          | 7/31390 [00:13<17:13:39,  1.98s/it, loss=60.7, v_num=170, av_BS_IoU=0.0969, av_BS_dice=0.173, av_BS_loss_focal=0.00278, av_BS_loss_dice=0.893, av_BS_loss_IoU=0.941, distill_loss=29.20]Epoch 0:   0%|          | 8/31390 [00:15<16:35:19,  1.90s/it, loss=60.7, v_num=170, av_BS_IoU=0.0969, av_BS_dice=0.173, av_BS_loss_focal=0.00278, av_BS_loss_dice=0.893, av_BS_loss_IoU=0.941, distill_loss=29.20]Epoch 0:   0%|          | 8/31390 [00:15<16:35:28,  1.90s/it, loss=60.4, v_num=170, av_BS_IoU=0.175, av_BS_dice=0.271, av_BS_loss_focal=0.00408, av_BS_loss_dice=0.797, av_BS_loss_IoU=0.876, distill_loss=29.20] Epoch 0:   0%|          | 9/31390 [00:19<18:42:34,  2.15s/it, loss=60.4, v_num=170, av_BS_IoU=0.175, av_BS_dice=0.271, av_BS_loss_focal=0.00408, av_BS_loss_dice=0.797, av_BS_loss_IoU=0.876, distill_loss=29.20]Epoch 0:   0%|          | 9/31390 [00:19<18:42:42,  2.15s/it, loss=60, v_num=170, av_BS_IoU=0.137, av_BS_dice=0.234, av_BS_loss_focal=0.00274, av_BS_loss_dice=0.865, av_BS_loss_IoU=0.926, distill_loss=28.50]  Epoch 0:   0%|          | 10/31390 [00:20<18:00:17,  2.07s/it, loss=60, v_num=170, av_BS_IoU=0.137, av_BS_dice=0.234, av_BS_loss_focal=0.00274, av_BS_loss_dice=0.865, av_BS_loss_IoU=0.926, distill_loss=28.50]Epoch 0:   0%|          | 10/31390 [00:20<18:00:26,  2.07s/it, loss=59.7, v_num=170, av_BS_IoU=0.137, av_BS_dice=0.232, av_BS_loss_focal=0.0226, av_BS_loss_dice=0.794, av_BS_loss_IoU=0.881, distill_loss=28.50]Epoch 0:   0%|          | 11/31390 [00:25<20:07:10,  2.31s/it, loss=59.7, v_num=170, av_BS_IoU=0.137, av_BS_dice=0.232, av_BS_loss_focal=0.0226, av_BS_loss_dice=0.794, av_BS_loss_IoU=0.881, distill_loss=28.50]Epoch 0:   0%|          | 11/31390 [00:25<20:07:21,  2.31s/it, loss=59.9, v_num=170, av_BS_IoU=0.418, av_BS_dice=0.573, av_BS_loss_focal=0.00818, av_BS_loss_dice=0.470, av_BS_loss_IoU=0.622, distill_loss=28.70]Epoch 0:   0%|          | 12/31390 [00:27<19:40:48,  2.26s/it, loss=59.9, v_num=170, av_BS_IoU=0.418, av_BS_dice=0.573, av_BS_loss_focal=0.00818, av_BS_loss_dice=0.470, av_BS_loss_IoU=0.622, distill_loss=28.70]Epoch 0:   0%|          | 12/31390 [00:27<19:40:50,  2.26s/it, loss=60.2, v_num=170, av_BS_IoU=0.263, av_BS_dice=0.405, av_BS_loss_focal=0.0192, av_BS_loss_dice=0.605, av_BS_loss_IoU=0.745, distill_loss=27.80] Epoch 0:   0%|          | 13/31390 [00:28<18:48:13,  2.16s/it, loss=60.2, v_num=170, av_BS_IoU=0.263, av_BS_dice=0.405, av_BS_loss_focal=0.0192, av_BS_loss_dice=0.605, av_BS_loss_IoU=0.745, distill_loss=27.80]Epoch 0:   0%|          | 13/31390 [00:28<18:48:18,  2.16s/it, loss=60.2, v_num=170, av_BS_IoU=0.449, av_BS_dice=0.620, av_BS_loss_focal=0.0336, av_BS_loss_dice=0.399, av_BS_loss_IoU=0.570, distill_loss=28.10]Epoch 0:   0%|          | 14/31390 [00:29<18:40:09,  2.14s/it, loss=60.2, v_num=170, av_BS_IoU=0.449, av_BS_dice=0.620, av_BS_loss_focal=0.0336, av_BS_loss_dice=0.399, av_BS_loss_IoU=0.570, distill_loss=28.10]Epoch 0:   0%|          | 14/31390 [00:29<18:40:14,  2.14s/it, loss=60.3, v_num=170, av_BS_IoU=0.387, av_BS_dice=0.556, av_BS_loss_focal=0.000123, av_BS_loss_dice=0.473, av_BS_loss_IoU=0.641, distill_loss=28.40]Epoch 0:   0%|          | 15/31390 [00:31<18:06:48,  2.08s/it, loss=60.3, v_num=170, av_BS_IoU=0.387, av_BS_dice=0.556, av_BS_loss_focal=0.000123, av_BS_loss_dice=0.473, av_BS_loss_IoU=0.641, distill_loss=28.40]Epoch 0:   0%|          | 15/31390 [00:31<18:06:53,  2.08s/it, loss=60, v_num=170, av_BS_IoU=0.236, av_BS_dice=0.381, av_BS_loss_focal=0.00178, av_BS_loss_dice=0.625, av_BS_loss_IoU=0.770, distill_loss=27.80]   Epoch 0:   0%|          | 16/31390 [00:32<17:32:21,  2.01s/it, loss=60, v_num=170, av_BS_IoU=0.236, av_BS_dice=0.381, av_BS_loss_focal=0.00178, av_BS_loss_dice=0.625, av_BS_loss_IoU=0.770, distill_loss=27.80]Epoch 0:   0%|          | 16/31390 [00:32<17:32:23,  2.01s/it, loss=59.7, v_num=170, av_BS_IoU=0.0724, av_BS_dice=0.132, av_BS_loss_focal=0.122, av_BS_loss_dice=0.857, av_BS_loss_IoU=0.921, distill_loss=27.60]Epoch 0:   0%|          | 17/31390 [00:34<17:35:45,  2.02s/it, loss=59.7, v_num=170, av_BS_IoU=0.0724, av_BS_dice=0.132, av_BS_loss_focal=0.122, av_BS_loss_dice=0.857, av_BS_loss_IoU=0.921, distill_loss=27.60]Epoch 0:   0%|          | 17/31390 [00:34<17:35:47,  2.02s/it, loss=59.6, v_num=170, av_BS_IoU=0.452, av_BS_dice=0.622, av_BS_loss_focal=0.00238, av_BS_loss_dice=0.442, av_BS_loss_IoU=0.613, distill_loss=27.30]Epoch 0:   0%|          | 18/31390 [00:36<17:28:01,  2.00s/it, loss=59.6, v_num=170, av_BS_IoU=0.452, av_BS_dice=0.622, av_BS_loss_focal=0.00238, av_BS_loss_dice=0.442, av_BS_loss_IoU=0.613, distill_loss=27.30]Epoch 0:   0%|          | 18/31390 [00:36<17:28:04,  2.00s/it, loss=59.5, v_num=170, av_BS_IoU=0.374, av_BS_dice=0.528, av_BS_loss_focal=0.00283, av_BS_loss_dice=0.466, av_BS_loss_IoU=0.624, distill_loss=26.70]Epoch 0:   0%|          | 19/31390 [00:37<17:13:17,  1.98s/it, loss=59.5, v_num=170, av_BS_IoU=0.374, av_BS_dice=0.528, av_BS_loss_focal=0.00283, av_BS_loss_dice=0.466, av_BS_loss_IoU=0.624, distill_loss=26.70]Epoch 0:   0%|          | 19/31390 [00:37<17:13:20,  1.98s/it, loss=59.4, v_num=170, av_BS_IoU=0.364, av_BS_dice=0.532, av_BS_loss_focal=0.0223, av_BS_loss_dice=0.483, av_BS_loss_IoU=0.650, distill_loss=26.50] Epoch 0:   0%|          | 20/31390 [00:39<17:03:58,  1.96s/it, loss=59.4, v_num=170, av_BS_IoU=0.364, av_BS_dice=0.532, av_BS_loss_focal=0.0223, av_BS_loss_dice=0.483, av_BS_loss_IoU=0.650, distill_loss=26.50]Epoch 0:   0%|          | 20/31390 [00:39<17:04:01,  1.96s/it, loss=59.2, v_num=170, av_BS_IoU=0.496, av_BS_dice=0.653, av_BS_loss_focal=0.00347, av_BS_loss_dice=0.352, av_BS_loss_IoU=0.510, distill_loss=25.60]Epoch 0:   0%|          | 21/31390 [00:40<16:48:07,  1.93s/it, loss=59.2, v_num=170, av_BS_IoU=0.496, av_BS_dice=0.653, av_BS_loss_focal=0.00347, av_BS_loss_dice=0.352, av_BS_loss_IoU=0.510, distill_loss=25.60]Epoch 0:   0%|          | 21/31390 [00:40<16:48:09,  1.93s/it, loss=58.8, v_num=170, av_BS_IoU=0.649, av_BS_dice=0.787, av_BS_loss_focal=1.77e-5, av_BS_loss_dice=0.219, av_BS_loss_IoU=0.359, distill_loss=25.70]Epoch 0:   0%|          | 22/31390 [00:41<16:33:35,  1.90s/it, loss=58.8, v_num=170, av_BS_IoU=0.649, av_BS_dice=0.787, av_BS_loss_focal=1.77e-5, av_BS_loss_dice=0.219, av_BS_loss_IoU=0.359, distill_loss=25.70]Epoch 0:   0%|          | 22/31390 [00:41<16:33:38,  1.90s/it, loss=58.4, v_num=170, av_BS_IoU=0.390, av_BS_dice=0.537, av_BS_loss_focal=0.000896, av_BS_loss_dice=0.465, av_BS_loss_IoU=0.613, distill_loss=26.60]Error occurred while processing images: ['000000217433.jpg']
+Error details: CUDA out of memory. Tried to allocate 92.00 MiB (GPU 0; 10.76 GiB total capacity; 2.09 GiB already allocated; 63.12 MiB free; 2.13 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+Traceback (most recent call last):
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 36, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 88, in launch
+    return function(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1103, in _run
+    results = self._run_stage()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1182, in _run_stage
+    self._run_train()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1205, in _run_train
+    self.fit_loop.run()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
+    self._outputs = self.epoch_loop.run(self._data_fetcher)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
+    batch_output = self.batch_loop.run(kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
+    outputs = self.optimizer_loop.run(optimizers, kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
+    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 249, in _run_optimization
+    self._optimizer_step(optimizer, opt_idx, kwargs.get("batch_idx", 0), closure)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 370, in _optimizer_step
+    self.trainer._call_lightning_module_hook(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1347, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/core/module.py", line 1744, in optimizer_step
+    optimizer.step(closure=optimizer_closure)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/core/optimizer.py", line 169, in step
+    step_output = self._strategy.optimizer_step(self._optimizer, self._optimizer_idx, closure, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 280, in optimizer_step
+    optimizer_output = super().optimizer_step(optimizer, opt_idx, closure, model, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/strategy.py", line 234, in optimizer_step
+    return self.precision_plugin.optimizer_step(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/plugins/precision/native_amp.py", line 75, in optimizer_step
+    closure_result = closure()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
+    step_output = self._step_fn()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
+    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1485, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 351, in training_step
+    return self.model(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 1008, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 969, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/overrides/base.py", line 98, in forward
+    output = self._forward_module.training_step(*inputs, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 290, in training_step
+    outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 283, in forward
+    raise e
+  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 163, in forward
+    low_res_masks, iou_predictions = self.T_model.mask_decoder(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/mask_decoder.py", line 99, in forward
+    masks, iou_pred = self.predict_masks(
+  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/mask_decoder.py", line 158, in predict_masks
+    chunk_hs, chunk_src = self.transformer(chunk_src, chunk_pos_src, chunk_tokens)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/transformer.py", line 92, in forward
+    queries, keys = layer(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/transformer.py", line 180, in forward
+    keys = self.norm4(keys)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/normalization.py", line 189, in forward
+    return F.layer_norm(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/functional.py", line 2503, in layer_norm
+    return torch.layer_norm(input, normalized_shape, weight, bias, eps, torch.backends.cudnn.enabled)
+RuntimeError: CUDA out of memory. Tried to allocate 92.00 MiB (GPU 0; 10.76 GiB total capacity; 2.09 GiB already allocated; 63.12 MiB free; 2.13 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data2/wuxinrui/RA-L/MobileSAM/distill_tiny_msam.py", line 204, in <module>
+    main()
+  File "/data2/wuxinrui/RA-L/MobileSAM/distill_tiny_msam.py", line 190, in main
+    trainer.fit(model)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 608, in fit
+    call._call_and_handle_interrupt(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 59, in _call_and_handle_interrupt
+    trainer.strategy.reconciliate_processes(traceback.format_exc())
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 460, in reconciliate_processes
+    raise DeadlockDetectedException(f"DeadLock detected from rank: {self.global_rank} \n {trace}")
+pytorch_lightning.utilities.exceptions.DeadlockDetectedException: DeadLock detected from rank: 0 
+ Traceback (most recent call last):
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 36, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 88, in launch
+    return function(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 650, in _fit_impl
+    self._run(model, ckpt_path=self.ckpt_path)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1103, in _run
+    results = self._run_stage()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1182, in _run_stage
+    self._run_train()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1205, in _run_train
+    self.fit_loop.run()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 267, in advance
+    self._outputs = self.epoch_loop.run(self._data_fetcher)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 213, in advance
+    batch_output = self.batch_loop.run(kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/batch/training_batch_loop.py", line 88, in advance
+    outputs = self.optimizer_loop.run(optimizers, kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 199, in run
+    self.advance(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 202, in advance
+    result = self._run_optimization(kwargs, self._optimizers[self.optim_progress.optimizer_position])
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 249, in _run_optimization
+    self._optimizer_step(optimizer, opt_idx, kwargs.get("batch_idx", 0), closure)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 370, in _optimizer_step
+    self.trainer._call_lightning_module_hook(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1347, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/core/module.py", line 1744, in optimizer_step
+    optimizer.step(closure=optimizer_closure)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/core/optimizer.py", line 169, in step
+    step_output = self._strategy.optimizer_step(self._optimizer, self._optimizer_idx, closure, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 280, in optimizer_step
+    optimizer_output = super().optimizer_step(optimizer, opt_idx, closure, model, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/strategy.py", line 234, in optimizer_step
+    return self.precision_plugin.optimizer_step(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/plugins/precision/native_amp.py", line 75, in optimizer_step
+    closure_result = closure()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 149, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 135, in closure
+    step_output = self._step_fn()
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/optimizer_loop.py", line 419, in _training_step
+    training_step_output = self.trainer._call_strategy_hook("training_step", *kwargs.values())
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1485, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/strategies/ddp.py", line 351, in training_step
+    return self.model(*args, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 1008, in forward
+    output = self._run_ddp_forward(*inputs, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/parallel/distributed.py", line 969, in _run_ddp_forward
+    return module_to_run(*inputs[0], **kwargs[0])
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/pytorch_lightning/overrides/base.py", line 98, in forward
+    output = self._forward_module.training_step(*inputs, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 290, in training_step
+    outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 283, in forward
+    raise e
+  File "/data2/wuxinrui/RA-L/MobileSAM/DistillFinetune/Imgencoder_Distill.py", line 163, in forward
+    low_res_masks, iou_predictions = self.T_model.mask_decoder(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/mask_decoder.py", line 99, in forward
+    masks, iou_pred = self.predict_masks(
+  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/mask_decoder.py", line 158, in predict_masks
+    chunk_hs, chunk_src = self.transformer(chunk_src, chunk_pos_src, chunk_tokens)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/transformer.py", line 92, in forward
+    queries, keys = layer(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/transformer.py", line 180, in forward
+    keys = self.norm4(keys)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/modules/normalization.py", line 189, in forward
+    return F.layer_norm(
+  File "/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/torch/nn/functional.py", line 2503, in layer_norm
+    return torch.layer_norm(input, normalized_shape, weight, bias, eps, torch.backends.cudnn.enabled)
+RuntimeError: CUDA out of memory. Tried to allocate 92.00 MiB (GPU 0; 10.76 GiB total capacity; 2.09 GiB already allocated; 63.12 MiB free; 2.13 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+Epoch 0:   0%|          | 22/31390 [00:50<20:03:40,  2.30s/it, loss=58.4, v_num=170, av_BS_IoU=0.390, av_BS_dice=0.537, av_BS_loss_focal=0.000896, av_BS_loss_dice=0.465, av_BS_loss_IoU=0.613, distill_loss=26.60]
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/data2/wuxinrui/anaconda/envs/mobilesam/lib/python3.9/site-packages/timm/models/registry.py:4: FutureWarning: Importing from timm.models.registry is deprecated, please import via timm.models
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.models", FutureWarning)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_5m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_5m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_11m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_11m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_224 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_224. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_384 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_384. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
+/data2/wuxinrui/RA-L/MobileSAM/mobile_sam/modeling/tiny_vit_sam.py:667: UserWarning: Overwriting tiny_vit_21m_512 in registry with mobile_sam.modeling.tiny_vit_sam.tiny_vit_21m_512. This is because the name being registered conflicts with an existing name. Please check if this is not expected.
+  return register_model(fn_wrapper)
