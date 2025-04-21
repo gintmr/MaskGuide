@@ -14,6 +14,9 @@ from DistillFinetune.Imgencoder_Distill import Imgencoder_Distill
 # module.py
 from Datasets.coco import Coco2MaskDataset
 
+from Tools_weights.trans_ckpt import trans_ckpt
+
+
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
 DEVICE = 'cuda'
@@ -78,7 +81,7 @@ def main():
     parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
     parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", type=str, required=False, help="path to the checkpoint")
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/weights_prune_init/init_weights_wxr_t.pth", type=str, required=False, help="path to the checkpoint")
-    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_1epoch.pth", type=str, required=False, help="path to the checkpoint")
+    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_2epoch.pth", type=str, required=False, help="path to the checkpoint")
 
     # 添加一个名为multimask的参数，类型为布尔型，默认值为False，当该参数被指定时，其值为True，用于生成多掩码
     parser.add_argument("--multimask", action="store_true", help="generate multi masks")
@@ -93,7 +96,7 @@ def main():
     parser.add_argument("--num_points", type=int, default=6, help="number of random points")
     parser.add_argument("--length", type=int, default=100, help="the length of the chosen masks")
 
-    parser.add_argument("--learning_rate", type=float, default=5.0e-3, help="learning rate")
+    parser.add_argument("--learning_rate", type=float, default=5.0e-5, help="learning rate")
     parser.add_argument("--weight_decay", type=float, default=1e-2, help="weight decay")
     parser.add_argument("--metrics_interval", type=int, default=500, help="interval for logging metrics")
 
@@ -135,6 +138,13 @@ def main():
             os.mkdir(output_dir)
 
         # create the model
+        if ".ckpt" in  args.S_checkpoint_path:
+            temp_checkpoint_path = trans_ckpt(args.S_checkpoint_path)
+        else:
+            temp_checkpoint_path = args.S_checkpoint_path
+        
+        args.S_checkpoint_path = temp_checkpoint_path
+        
         model = Imgencoder_Distill(
             args.T_model,
             args.S_model,

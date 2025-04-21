@@ -6,6 +6,8 @@ import numpy as np
 import os 
 import random
 from eval_tools import calculate_pa_iou, overlay_mask_on_image,overlay_point_on_image, combine_visualize_results, calculate_segmentation_losses
+from Tools_finetune.finetuner import finetune
+
 
 def feature_distillation_loss(T_features, S_features, T_layers_features, S_layers_features, RATE, reduction='mean', alpha=0.5, beta=0.1):
     """
@@ -87,7 +89,7 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             multimask=False,
             use_bbox=False,
             max_steps=10000,
-            distill_weight=2  # 新增参数：蒸馏权重
+            distill_weight=6  # 新增参数：蒸馏权重
     ):
         super(Imgencoder_Distill, self).__init__(
             T_model=T_model,
@@ -142,6 +144,9 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                     resized_input_size_item: middle阶段图像尺寸 => H1,W1(未填充成正方形)
                     img: 填充成正方形(resized_input_size_item的长边)
                     '''
+                    step = self.current_epoch
+                    finetune(feature=S_feature, bbox=bbox, label=label, center_point=center_point, point_label=point_label, target_label=target_label, original_input_size_item=original_input_size_item, resized_input_size_item=resized_input_size_item, coco_image_name=coco_image_name, img=img, training_visual_path=f"/data2/wuxinrui/RA-L/MobileSAM/training_visual_distill/{step}", self=self)
+                    
                     if random.random() < 0.8:
                         self.use_bbox  = False
                     else:
@@ -153,7 +158,7 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                     
                     
                     sparse_embeddings, dense_embeddings = self.T_model.prompt_encoder(
-                        points=(center_point, point_label),  #
+                        points=(center_point, point_label),
                         boxes=bbox_input,
                         masks=None,
                     )
@@ -229,7 +234,6 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                     point_array = overlay_point_on_image(center_point, image_array=img, array_out=True, save_img=False)
                     combine_visualize_results(pred_mask_array, GT_mask_array, point_array, output_path_combined)
                     
-
                     #G check to avoid too many images in the folder
                     image_files = [f for f in os.listdir(training_visual_path) if f.endswith(('_combined.jpg'))]
                     if len(image_files) > 100:

@@ -1,0 +1,156 @@
+import torch
+import torch
+import torch.nn.functional as F
+from torch.cuda.amp import autocast
+import numpy as np
+import os 
+import random
+from eval_tools import calculate_pa_iou, overlay_mask_on_image,overlay_point_on_image, combine_visualize_results, calculate_segmentation_losses
+import random
+
+
+def finetune(**kwargs):
+    feature, bbox, label, center_point, point_label, target_label, original_input_size_item, resized_input_size_item, coco_image_name, img = kwargs['feature'], kwargs['bbox'], kwargs['label'], kwargs['center_point'], kwargs['point_label'], kwargs['target_label'], kwargs['original_input_size_item'], kwargs['resized_input_size_item'], kwargs['coco_image_name'], kwargs['img']
+
+
+    image_encoder, prompt_encoder, mask_decoder = kwargs['image_encoder'], kwargs['prompt_encoder'], kwargs['mask_decoder']
+    
+    multimask = kwargs['multimask']
+    current_epoch = kwargs['current_epoch']
+    training_visual_path = kwargs['training_visual_path']
+    
+    if random.random() < 0.8:
+        use_bbox  = False
+    else:
+        use_bbox  = True
+    if use_bbox:
+        bbox_input=bbox
+    else:
+        bbox_input=None
+
+    sparse_embeddings, dense_embeddings = prompt_encoder(
+        points=(center_point, point_label),  #
+        boxes=bbox_input,
+        masks=None,
+    )
+    torch.cuda.empty_cache()
+
+
+    # Predict masks
+    low_res_masks, iou_predictions = mask_decoder(
+        image_embeddings=feature.unsqueeze(0),
+        # image_embeddings=feature, #G 此处是predictor中的写法
+        image_pe=prompt_encoder.get_dense_pe(),
+        sparse_prompt_embeddings=sparse_embeddings,
+        dense_prompt_embeddings=dense_embeddings,
+        multimask_output=multimask,
+    )
+    torch.cuda.empty_cache()
+    
+    # Upscale the masks to the original image resolution
+    masks = F.interpolate(
+        low_res_masks,
+        (image_encoder.img_size, image_encoder.img_size),
+        mode="bilinear",
+        align_corners=False,
+    ) ## self.model.image_encoder.img_size在vit_t设置下为1024
+    torch.cuda.empty_cache()
+    del low_res_masks
+    
+
+    resized_height, resized_width = img.shape[1], img.shape[2]
+    masks = masks[..., : resized_height, : resized_width]
+    # masks = F.interpolate(masks, original_input_size_item, mode="bilinear", align_corners=False)
+    torch.cuda.empty_cache()
+
+
+    b,c,h,w=masks.shape
+    if multimask:
+        label = torch.repeat_interleave(label.unsqueeze(1), masks.shape[1], dim=1).view(b*3,-1,h,w)
+        masks = masks.view(b*3,-1,h,w)
+        iou_predictions = iou_predictions.reshape(-1,1)
+    else:
+        label = label.unsqueeze(1)
+        #!------------设置metric-size，减少计算量------------
+    # metric_size_item = (int(original_input_size_item[0]) // 2, int(original_input_size_item[1]) // 2)
+    # label = F.interpolate(label.float(), metric_size_item, mode="bilinear", align_corners=False)
+    # label = label.int()
+    # masks = F.interpolate(masks, metric_size_item, mode="bilinear", align_corners=False)
+    # assert masks.shape == label.shape, f"Masks shape {masks.shape} and label shape {label.shape} do not match"
+        #!------------设置metric-size，减少计算量------------
+    
+    #G ------- 计算IoU + 可视化输出--------G#
+    pred_masks = masks.squeeze(1)
+    iou_label = label.squeeze(1)
+    torch.cuda.empty_cache()
+    loss_dict = calculate_segmentation_losses(pred_masks, iou_label)
+    
+    single_img_loss_IoU = loss_dict['iou_loss']
+    single_img_loss_dice = loss_dict['dice_loss']
+    single_img_loss_focal = loss_dict['focal_loss']
+    single_img_iou = loss_dict['iou']
+    single_img_dice = loss_dict['dice']
+    
+    ext_name = coco_image_name.split('.')[-1]
+    step = current_epoch
+    training_visual_path = f"/data2/wuxinrui/RA-L/MobileSAM/training_visual_sft/{step}"
+    if not os.path.exists(training_visual_path):
+        os.makedirs(training_visual_path, exist_ok=True)
+    #G 1% to save images
+    # if random.random() < 0.03:
+    output_path_combined = os.path.join(training_visual_path, f"{step}_{coco_image_name.replace(ext_name, '_combined.jpg')}")
+
+
+    pred_mask_array = overlay_mask_on_image(pred_masks, image_array=img, array_out=True, save_img=False)
+    GT_mask_array = overlay_mask_on_image(iou_label, image_array=img, array_out=True, save_img=False)
+    point_array = overlay_point_on_image(center_point, image_array=img, array_out=True, save_img=False)
+    combine_visualize_results(pred_mask_array, GT_mask_array, point_array, output_path_combined)
+    
+
+    #G check to avoid too many images in the folder
+    image_files = [f for f in os.listdir(training_visual_path) if f.endswith(('_combined.jpg'))]
+    if len(image_files) > 100:
+        #G randomly select three file prefixes
+        random_prefixes = random.sample(set(f.split('_combined.jpg')[0] for f in image_files), 3)
+        for prefix in random_prefixes:
+            suffix = ('_combined.jpg')
+            file_to_delete = os.path.join(training_visual_path, f"{prefix}{suffix}")
+            if os.path.exists(file_to_delete):
+                try: #G 防止误删可视化图后报错
+                    os.remove(file_to_delete)
+                except:
+                    pass
+    #G ------- 计算IoU + 可视化输出--------G#
+
+    
+    # penalty_coefficient = 0.5 * (1 + single_img_iou)
+    penalty_coefficient = np.log2(1.05 + single_img_iou)
+    single_LOSS = (15 * single_img_loss_focal + 1.5 * single_img_loss_dice + 2.5 * single_img_loss_IoU) / penalty_coefficient if single_img_iou > 0.25 else 0
+    #g 排除低质样本的副作用
+    BS_LOSS += single_LOSS
+    BS_loss_IoU += single_img_loss_IoU
+    BS_loss_dice += single_img_loss_dice
+    BS_loss_focal += single_img_loss_focal
+    
+    BS_IoU += single_img_iou
+    BS_dice += single_img_dice
+    
+BS = len(imgs)
+av_BS_IoU = BS_IoU / BS
+av_BS_dice = BS_dice / BS
+av_BS_loss_IoU = BS_loss_IoU / BS
+av_BS_loss_dice = BS_loss_dice / BS
+av_BS_loss_focal = BS_loss_focal / BS
+
+# if not isinstance(BS_LOSS, torch.Tensor):
+#     BS_LOSS = torch.tensor(BS_LOSS, device=device)
+
+return {
+    'av_BS_IoU': av_BS_IoU,
+    'av_BS_dice': av_BS_dice,
+    'loss': BS_LOSS,
+    'av_BS_loss_focal': av_BS_loss_focal,
+    'av_BS_loss_dice': av_BS_loss_dice,
+    'av_BS_loss_IoU': av_BS_loss_IoU,
+}
+

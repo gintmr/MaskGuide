@@ -13,6 +13,7 @@ from torch.utils.data import Dataset
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
+from torch.utils.data import ConcatDataset
 
 from mobile_sam.utils.transforms import ResizeLongestSide
 from eval_tools import get_bool_mask_from_segmentation, random_croods_in_mask, clean_checkpoint_path
@@ -29,7 +30,7 @@ NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
 DEVICE = 'cuda'
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:32'
 os.environ['INFERENCE_MODE'] = "train"
-
+os.environ['MODEL_MODE'] = "test"
 # torch.cuda.set_per_process_memory_fraction(0.9, device=0)
 # torch.cuda.set_per_process_memory_fraction(0.9, device=1)  
 # torch.cuda.set_per_process_memory_fraction(0.9, device=2)  
@@ -39,33 +40,52 @@ os.environ['INFERENCE_MODE'] = "train"
 
 def main():
     parser = argparse.ArgumentParser()
+
     
+    #################G MIMC
     # parser.add_argument("--train_data", default="/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/seen/train_list", type=str, required=False, help="path to the data root")
     # parser.add_argument("--train_anno", default="/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/train-taxonomic_cleaned.json", type=str, required=False, help="path to the annotation file")
 
     # parser.add_argument("--val_data", default="/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/seen/val_list", type=str, required=False, help="path to the data root")
     # parser.add_argument('--val_anno', default="/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/val-taxonomic_cleaned.json", )
     
-    
-    parser.add_argument("--train_data", default="/data2/wuxinrui/RA-L/MobileSAM/NEW_MIMC/images/train", type=str, required=False, help="path to the data root")
-    parser.add_argument("--train_anno", default="/data2/wuxinrui/RA-L/MobileSAM/NEW_MIMC/annotations/train.json", type=str, required=False, help="path to the annotation file")
+    ################G MIMC_1024
+    parser.add_argument("--train_data_MIMC", default="/data2/wuxinrui/RA-L/MobileSAM/NEW_MIMC_1024/images/train", type=str, required=False, help="path to the data root")
+    parser.add_argument("--train_anno_MIMC", default="/data2/wuxinrui/RA-L/MobileSAM/NEW_MIMC_1024/annotations/train.json", type=str, required=False, help="path to the annotation file")
 
-    parser.add_argument("--val_data", default="/data2/wuxinrui/RA-L/MobileSAM/NEW_MIMC/images/val", type=str, required=False, help="path to the data root")
-    parser.add_argument('--val_anno', default="/data2/wuxinrui/RA-L/MobileSAM/NEW_MIMC/annotations/val.json", )
+    parser.add_argument("--val_data_MIMC", default="/data2/wuxinrui/RA-L/MobileSAM/NEW_MIMC_1024/images/val", type=str, required=False, help="path to the data root")
+    parser.add_argument('--val_anno_MIMC', default="/data2/wuxinrui/RA-L/MobileSAM/NEW_MIMC_1024/annotations/val.json", )
     
-    # parser.add_argument("--train_data", default="/data2/wuxinrui/Datasets/COCO/images/train2017", type=str, required=False, help="path to the data root")
-    # parser.add_argument("--train_anno", default="/data2/wuxinrui/Datasets/COCO/annotations/instances_train2017_sampled_3.json", type=str, required=False, help="path to the annotation file")
+    #############G COCO
+    parser.add_argument("--train_data_COCO", default="/data2/wuxinrui/Datasets/COCO/images/train2017", type=str, required=False, help="path to the data root")
+    parser.add_argument("--train_anno_COCO", default="/data2/wuxinrui/Datasets/COCO/annotations/instances_train2017.json", type=str, required=False, help="path to the annotation file")
 
-    # parser.add_argument("--val_data", default="/data2/wuxinrui/Datasets/COCO/images/val2017", type=str, required=False, help="path to the data root")
-    # parser.add_argument('--val_anno', default="/data2/wuxinrui/Datasets/COCO/annotations/instances_val2017_sampled_2000.json", type=str, required=False, help="path to the annotation file")
+    parser.add_argument("--val_data_COCO", default="/data2/wuxinrui/Datasets/COCO/images/val2017", type=str, required=False, help="path to the data root")
+    parser.add_argument('--val_anno_COCO', default="/data2/wuxinrui/Datasets/COCO/annotations/instances_val2017_sampled_2000.json", type=str, required=False, help="path to the annotation file")
+    
+    # #############G VOC
+    # parser.add_argument("--train_data", default="/data2/wuxinrui/Datasets/VOCdevkit/VOC2007/JPEGImages", type=str, required=False, help="path to the data root")
+    # parser.add_argument("--train_anno", default="/data2/wuxinrui/Datasets/VOCdevkit/VOC2007/COCO_Annotations/train2017.json", type=str, required=False, help="path to the annotation file")
+
+    # parser.add_argument("--val_data", default="/data2/wuxinrui/Datasets/VOCdevkit/VOC2007/JPEGImages", type=str, required=False, help="path to the data root")
+    # parser.add_argument('--val_anno', default="/data2/wuxinrui/Datasets/VOCdevkit/VOC2007/COCO_Annotations/val2017.json", type=str, required=False, help="path to the annotation file") 
+    
+    
+    #############G cityscapes
+    # parser.add_argument("--train_data", default="/data2/wuxinrui/Datasets/Cityscapes/gtFine_trainvaltest/gtFine/train", type=str, required=False, help="path to the data root")
+    # parser.add_argument("--train_anno", default="/data2/wuxinrui/Datasets/Cityscapes/COCO(cityscapes)/instancesonly_filtered_gtFine_train.json", type=str, required=False, help="path to the annotation file")
+
+    # parser.add_argument("--val_data", default="/data2/wuxinrui/Datasets/Cityscapes/gtFine_trainvaltest/gtFine/val", type=str, required=False, help="path to the data root")
+    # parser.add_argument('--val_anno', default="/data2/wuxinrui/Datasets/Cityscapes/COCO(cityscapes)/instancesonly_filtered_gtFine_val.json", type=str, required=False, help="path to the annotation file") 
+    
     
 
-    parser.add_argument("--model_type", default='vit_t', type=str, required=False, help="model type")
+    parser.add_argument("--model_type", default='tiny_msam', type=str, required=False, help="model type")
     # parser.add_argument("--checkpoint_path", default="weights/mobile_sam.pt", type=str, required=False, help="path to the checkpoint")
-    parser.add_argument("--checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/wxr_modified_mobilesam/random_point_v2.pth", type=str, required=False, help="path to the checkpoint")
-    parser.add_argument("--freeze_image_encoder", default=True, action="store_true", help="freeze image encoder")
-    parser.add_argument("--freeze_prompt_encoder", default=False, action="store_true", help="freeze prompt encoder")
-    parser.add_argument("--freeze_mask_decoder", default=False, action="store_true", help="freeze mask decoder")
+    parser.add_argument("--checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_2epoch.pth", type=str, required=False, help="path to the checkpoint")
+    parser.add_argument("--freeze_image_encoder", default=False, action="store_true", help="freeze image encoder")
+    parser.add_argument("--freeze_prompt_encoder", default=True, action="store_true", help="freeze prompt encoder")
+    parser.add_argument("--freeze_mask_decoder", default=True, action="store_true", help="freeze mask decoder")
     # 添加一个名为multimask的参数，类型为布尔型，默认值为False，当该参数被指定时，其值为True，用于生成多掩码
     parser.add_argument("--multimask", action="store_true", help="generate multi masks")
     # 添加一个名为use_bbox的参数，类型为布尔型，默认值为False，当该参数被指定时，其值为True，用于生成多掩码
@@ -77,7 +97,7 @@ def main():
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
     parser.add_argument("--steps", type=int, default=200000, help="number of steps")
     parser.add_argument("--num_points", type=int, default=6, help="number of random points")
-    parser.add_argument("--length", type=int, default=50, help="the length of the chosen masks")
+    parser.add_argument("--length", type=int, default=100, help="the length of the chosen masks")
 
     parser.add_argument("--learning_rate", type=float, default=2.0e-6, help="learning rate")
     parser.add_argument("--weight_decay", type=float, default=1e-2, help="weight decay")
@@ -91,15 +111,40 @@ def main():
     parser.add_argument("--log_dir", default="./metrics_logs/wxr_modified_mobilesam")
 
     args = parser.parse_args()
+    
+    class combined_datasets(ConcatDataset):
+        def __init__(self, datasets):
+            super().__init__(datasets)
+        @classmethod
+        def collate_fn(cls, batch):
+            images, bboxes, masks, center_points, point_labels, img_name, category_ids ,original_input_size, resized_input_size, coco_image_names = zip(*batch)
+            images = torch.stack(images, dim=0)
+            return images, bboxes, masks, center_points, point_labels, img_name, category_ids, original_input_size, resized_input_size, coco_image_names
+            
     if not os.path.exists(args.output_dir):
         os.mkdir(args.output_dir)
     # load the dataset
-    train_dataset = Coco2MaskDataset(data_root=args.train_data, annotation_path=args.train_anno, image_size=args.image_size,
+    train_dataset_MIMC = Coco2MaskDataset(data_root=args.train_data_MIMC, annotation_path=args.train_anno_MIMC, image_size=args.image_size,
                                      length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
-    val_dataset = Coco2MaskDataset(data_root=args.val_data, annotation_path=args.val_anno, image_size=args.image_size,
+    val_dataset_MIMC = Coco2MaskDataset(data_root=args.val_data_MIMC, annotation_path=args.val_anno_MIMC, image_size=args.image_size,
                                    length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        
+    train_dataset = combined_datasets([train_dataset_MIMC, ])
+    val_dataset = combined_datasets([val_dataset_MIMC, ])
+    
+    # train_dataset_COCO = Coco2MaskDataset(data_root=args.train_data_COCO, annotation_path=args.train_anno_COCO, image_size=args.image_size,
+    #                                  length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+    # val_dataset_COCO = Coco2MaskDataset(data_root=args.val_data_COCO, annotation_path=args.val_anno_COCO, image_size=args.image_size,
+    #                                length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+
+    # train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_COCO])
+    # val_dataset = combined_datasets([val_dataset_MIMC, val_dataset_COCO])
+
+
     # create the model
     train_checkpoint_path = clean_checkpoint_path(args.checkpoint_path, train=True)
+
+
     model = MobileSAMFintuner(
         args.model_type,
         train_checkpoint_path,

@@ -8,7 +8,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 import numpy as np
 from PIL import Image
 import cv2
-from eval_tools import calculate_pa_iou, overlay_mask_on_image,overlay_point_on_image, combine_visualize_results
+from eval_tools import calculate_pa_iou, overlay_mask_on_image,overlay_point_on_image, combine_visualize_results, calculate_segmentation_losses
 
 import torch
 torch.multiprocessing.set_sharing_strategy('file_system')
@@ -120,13 +120,16 @@ class MobileSAMFintuner(pl.LightningModule):
         self.model.to(device=self.device)
         if freeze_image_encoder:
             for param in self.model.image_encoder.parameters():
+                print("freeze image encoder")
                 param.requires_grad = False
         if freeze_prompt_encoder:
             for param in self.model.prompt_encoder.parameters():
+                print("freeze prompt encoder")
                 param.requires_grad = False
         if freeze_mask_decoder:
             for param in self.model.mask_decoder.parameters():
                 param.requires_grad = False
+                print("freeze mask decoder")
 
         self.batch_size = batch_size
         self.learning_rate = learning_rate
@@ -155,10 +158,11 @@ class MobileSAMFintuner(pl.LightningModule):
             features = self.model.image_encoder(input_images)
             num_masks = sum([len(b) for b in bboxes])
 
-            loss_focal = loss_dice = loss_iou = accurare_masks = 0.
-            BS_IoU = []
-            BS_pa = []
-            tp, fp, fn, tn = [], [], [], []
+
+            BS_LOSS = 0
+            BS_loss_IoU, BS_loss_dice, BS_loss_focal = 0, 0, 0
+            BS_IoU = 0
+            BS_dice = 0
             if self.multimask:
                 num_masks *= 3
 
@@ -169,6 +173,10 @@ class MobileSAMFintuner(pl.LightningModule):
                 resized_input_size_item: middle阶段图像尺寸 => H1,W1(未填充成正方形)
                 img: 填充成正方形(resized_input_size_item的长边)
                 '''
+                if random.random() < 0.8:
+                    self.use_bbox  = False
+                else:
+                    self.use_bbox  = True
                 if self.use_bbox:
                     bbox_input=bbox
                 else:
@@ -226,11 +234,17 @@ class MobileSAMFintuner(pl.LightningModule):
                 # assert masks.shape == label.shape, f"Masks shape {masks.shape} and label shape {label.shape} do not match"
                     #!------------设置metric-size，减少计算量------------
                 
-
                 #G ------- 计算IoU + 可视化输出--------G#
                 pred_masks = masks.squeeze(1)
                 iou_label = label.squeeze(1)
-                pa_list, iou_list = calculate_pa_iou(pred_masks, iou_label)
+                torch.cuda.empty_cache()
+                loss_dict = calculate_segmentation_losses(pred_masks, iou_label)
+                
+                single_img_loss_IoU = loss_dict['iou_loss']
+                single_img_loss_dice = loss_dict['dice_loss']
+                single_img_loss_focal = loss_dict['focal_loss']
+                single_img_iou = loss_dict['iou']
+                single_img_dice = loss_dict['dice']
                 
                 ext_name = coco_image_name.split('.')[-1]
                 step = self.current_epoch
@@ -238,99 +252,64 @@ class MobileSAMFintuner(pl.LightningModule):
                 if not os.path.exists(training_visual_path):
                     os.makedirs(training_visual_path, exist_ok=True)
                 #G 1% to save images
-                if random.random() < 0.01:
-                    output_path_pred = os.path.join(training_visual_path, f"{step}_{coco_image_name.replace(ext_name, '_pred.jpg')}")
-                    output_path_GT = os.path.join(training_visual_path, f"{step}_{coco_image_name.replace(ext_name, '_GT.jpg')}")
-                    output_path_point = os.path.join(training_visual_path, f"{step}_{coco_image_name.replace(ext_name, '_point.jpg')}")
-                    output_path_combined = os.path.join(training_visual_path, f"{step}_{coco_image_name.replace(ext_name, '_combined.jpg')}")
+                # if random.random() < 0.03:
+                output_path_combined = os.path.join(training_visual_path, f"{step}_{coco_image_name.replace(ext_name, '_combined.jpg')}")
 
 
-                    pred_mask_array = overlay_mask_on_image(pred_masks, output_path=output_path_pred, image_array=img, array_out=True)
-                    GT_mask_array = overlay_mask_on_image(iou_label, output_path=output_path_GT, image_array=img, array_out=True)
-                    point_array = overlay_point_on_image(center_point, output_path=output_path_point, image_array=img, array_out=True)
-                    combine_visualize_results(pred_mask_array, GT_mask_array, point_array, output_path_combined)
-                    
+                pred_mask_array = overlay_mask_on_image(pred_masks, image_array=img, array_out=True, save_img=False)
+                GT_mask_array = overlay_mask_on_image(iou_label, image_array=img, array_out=True, save_img=False)
+                point_array = overlay_point_on_image(center_point, image_array=img, array_out=True, save_img=False)
+                combine_visualize_results(pred_mask_array, GT_mask_array, point_array, output_path_combined)
+                
 
-                    #G check to avoid too many images in the folder
-                    image_files = [f for f in os.listdir(training_visual_path) if f.endswith(('_pred.jpg', '_GT.jpg', '_point.jpg'))]
-                    if len(image_files) > 30:
-                        #G randomly select three file prefixes
-                        random_prefixes = random.sample(set(f.split('_GT.jpg')[0] for f in image_files), 3)
-                        for prefix in random_prefixes:
-                            for suffix in ('_pred.jpg', '_GT.jpg', '_point.jpg', '_combined.jpg'):
-                                file_to_delete = os.path.join(training_visual_path, f"{prefix}{suffix}")
-                                if os.path.exists(file_to_delete):
-                                    os.remove(file_to_delete)
+                #G check to avoid too many images in the folder
+                image_files = [f for f in os.listdir(training_visual_path) if f.endswith(('_combined.jpg'))]
+                if len(image_files) > 100:
+                    #G randomly select three file prefixes
+                    random_prefixes = random.sample(set(f.split('_combined.jpg')[0] for f in image_files), 3)
+                    for prefix in random_prefixes:
+                        suffix = ('_combined.jpg')
+                        file_to_delete = os.path.join(training_visual_path, f"{prefix}{suffix}")
+                        if os.path.exists(file_to_delete):
+                            try: #G 防止误删可视化图后报错
+                                os.remove(file_to_delete)
+                            except:
+                                pass
                 #G ------- 计算IoU + 可视化输出--------G#
 
                 
-                single_IoU = np.mean(iou_list)
-                single_pa = np.mean(pa_list)
-                BS_IoU.append(single_IoU)
-                BS_pa.append(single_pa)
-                    
-                masks.to("cpu")
-                label.to("cpu")
-                torch.cuda.empty_cache()
+                # penalty_coefficient = 0.5 * (1 + single_img_iou)
+                penalty_coefficient = np.log2(1.05 + single_img_iou)
+                single_LOSS = (15 * single_img_loss_focal + 1.5 * single_img_loss_dice + 2.5 * single_img_loss_IoU) / penalty_coefficient if single_img_iou > 0.25 else 0
+                #g 排除低质样本的副作用
+                BS_LOSS += single_LOSS
+                BS_loss_IoU += single_img_loss_IoU
+                BS_loss_dice += single_img_loss_dice
+                BS_loss_focal += single_img_loss_focal
                 
-                batch_tp, batch_fp, batch_fn, batch_tn = smp.metrics.get_stats(
-                    masks,
-                    label, 
-                    mode='binary',
-                    threshold=self.mask_threshold,
-                )
-                #G 输入尺寸 => [batch_size, channels, height, width]
+                BS_IoU += single_img_iou
+                BS_dice += single_img_dice
                 
-                batch_iou = smp.metrics.iou_score(batch_tp, batch_fp, batch_fn, batch_tn)
-                #G IoU = TP / (TP + FP + FN)
-                
-                # Compute the loss            
+            BS = len(imgs)
+            av_BS_IoU = BS_IoU / BS
+            av_BS_dice = BS_dice / BS
+            av_BS_loss_IoU = BS_loss_IoU / BS
+            av_BS_loss_dice = BS_loss_dice / BS
+            av_BS_loss_focal = BS_loss_focal / BS
 
-                # 将masks进行插值，缩放因子为0.5，模式为双线性插值
-                masks = F.interpolate(masks, scale_factor=0.5, mode="bilinear")
-                # 将label进行插值，缩放因子为0.5，模式为最近邻插值
-                label = F.interpolate(label.float(), scale_factor=0.5, mode="bilinear")
-                masks = masks.squeeze(1).flatten(1)
-                label = label.flatten(1)
-
-                loss_focal += sigmoid_focal_loss(masks, label.float(), num_masks, alpha=0.6, gamma=2.5)
-                #G more information on https://kimi.moonshot.cn/chat/cvf7v67f2enav567m6h0
-
-                loss_dice += dice_loss(masks, label.float(), num_masks)
-                #G more information on https://kimi.moonshot.cn/chat/cvf7v67f2enav567m6h0
-                
-                del masks
-                loss_iou += F.mse_loss(iou_predictions, batch_iou, reduction='sum') / num_masks
-                #G the meaning of prediction_iou refers to https://kimi.moonshot.cn/chat/cvf7v67f2enav567m6h0
-                
-                del iou_predictions, batch_iou
-                tp.append(batch_tp)
-                fp.append(batch_fp)
-                fn.append(batch_fn)
-                tn.append(batch_tn)
-                
-                accurare_masks += (batch_tp + batch_tn).sum().item() / (batch_tp + batch_fp + batch_fn + batch_tn).sum().item()
-                del batch_tp, batch_fn, batch_fp, batch_tn
-            accuracy = accurare_masks / num_masks
-
-            penalty_coefficient = 0.5 * (1 + single_IoU)
-            av_BS_IoU = np.mean(BS_IoU)
-            av_BS_pa = np.mean(BS_pa)
-            del BS_IoU, BS_pa
-
+            # if not isinstance(BS_LOSS, torch.Tensor):
+            #     BS_LOSS = torch.tensor(BS_LOSS, device=device)
+            
             return {
-                'loss': (5 * loss_focal + loss_dice + loss_iou) / penalty_coefficient,  # SAM default loss
-                'loss_focal': loss_focal,
-                'loss_dice': loss_dice,
-                'loss_iou': loss_iou,
-                'acc': accuracy,
                 'av_BS_IoU': av_BS_IoU,
-                'av_BS_pa': av_BS_pa,
-                'tp': torch.cat(tp),
-                'fp': torch.cat(fp),
-                'fn': torch.cat(fn),
-                'tn': torch.cat(tn),
+                'av_BS_dice': av_BS_dice,
+                'loss': BS_LOSS,
+                'av_BS_loss_focal': av_BS_loss_focal,
+                'av_BS_loss_dice': av_BS_loss_dice,
+                'av_BS_loss_IoU': av_BS_loss_IoU,
             }
+
+
         except Exception as e:
             # 获取图片名称
             img_names = [coco_image_name for coco_image_name in coco_image_names]
@@ -344,32 +323,17 @@ class MobileSAMFintuner(pl.LightningModule):
     def training_step(self, batch, batch_nb):
         imgs, bboxes, labels, center_points, point_labels, img_name,category_ids ,original_input_size,resized_input_size, coco_image_names = batch
 
+
         with autocast():
             outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
 
         if not outputs.get('valid', True):
             print("Skipping invalid batch")
-            return None  # 跳过当前批次
-        
-        for metric in ['tp', 'fp', 'fn', 'tn']:
-            self.train_metric[metric].append(outputs[metric])
-        # aggregate step metics
-        step_metrics = [torch.cat(list(self.train_metric[metric])) for metric in ['tp', 'fp', 'fn', 'tn']]
-        per_mask_iou = smp.metrics.iou_score(*step_metrics, reduction="micro-imagewise")
-        del step_metrics
-        metrics = {
-            "loss": outputs["loss"],
-            #G this is the core target function. The other metrics are just for monitoring and logging.
-            "loss_focal": outputs["loss_focal"],
-            "loss_dice": outputs["loss_dice"],
-            "acc": outputs["acc"],
-            "av_BS_IoU": outputs["av_BS_IoU"],
-            "av_BS_pa": outputs["av_BS_pa"],
-            "loss_iou": outputs["loss_iou"],
-            "train_per_mask_iou": per_mask_iou,
-        }
-        self.log_dict(metrics, prog_bar=True, rank_zero_only=True)
-        del outputs
+            return None
+        metrics = outputs
+        log_metrics = {k: v for k, v in outputs.items() if k != 'loss'}
+        self.log_dict(log_metrics, prog_bar=True, rank_zero_only=True)
+        del outputs, log_metrics
         torch.cuda.empty_cache()
         return metrics
 
