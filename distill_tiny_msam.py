@@ -96,7 +96,7 @@ def main():
     parser.add_argument("--num_points", type=int, default=6, help="number of random points")
     parser.add_argument("--length", type=int, default=100, help="the length of the chosen masks")
 
-    parser.add_argument("--learning_rate", type=float, default=5.0e-5, help="learning rate")
+    parser.add_argument("--learning_rate", type=float, default=1.0e-5, help="learning rate")
     parser.add_argument("--weight_decay", type=float, default=1e-2, help="weight decay")
     parser.add_argument("--metrics_interval", type=int, default=500, help="interval for logging metrics")
 
@@ -162,6 +162,7 @@ def main():
             multimask=args.multimask,
             use_bbox=args.use_bbox,
             max_steps=args.steps,
+            only_distill=True,
         )
 
 

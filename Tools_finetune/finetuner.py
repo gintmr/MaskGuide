@@ -90,7 +90,7 @@ def finetune(**kwargs):
     single_img_dice = loss_dict['dice']
     
     ext_name = coco_image_name.split('.')[-1]
-    step = self.current_epoch
+    step = self.current_step
     if not os.path.exists(training_visual_path):
         os.makedirs(training_visual_path, exist_ok=True)
     #G 1% to save images

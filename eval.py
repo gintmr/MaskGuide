@@ -12,17 +12,17 @@ import pycocotools.mask as mask_utils
 from eval_tools import calculate_pa_iou, inference_image, init_model, overlay_mask_on_image, clean_checkpoint_path, calculate_metrics
 
 os.environ['MODEL_MODE'] = "test"
-
+os.environ['INFERENCE_MODE'] = "test"
 def main():
     
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_type", type=str, default="tiny_msam", help="model type", choices=["vit_t","tiny_msam", "vit_h"])
-    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_2epoch.pth", help="path to the checkpoint")
+    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_3epoch.pth", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/sam_vit_h_4b8939.pth", help="path to the checkpoint")
     parser.add_argument("--test_img_path", type=str, default="/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/seen/test_list", help="the test image path")
     parser.add_argument("--label_path", type=str, default="/data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_1_prompts.json", help="the test json path")
-    parser.add_argument("--label_num", type=int, default=5, help="the num of points // more prior than label_path")
+    parser.add_argument("--label_num", type=int, default=1, help="the num of points // more prior than label_path")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
     parser.add_argument("--visualize_mask_path", default="/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results")
     parser.add_argument("--ori_SAM", default=False)

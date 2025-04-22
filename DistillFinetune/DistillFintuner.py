@@ -24,6 +24,7 @@ from torch.cuda.amp import autocast, GradScaler
 import logging
 from torch.optim.lr_scheduler import OneCycleLR
 from torch.optim.lr_scheduler import CosineAnnealingLR
+import math
 
 NUM_WORKERS=4
 NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
@@ -180,28 +181,16 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
         pass
 
     def configure_optimizers(self):
-        """
-        Configure the optimizer and scheduler.
-        """
         opt = torch.optim.AdamW(self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay)
 
-        def warmup_step_lr_builder(warmup_steps, milestones, gamma):
-            def warmup_step_lr(steps):
-                if steps < warmup_steps:
-                    lr_scale = (steps + 1.) / float(warmup_steps)
-                else:
-                    lr_scale = 1.
-                    for milestone in sorted(milestones):
-                        if steps >= milestone * self.trainer.estimated_stepping_batches:
-                            lr_scale *= gamma
-                return lr_scale
-
-            return warmup_step_lr
-
-        scheduler = torch.optim.lr_scheduler.LambdaLR(
-            opt,
-            warmup_step_lr_builder(400, [0.66667, 0.86666], 0.1)
-        )
+        # 新学习率调度函数：余弦衰减（初始→1/10）
+        def lr_schedule(step):
+            progress = step / self.max_steps
+            decay_factor = 0.1 + 0.9 * (1 + math.cos(math.pi * progress)) / 2  # 余弦衰减[3,14](@ref)
+            return decay_factor
+        
+        scheduler = torch.optim.lr_scheduler.LambdaLR(opt, lr_schedule)
+        
         return {
             'optimizer': opt,
             'lr_scheduler': {
@@ -234,4 +223,61 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
             num_workers=NUM_WORKERS,
             shuffle=False)
         return val_loader
-    
+
+    def feature_distillation_loss(self, T_features, S_features, T_layers_features, S_layers_features, RATE, reduction='mean', alpha=0.5, beta=0.1):
+        """
+        计算教师模型和学生模型特征的蒸馏损失。
+
+        参数:
+            T_features (torch.Tensor): 教师模型的特征输出。
+            S_features (torch.Tensor): 学生模型的特征输出。
+            T_layers_features (dict): 教师模型的各层特征输出。
+            S_layers_features (dict): 学生模型的各层特征输出。
+            reduction (str): 损失的归约方式，可选 'mean' 或 'sum'。
+            alpha (float): MSE 损失的权重。
+            beta (float): 余弦相似度损失的权重。
+
+        返回:
+            torch.Tensor: 蒸馏损失。
+        """
+        total_loss = 0.0
+        # 计算 MSE 损失
+        mse_loss = F.mse_loss(S_features, T_features.detach(), reduction=reduction)
+
+        # 计算余弦相似度损失
+        T_features_norm = F.normalize(T_features.detach(), p=2, dim=1)
+        S_features_norm = F.normalize(S_features, p=2, dim=1)
+        cosine_similarity = F.cosine_similarity(S_features_norm, T_features_norm, dim=1)
+        cosine_loss = 1 - cosine_similarity.mean()
+
+        total_loss = alpha * mse_loss + beta * cosine_loss
+        
+        temperature = 2 + 8 * (1 + math.cos(math.pi * RATE)) / 2  
+        
+        # 阶段感知权重调整
+        progress = RATE
+        if progress < 0.5:  # 前期侧重特征对齐
+            A,B = 0.7, 0.1
+        else:  # 后期加强注意力对齐
+            A,B = 0.4, 0.1
+        
+        for T_layers_feature, S_layers_feature in zip(T_layers_features.values(), S_layers_features.values()):
+            # 计算 MSE 损失
+            if S_layers_feature.shape[-1:] != T_layers_feature.shape[-1:]:
+                #G interporlate需要输入四维张量，这里将三维张量扩充为四维张量
+                S_layers_feature = S_layers_feature.unsqueeze(-1)  # 形状变为 [1, 4096, 160, 1]
+                T_layers_feature = T_layers_feature.unsqueeze(-1)  # 形状变为 [1, 4096, 128, 1]
+
+                # 使用 F.interpolate 进行插值
+                S_layers_feature = F.interpolate(S_layers_feature, size=T_layers_feature.shape[-2:], mode='bilinear', align_corners=False)
+
+                # 将四维张量还原为三维
+                S_layers_feature = S_layers_feature.squeeze(-1)  
+                T_layers_feature = T_layers_feature.squeeze(-1)  
+                
+            layers_mse_loss = F.mse_loss(S_layers_feature/temperature, T_layers_feature.detach()/temperature, reduction=reduction) * (temperature ** 2)
+            layers_cosine_loss = 1 - F.cosine_similarity(F.normalize(S_layers_feature, p=2, dim=1), F.normalize(T_layers_feature.detach(), p=2, dim=1), dim=1).mean()
+            
+            total_loss += A*layers_mse_loss + B*layers_cosine_loss
+
+        return total_loss
