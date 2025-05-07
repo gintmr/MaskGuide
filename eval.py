@@ -9,19 +9,21 @@ import pycocotools.mask as mask_util
 from tqdm import tqdm
 import logging
 import pycocotools.mask as mask_utils
-from eval_tools import calculate_pa_iou, inference_image, init_model, overlay_mask_on_image, clean_checkpoint_path, calculate_metrics
+from eval_tools import calculate_pa_iou, inference_image, init_model, overlay_mask_on_image, clean_checkpoint_path, calculate_metrics, inference_image_fps
+from Tools_metrics.performance_process import log_performance_metrics, process_performance_metrics
 
 os.environ['MODEL_MODE'] = "test"
-os.environ['INFERENCE_MODE'] = "train"
+os.environ['INFERENCE_MODE'] = "test"
 def main():
     
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_type", type=str, default="tiny_msam", help="model type", choices=["vit_t","tiny_msam", "vit_h"])
-    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/tiny_TinyViT_1_5epoch.pth", help="path to the checkpoint")
+    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/only_distill_8epoch.pth", help="path to the checkpoint")
+    # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/sam_vit_h_4b8939.pth", help="path to the checkpoint")
-    parser.add_argument("--test_img_path", type=str, default="/data2/wuxinrui/Projects/ICCV/MIMC_FINAL/seen/test_list", help="the test image path")
-    parser.add_argument("--label_path", type=str, default="/data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_1_prompts.json", help="the test json path")
+    parser.add_argument("--test_img_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list", help="the test image path")
+    parser.add_argument("--label_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json", help="the test json path")
     parser.add_argument("--label_num", type=int, default=5, help="the num of points // more prior than label_path")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
     parser.add_argument("--visualize_mask_path", default="/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results")
@@ -56,11 +58,11 @@ def main():
 
     if args.label_num:
         if args.label_num == 1:
-            label_path = "/data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_1_prompts.json"
+            label_path = "/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json"
         elif args.label_num == 3:
-            label_path = "/data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_3_prompts.json"
+            label_path = "/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_3_prompts.json"
         elif args.label_num == 5:
-            label_path = "/data2/wuxinrui/Projects/ICCV/jsons_for_salient_instance_segmentation/test_5_prompts.json"
+            label_path = "/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json"
     else:
         label_path = args.label_path
         
@@ -75,7 +77,6 @@ def main():
     
     bbox_metric_dicts = None
     point_metric_dicts = None
-    bbox_pa_list, bbox_iou_list, point_pa_list, point_iou_list = [], [], [], []
     temp_checkpoint_path = clean_checkpoint_path(args.checkpoint_path)
     # mask_generator, mask_predictor = init_model(model_type=args.model_type, sam_checkpoint=temp_checkpoint_path, device=device, generator=False, predictor=True, ori_SAM=True)
     mask_generator, mask_predictor = init_model(model_type=args.model_type, sam_checkpoint=temp_checkpoint_path, device=device, generator=False, predictor=True, ori_SAM=args.ori_SAM)
@@ -86,16 +87,21 @@ def main():
     
 
     sample_num = args.sample_num
+    accumulated_metrics = None
     for img_file in tqdm(img_files[:sample_num], miniters=50):
         
         img_path = os.path.join(args.test_img_path, img_file)
         ext_name = img_file.split('.')[-1]
         
-        results_dict = inference_image(img_path, annotations, mask_generator, mask_predictor, device=device, bbox_prompt=True, point_prompt=True)
+        results_dict = inference_image_fps(img_path, annotations, mask_generator, mask_predictor, device=device, bbox_prompt=True, point_prompt=True)
         
         predictor_results = results_dict['predictor_results']
         image_masks = results_dict['image_masks']
         
+        current_metrics, accumulated_metrics, avg_metrics = process_performance_metrics(
+        results_dict['performance_metrics'], 
+        accumulated_metrics
+    )
 
         bbox_pred_masks = predictor_results['bbox']['masks']
         point_pred_masks = predictor_results['point']['masks']
@@ -164,5 +170,7 @@ def main():
         logging.info(f"point_{metric_name}: {avg_value}")
         
         
+    log_performance_metrics(current_metrics, avg_metrics, logging)
+    
 if __name__ == "__main__":
     main()

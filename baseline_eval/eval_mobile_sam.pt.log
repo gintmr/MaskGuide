@@ -191,3 +191,45 @@ point_MSE: 0.04157627373933792
 2025-04-12 13:04:15 - INFO - point_F1 Score: 0.7311483244581273
 2025-04-12 13:04:15 - INFO - point_MAE: 0.05175596475601196
 2025-04-12 13:04:15 - INFO - point_MSE: 0.05175596475601196
+2025-05-03 12:52:27 - INFO - Using device: cuda
+2025-05-03 12:52:27 - INFO - Devices num is 4
+2025-05-03 12:52:27 - INFO - args: Namespace(model_type='vit_t', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=5, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=None)
+2025-05-03 12:52:30 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-05-03 12:52:30 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json##################################################
+2025-05-03 13:00:23 - INFO - bbox_PA: 0.9891898947906137
+2025-05-03 13:00:23 - INFO - bbox_IoU: 0.888697156645003
+2025-05-03 13:00:23 - INFO - bbox_Dice: 0.9344981711167003
+2025-05-03 13:00:23 - INFO - bbox_Precision: 0.928653533972342
+2025-05-03 13:00:23 - INFO - bbox_Recall: 0.950571556746194
+2025-05-03 13:00:23 - INFO - bbox_F1 Score: 0.9344981711167004
+2025-05-03 13:00:23 - INFO - bbox_MAE: 0.010810105130076408
+2025-05-03 13:00:23 - INFO - bbox_MSE: 0.010810105130076408
+2025-05-03 13:00:23 - INFO - point_PA: 0.9851567369940087
+2025-05-03 13:00:23 - INFO - point_IoU: 0.8361241325818799
+2025-05-03 13:00:23 - INFO - point_Dice: 0.8946399242307426
+2025-05-03 13:00:23 - INFO - point_Precision: 0.8785834836660368
+2025-05-03 13:00:23 - INFO - point_Recall: 0.9498073607622053
+2025-05-03 13:00:23 - INFO - point_F1 Score: 0.8946399242307427
+2025-05-03 13:00:23 - INFO - point_MAE: 0.014843262732028961
+2025-05-03 13:00:23 - INFO - point_MSE: 0.014843262732028961
+2025-05-03 13:19:29 - INFO - Using device: cuda
+2025-05-03 13:19:29 - INFO - Devices num is 4
+2025-05-03 13:19:29 - INFO - args: Namespace(model_type='vit_t', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=5, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=50)
+2025-05-03 13:19:32 - INFO - ##################################################INFERENCE_MODE = train##################################################
+2025-05-03 13:19:32 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json##################################################
+2025-05-03 13:19:39 - INFO - bbox_PA: 0.9878404721052509
+2025-05-03 13:19:39 - INFO - bbox_IoU: 0.6459564688286926
+2025-05-03 13:19:39 - INFO - bbox_Dice: 0.7256861719910479
+2025-05-03 13:19:39 - INFO - bbox_Precision: 0.8034061453666217
+2025-05-03 13:19:39 - INFO - bbox_Recall: 0.7012415088306815
+2025-05-03 13:19:39 - INFO - bbox_F1 Score: 0.7256861719910479
+2025-05-03 13:19:39 - INFO - bbox_MAE: 0.012159527279436588
+2025-05-03 13:19:39 - INFO - bbox_MSE: 0.012159527279436588
+2025-05-03 13:19:39 - INFO - point_PA: 0.9788494796824864
+2025-05-03 13:19:39 - INFO - point_IoU: 0.6360025790716239
+2025-05-03 13:19:39 - INFO - point_Dice: 0.7322660247923674
+2025-05-03 13:19:39 - INFO - point_Precision: 0.7892925037223453
+2025-05-03 13:19:39 - INFO - point_Recall: 0.7431302914926485
+2025-05-03 13:19:39 - INFO - point_F1 Score: 0.7322660247923674
+2025-05-03 13:19:39 - INFO - point_MAE: 0.02115052007138729
+2025-05-03 13:19:39 - INFO - point_MSE: 0.02115052007138729

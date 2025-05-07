@@ -181,17 +181,23 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
         pass
 
     def configure_optimizers(self):
-        opt = torch.optim.AdamW(self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay)
+        opt = torch.optim.AdamW(self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay, capturable=True)
 
         # 新学习率调度函数：余弦衰减（初始→1/10）
         def lr_schedule(step):
             progress = step / self.max_steps
+            #g === 先高后低
             if progress < 0.5:
                 factor = 2 * progress
                 decay_factor = 0.25 + 0.75 * (1 - math.cos(math.pi * factor)) / 2
             else:
                 factor = 2 * (progress - 0.5)
                 decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
+            
+            #g ====从高到低
+            # factor = progress
+            # decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
+
             return decay_factor
         
         scheduler = torch.optim.lr_scheduler.LambdaLR(opt, lr_schedule)
@@ -281,31 +287,31 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
         else:  # 后期加强注意力对齐
             A, B = 0.08, 0.02
 
-        layers_kl_div_list = []
-        for T_layers_feature, S_layers_feature in zip(T_layers_features.values(), S_layers_features.values()):
-            if S_layers_feature.shape[-1:] != T_layers_feature.shape[-1:]:
-                S_layers_feature = S_layers_feature.unsqueeze(-1)
-                T_layers_feature = T_layers_feature.unsqueeze(-1)
-                if torch.isnan(S_layers_feature).any():
-                    S_layers_feature = torch.where(torch.isnan(S_layers_feature), torch.tensor(epsilon, device=S_layers_feature.device), S_layers_feature)
+        # layers_kl_div_list = []
+        # for T_layers_feature, S_layers_feature in zip(T_layers_features.values(), S_layers_features.values()):
+        #     if S_layers_feature.shape[-1:] != T_layers_feature.shape[-1:]:
+        #         S_layers_feature = S_layers_feature.unsqueeze(-1)
+        #         T_layers_feature = T_layers_feature.unsqueeze(-1)
+        #         if torch.isnan(S_layers_feature).any():
+        #             S_layers_feature = torch.where(torch.isnan(S_layers_feature), torch.tensor(epsilon, device=S_layers_feature.device), S_layers_feature)
                 
-                S_layers_feature = F.interpolate(S_layers_feature, size=T_layers_feature.shape[-2:], mode='bilinear', align_corners=False)
-                S_layers_feature = S_layers_feature.squeeze(-1)
-                T_layers_feature = T_layers_feature.squeeze(-1)
+        #         S_layers_feature = F.interpolate(S_layers_feature, size=T_layers_feature.shape[-2:], mode='bilinear', align_corners=False)
+        #         S_layers_feature = S_layers_feature.squeeze(-1)
+        #         T_layers_feature = T_layers_feature.squeeze(-1)
 
-            s_layer_softmax = F.softmax(S_layers_feature / temperature, dim=1).clamp(min=epsilon, max=1 - epsilon)
-            t_layer_softmax = F.softmax(T_layers_feature / temperature, dim=1).clamp(min=epsilon, max=1 - epsilon)
-            layers_kl_div = F.kl_div(s_layer_softmax.log(), t_layer_softmax, reduction=reduction) * (temperature ** 2)
-            layers_kl_div = torch.sum(t_layer_softmax * torch.log(t_layer_softmax / s_layer_softmax), dim=1) * (temperature ** 2)
-            layers_kl_div = torch.mean(layers_kl_div)
-            assert not torch.isnan(layers_kl_div), "KL divergence is NaN"
-            assert not torch.isinf(layers_kl_div), "KL divergence is inf"
-            layers_kl_div_list.append(layers_kl_div)
+        #     s_layer_softmax = F.softmax(S_layers_feature / temperature, dim=1).clamp(min=epsilon, max=1 - epsilon)
+        #     t_layer_softmax = F.softmax(T_layers_feature / temperature, dim=1).clamp(min=epsilon, max=1 - epsilon)
+        #     layers_kl_div = F.kl_div(s_layer_softmax.log(), t_layer_softmax, reduction=reduction) * (temperature ** 2)
+        #     layers_kl_div = torch.sum(t_layer_softmax * torch.log(t_layer_softmax / s_layer_softmax), dim=1) * (temperature ** 2)
+        #     layers_kl_div = torch.mean(layers_kl_div)
+        #     assert not torch.isnan(layers_kl_div), "KL divergence is NaN"
+        #     assert not torch.isinf(layers_kl_div), "KL divergence is inf"
+        #     layers_kl_div_list.append(layers_kl_div)
             
-            layers_cosine_loss = 1 - F.cosine_similarity(F.normalize(S_layers_feature, p=2, dim=1), F.normalize(T_layers_feature.detach(), p=2, dim=1), dim=1).mean()
-            total_loss += B * layers_cosine_loss
+        #     layers_cosine_loss = 1 - F.cosine_similarity(F.normalize(S_layers_feature, p=2, dim=1), F.normalize(T_layers_feature.detach(), p=2, dim=1), dim=1).mean()
+        #     total_loss += B * layers_cosine_loss
             
-        layers_kl_div_list = torch.stack(layers_kl_div_list)
-        total_loss += A * torch.mean(layers_kl_div_list)
+        # layers_kl_div_list = torch.stack(layers_kl_div_list)
+        # total_loss += A * torch.mean(layers_kl_div_list)
 
         return total_loss

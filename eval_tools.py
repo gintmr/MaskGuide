@@ -372,7 +372,156 @@ def inference_image(image_path, annotations=None, mask_generator=None, mask_pred
     }
     return results_dict
 
+
+import time
+import torch
+import os
+import numpy as np
+import pycocotools.mask as mask_utils
+
+def inference_image_fps(image_path, annotations=None, mask_generator=None, mask_predictor=None, device="cuda", bbox_prompt=False, point_prompt=False):
+    '''
+    in_args:
+        image_path - path to current image
+        annotations - list of annotations for current image (which has point/bbox prompts for predicting)
+        mask_generator - mask generator for generating masks (init in the init_model function)
+        mask_predictor - mask predictor for predicting masks (init in the init_model function)
+        device - device to run the model on
+        bbox_prompt - whether to use bbox prompt for predicting
+        point_prompt - whether to use point prompt for predicting
+    out_args:
+        results_dict - dict of results for current image by prompts with performance metrics
+    '''
+    # Initialize performance tracking
+    start_time = time.time()
+    if device == "cuda":
+        torch.cuda.synchronize()
+        initial_mem = torch.cuda.memory_allocated()
+    else:
+        initial_mem = 0
     
+    # Original processing
+    image_name = os.path.basename(image_path)
+    image = preprocess_image(image_path)
+    image_array = image
+    
+    image_masks = []
+    image_annotations = None
+    if annotations:
+        image_annotations = [anno for anno in annotations if anno['image_name'] == image_name]
+        for anno in image_annotations:
+            gt_mask = np.array((mask_utils.decode(anno['segmentation'])), dtype=np.float32)
+            image_masks.append(gt_mask)
+
+    if image is None:
+        print(f"!!!!!!!!!!!!!{image_path} is None")
+        return None
+    
+    height, width = image.shape[:2]
+
+    # Mask generator with timing and memory tracking
+    gen_start = time.time()
+    if device == "cuda":
+        torch.cuda.synchronize()
+        pre_gen_mem = torch.cuda.memory_allocated()
+    
+    generator_results = mask_generator.generate(image) if mask_generator else None
+    
+    if device == "cuda":
+        torch.cuda.synchronize()
+        post_gen_mem = torch.cuda.memory_allocated()
+        gen_mem_usage = post_gen_mem - pre_gen_mem if mask_generator else 0
+    gen_time = time.time() - gen_start
+    
+    # Mask predictor with timing and memory tracking
+    if mask_predictor:
+        pred_start = time.time()
+        if device == "cuda":
+            torch.cuda.synchronize()
+            pre_pred_mem = torch.cuda.memory_allocated()
+        
+        predictor_results = {
+            'bbox': {'masks': [], 'scores': [], 'logits': []},
+            'point': {'masks': [], 'scores': [], 'logits': []}
+        }
+        
+        mask_predictor.set_image(image)
+        for anno in image_annotations:
+            if bbox_prompt:
+                input_box = np.array([
+                    anno['bbox'][0], anno['bbox'][1],
+                    anno['bbox'][0] + anno['bbox'][2], anno['bbox'][1] + anno['bbox'][3]
+                ])
+                masks, scores, logits = mask_predictor.predict(
+                    point_coords=None,
+                    point_labels=None,
+                    box=input_box[None, :],
+                    multimask_output=False
+                )
+                predictor_results['bbox']['masks'].append(masks[0])
+                predictor_results['bbox']['scores'].append(scores)
+                predictor_results['bbox']['logits'].append(logits)
+
+            if point_prompt:
+                points = np.array(anno['coords'])
+                labels = np.ones(len(points), dtype=np.int32)
+                masks, scores, logits = mask_predictor.predict(
+                    point_coords=points,
+                    point_labels=labels,
+                    multimask_output=False
+                )
+                predictor_results['point']['masks'].append(masks[0])
+                predictor_results['point']['scores'].append(scores)
+                predictor_results['point']['logits'].append(logits)
+        
+        if device == "cuda":
+            torch.cuda.synchronize()
+            post_pred_mem = torch.cuda.memory_allocated()
+            pred_mem_usage = post_pred_mem - pre_pred_mem
+        pred_time = time.time() - pred_start
+    else:
+        predictor_results = None
+        pred_time = 0
+        pred_mem_usage = 0
+    
+    # Calculate final metrics
+    if device == "cuda":
+        torch.cuda.synchronize()
+        peak_mem = torch.cuda.max_memory_allocated()
+    else:
+        peak_mem = 0
+    
+    total_time = time.time() - start_time
+    fps = 1 / total_time if total_time > 0 else 0
+    
+    # Prepare results with performance metrics
+    results_dict = {
+        'generator_results': generator_results,
+        'predictor_results': predictor_results,
+        'image_annotations': image_annotations,
+        'image_masks': image_masks,
+        'image_name': image_name,
+        'height': height,
+        'width': width,
+        'image_array': image_array,
+        'performance_metrics': {
+            'fps': fps,
+            'total_time_seconds': total_time,
+            'memory_usage': {
+                'initial_memory_bytes': initial_mem,
+                'peak_memory_bytes': peak_mem,
+                'generator_memory_bytes': gen_mem_usage,
+                'predictor_memory_bytes': pred_mem_usage,
+            },
+            'component_times': {
+                'generator_time_seconds': gen_time,
+                'predictor_time_seconds': pred_time,
+            }
+        }
+    }
+    
+    return results_dict
+
     
     
 def get_bool_mask_from_segmentation(segmentation, height, width) -> np.ndarray:

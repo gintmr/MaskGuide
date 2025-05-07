@@ -32,6 +32,7 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             epochs=10,
             distill_weight=3,  # 新增参数：蒸馏权重
             only_distill=False,  # 新增参数：是否只蒸馏
+            add_distill=True,
     ):
         super(Imgencoder_Distill, self).__init__(
             T_model=T_model,
@@ -53,32 +54,36 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
 
         self.distill_weight = distill_weight  # 蒸馏权重
         self.max_steps = max_steps
-        self.current_step = 0
         self.step_in_epoch = max_steps // epochs
         self.only_distill = only_distill  # 是否只蒸馏
+        self.add_distill = add_distill
         
     def forward(self, imgs, bboxes, labels, center_points, point_labels, target_labels, original_input_size, resized_input_size, coco_image_names):
         device = imgs.device
         imgs.to("cpu")
         assert self.T_model.image_encoder.img_size == self.S_model.image_encoder.img_size
         # imgs = random_resize(imgs)
+        actual_batch_size = imgs.size(0)
 
-        input_images = torch.stack([self.T_model.preprocess(imgs[i,:,:,:]) for i in range(self.batch_size)], dim=0) #G padding
+        input_images = torch.stack([self.T_model.preprocess(imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
         input_images.to(device)
         try:
             T_features, T_layers_features = self.T_model.image_encoder(input_images)
             S_features, S_layers_features = self.S_model.image_encoder(input_images)
 
-            RATE = self.current_step / self.max_steps
+            RATE = self.global_step / self.max_steps
+            
             distill_loss = self.feature_distillation_loss(T_features, S_features, T_layers_features, S_layers_features, RATE)
+            if not self.add_distill:
+                distill_loss -= distill_loss
 
             del T_layers_features, S_layers_features
             num_masks = sum([len(b) for b in bboxes])
 
             BS_LOSS = 0
-            BS_loss_IoU, BS_loss_dice, BS_loss_tversky = 0, 0, 0
-            BS_IoU = 0
-            BS_dice = 0
+            BS_loss_IoU, BS_loss_dice, BS_loss_tversky, BS_loss_mse, BS_loss_focal = 0, 0, 0, 0, 0
+            BS_IoU, BS_dice = 0, 0
+            
             if self.multimask:
                 num_masks *= 3
 
@@ -92,35 +97,44 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                     resized_input_size_item: middle阶段图像尺寸 => H1,W1(未填充成正方形)
                     img: 填充成正方形(resized_input_size_item的长边)
                     '''
-                    LOSS_dict = finetune(feature=S_feature, bbox=bbox, label=label, center_point=center_point, point_label=point_label, target_label=target_label, original_input_size_item=original_input_size_item, resized_input_size_item=resized_input_size_item, coco_image_name=coco_image_name, img=img, training_visual_path=f"/data2/wuxinrui/RA-L/MobileSAM/training_visual_distill/{self.current_epoch}", self=self)
+                    Finetune_dict = finetune(feature=S_feature, bbox=bbox, label=label, center_point=center_point, point_label=point_label, target_label=target_label, original_input_size_item=original_input_size_item, resized_input_size_item=resized_input_size_item, coco_image_name=coco_image_name, img=img, training_visual_path=f"/data2/wuxinrui/RA-L/MobileSAM/training_visual_distill/{self.current_epoch}", self=self)
 
                     #g 排除低质样本的副作用
-                    BS_LOSS += LOSS_dict["single_LOSS"]
-                    BS_loss_IoU += LOSS_dict["single_img_loss_IoU"]
-                    BS_loss_dice += LOSS_dict["single_img_loss_dice"]
-                    BS_loss_tversky += LOSS_dict["single_img_loss_tversky"]
-                    BS_IoU += LOSS_dict["single_img_iou"]
-                    BS_dice += LOSS_dict["single_img_dice"]
+                    BS_LOSS += Finetune_dict["total_loss"]
+                    BS_loss_IoU += Finetune_dict["iou_loss"]
+                    # BS_loss_dice += Finetune_dict["dice_loss"]
+                    # BS_loss_tversky += Finetune_dict["tversky_loss"]
+                    BS_loss_mse += Finetune_dict["mse_loss"]
+                    BS_loss_focal += Finetune_dict["focal_loss"]
+                    BS_IoU += Finetune_dict["iou"]
+                    BS_dice += Finetune_dict["dice"]
 
+            BS_LOSS = torch.tensor(BS_LOSS, device=device)
             BS = len(imgs)
             av_BS_IoU = BS_IoU / BS
             av_BS_dice = BS_dice / BS
             av_BS_loss_IoU = BS_loss_IoU / BS
-            av_BS_loss_dice = BS_loss_dice / BS
-            av_BS_loss_tversky = BS_loss_tversky / BS
-            
+            # av_BS_loss_dice = BS_loss_dice / BS
+            # av_BS_loss_tversky = BS_loss_tversky / BS
+            av_BS_loss_mse = BS_loss_mse / BS
+            av_BS_loss_focal = BS_loss_focal / BS
+
+            assert not torch.isnan(BS_LOSS), "loss is nan"
+
             loss = BS_LOSS + distill_loss * self.distill_weight
 
-            
             assert not torch.isnan(loss), "loss is nan"
+
             return {
                 "RATE": RATE,
                 'av_BS_IoU': av_BS_IoU,
                 'av_BS_dice': av_BS_dice,
                 'loss': loss,
-                'av_BS_loss_tversky': av_BS_loss_tversky,
-                'av_BS_loss_dice': av_BS_loss_dice,
+                # 'av_BS_loss_tversky': av_BS_loss_tversky,
+                # 'av_BS_loss_dice': av_BS_loss_dice,
                 'av_BS_loss_IoU': av_BS_loss_IoU,
+                'av_BS_loss_mse': av_BS_loss_mse,
+                'av_BS_loss_focal': av_BS_loss_focal,
                 'distill_loss': distill_loss,
             }
 
@@ -130,18 +144,19 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             print(f"Error occurred while processing images: {img_names}")
             print(f"Error details: {str(e)}")
             raise e
-        
+
     def training_step(self, batch, batch_nb):
         imgs, bboxes, labels, center_points, point_labels, img_name, category_ids ,original_input_size,resized_input_size, coco_image_names = batch
 
-        with autocast():
-            outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
-            self.current_step += 1
+        # with autocast():
+        #     outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
+
+        outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
 
         if outputs['loss'] == 0:
             print("Skipping invalid batch")
             return None
-        
+
         metrics = outputs
         log_metrics = {k: v for k, v in outputs.items() if k != 'loss'}
         self.log_dict(log_metrics, prog_bar=True, rank_zero_only=True)

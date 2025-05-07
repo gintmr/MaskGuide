@@ -165,6 +165,8 @@ class Sam(nn.Module):
     def preprocess(self, x: torch.Tensor) -> torch.Tensor:
         """Normalize pixel values and pad to a square input."""
         ## 将resize后的图像padding至image_encoder接受的长度
+        # print(f"x.device = {x.device}")
+        # print(f"self.pixel_mean.device = {self.pixel_mean.device}")
         # Normalize colors
         x = (x - self.pixel_mean) / self.pixel_std
 

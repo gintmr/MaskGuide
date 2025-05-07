@@ -22,7 +22,7 @@ def finetune(**kwargs):
     elif hasattr(self, 'T_model'):
         model = self.T_model
     
-    if random.random() < 0.8:
+    if random.random() < 0.2:
         self.use_bbox  = False
     else:
         self.use_bbox  = True
@@ -86,16 +86,11 @@ def finetune(**kwargs):
     pred_masks = masks.squeeze(1)
     iou_label = label.squeeze(1)
     torch.cuda.empty_cache()
-    
-    loss_dict = oceanegmentationLoss(pred_masks, iou_label)
-    
-    single_img_loss_IoU = loss_dict['iou_loss']
-    single_img_loss_dice = loss_dict['dice_loss']
-    single_img_loss_tversky = loss_dict['tversky_loss']
-    single_img_iou = loss_dict['iou']
-    single_img_dice = loss_dict['dice']
-    single_img_total_loss = loss_dict['total_loss']
-    
+    #g 此处的pred_masks就是输出概率值。（范围+-N）
+    #g 计算损失时，常会对齐使用sigmoid函数，将概率值限制在0-1之间 —— pred_probs (0-1)
+    #g pred_masks的>0即对应pred_probs的>0.5
+
+
     ext_name = coco_image_name.split('.')[-1]
     if not os.path.exists(training_visual_path):
         os.makedirs(training_visual_path, exist_ok=True)
@@ -123,17 +118,6 @@ def finetune(**kwargs):
                     pass
     #G ------- 计算IoU + 可视化输出--------G#
 
-    # penalty_coefficient = 0.5 * (1 + single_img_iou)
-    penalty_coefficient = np.log2(1.05 + single_img_iou)
-    single_LOSS = single_img_total_loss / penalty_coefficient if single_img_iou > 0.25 else single_img_total_loss / 0.2
-    #g 排除低质样本的副作用
-
-    return {
-        "single_LOSS": single_LOSS,
-        "single_img_loss_IoU": single_img_loss_IoU,
-        "single_img_loss_dice": single_img_loss_dice,
-        "single_img_loss_tversky": single_img_loss_tversky,
-        "single_img_iou": single_img_iou,
-        "single_img_dice": single_img_dice,
-    }
-
+    loss_dict = oceanegmentationLoss(pred_masks, iou_label)
+    del pred_masks, iou_label
+    return loss_dict
