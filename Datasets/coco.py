@@ -32,7 +32,7 @@ class Coco2MaskDataset(Dataset):
             T.GaussianBlur(kernel_size=(3, 7), sigma=(0.1, 2.0)), # 高斯模糊
             T.RandomAdjustSharpness(sharpness_factor=2, p=0.5), # 随机调整锐度
             T.ToTensor(),  # 将 PIL 图像转换为张量
-            T.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0.5, inplace=False),  # 随机遮挡
+            # T.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0.5, inplace=False),  # 随机遮挡
             ToPILImage(),  # 将张量转换回 PIL 图像
         ])
         
@@ -145,15 +145,6 @@ class Coco2MaskDataset(Dataset):
                 combined_point_labels.append([count_label] * num_points)
                 combined_points.append(points)
                 center_point_labels.append([count_label])
-                
-                original_image_with_boundaries = input_image.copy()
-                contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                r = random.random()
-                if r < 0.3:
-                    cv2.drawContours(original_image_with_boundaries, contours, -1, (0, 0, 0), 1)
-                elif r < 0.6:
-                    cv2.drawContours(original_image_with_boundaries, contours, -1, (0, 0, 0), 2)
-                
 
             combined_points = self.transform.apply_coords_torch(combined_points, original_input_size)
             center_points = self.transform.apply_coords_torch(center_points, original_input_size)
@@ -176,8 +167,6 @@ class Coco2MaskDataset(Dataset):
             point_labels = np.stack(point_labels, axis=0)
 
             # 将输入图像转换为torch张量
-            # original_image_with_boundaries = self.preprocess(original_image_with_boundaries)
-            input_image = original_image_with_boundaries
             input_image = self.preprocess(input_image)
             # self.preview_input(original_image_with_boundaries, coco_image_name) #g 预览输入图像
             
@@ -340,7 +329,7 @@ class Coco2MaskDataset_repeat(Dataset):
         self.num_points = num_points
         self.use_centerpoint = use_centerpoint
         self.imgIds = self.coco.getImgIds()[:]
-        self.repeat_times = 3
+        self.repeat_times = 4
         self.repeat_count = 0
         self.current_index = 0
         
@@ -349,7 +338,7 @@ class Coco2MaskDataset_repeat(Dataset):
             T.GaussianBlur(kernel_size=(3, 7), sigma=(0.1, 2.0)), # 高斯模糊
             T.RandomAdjustSharpness(sharpness_factor=2, p=0.5), # 随机调整锐度
             T.ToTensor(),  # 将 PIL 图像转换为张量
-            T.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0.5, inplace=False),  # 随机遮挡
+            # T.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0.5, inplace=False),  # 随机遮挡
             ToPILImage(),  # 将张量转换回 PIL 图像
         ])
         
@@ -409,7 +398,7 @@ class Coco2MaskDataset_repeat(Dataset):
             coco_image_name = img_info["file_name"]
             image_path = os.path.join(self.data_root, coco_image_name)
             image = Image.open(image_path).convert("RGB")
-            image = self.augmentations(image) if random.random() > 0.3 else image
+            image = self.augmentations(image) if random.random() > 0.8 else image
             image = np.array(image)
 
             original_height, original_width = image.shape[0], image.shape[1]
@@ -479,10 +468,13 @@ class Coco2MaskDataset_repeat(Dataset):
                 contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 r = random.random()
                 if self.repeat_count == 0:
-                    cv2.drawContours(original_image_with_boundaries, contours, -1, (0, 0, 0), 2)
+                    cv2.drawContours(original_image_with_boundaries, contours, -1, (255, 255, 255), 2)
                 elif self.repeat_count == 1:
-                    cv2.drawContours(original_image_with_boundaries, contours, -1, (0, 0, 0), 1)
+                    original_image_with_boundaries = original_image_with_boundaries
+                    # cv2.drawContours(original_image_with_boundaries, contours, -1, (255, 255, 255), 1)
                 elif self.repeat_count == 2:
+                    original_image_with_boundaries = original_image_with_boundaries
+                elif self.repeat_count == 3:
                     original_image_with_boundaries = original_image_with_boundaries
 
             combined_points = self.transform.apply_coords_torch(combined_points, original_input_size)
@@ -516,7 +508,7 @@ class Coco2MaskDataset_repeat(Dataset):
             #g 将张量的维度从HWC转换为CHW
             input_image_torch = input_image_torch.permute(2, 0, 1).contiguous()
             
-            weights = [0.0, 0.2, 0.8]
+            weights = [0.0, 0.0, 1.0]
             prompt_types = ['1_point', '3_points', '5_points']
             prompt_type = random.choices(prompt_types, weights=weights, k=1)[0]
             

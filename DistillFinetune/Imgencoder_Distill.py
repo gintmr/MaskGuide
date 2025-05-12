@@ -109,7 +109,8 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                     BS_IoU += Finetune_dict["iou"]
                     BS_dice += Finetune_dict["dice"]
 
-            BS_LOSS = torch.tensor(BS_LOSS, device=device)
+            # BS_LOSS = BS_LOSS.clone().detach().to(device).requires_grad_(True)
+
             BS = len(imgs)
             av_BS_IoU = BS_IoU / BS
             av_BS_dice = BS_dice / BS

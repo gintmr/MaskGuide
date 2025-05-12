@@ -1,4 +1,4 @@
-def process_performance_metrics(performance_metrics, accumulated_metrics=None):
+def process_performance_metrics(performance_metrics, accumulated_metrics=None, single_masks=None):
     """
     处理并累积性能指标
     
@@ -13,6 +13,7 @@ def process_performance_metrics(performance_metrics, accumulated_metrics=None):
     if accumulated_metrics is None:
         accumulated_metrics = {
             'total_frames': 0,
+            'total_masks': 0,
             'total_time': 0.0,
             'total_gen_time': 0.0,
             'total_pred_time': 0.0,
@@ -23,6 +24,7 @@ def process_performance_metrics(performance_metrics, accumulated_metrics=None):
     
     # 更新累积性能指标
     accumulated_metrics['total_frames'] += 1
+    accumulated_metrics['total_masks'] += single_masks
     accumulated_metrics['total_time'] += performance_metrics['total_time_seconds']
     accumulated_metrics['total_gen_time'] += performance_metrics['component_times']['generator_time_seconds']
     accumulated_metrics['total_pred_time'] += performance_metrics['component_times']['predictor_time_seconds']
@@ -36,6 +38,7 @@ def process_performance_metrics(performance_metrics, accumulated_metrics=None):
     # 计算平均性能指标
     avg_metrics = {
         'avg_fps': accumulated_metrics['total_frames'] / accumulated_metrics['total_time'] if accumulated_metrics['total_time'] > 0 else 0,
+        'avg_mask_fps': accumulated_metrics['total_masks'] / accumulated_metrics['total_time'] if accumulated_metrics['total_time'] > 0 else 0,
         'avg_gen_time': accumulated_metrics['total_gen_time'] / accumulated_metrics['total_frames'],
         'avg_pred_time': accumulated_metrics['total_pred_time'] / accumulated_metrics['total_frames'],
         'avg_gen_memory': accumulated_metrics['total_gen_memory'] / accumulated_metrics['total_frames'],
@@ -81,6 +84,7 @@ def log_performance_metrics(current_metrics, avg_metrics, logger=None):
     
     print("\n=== 平均性能指标 ===")
     print(f"平均FPS: {avg_metrics['avg_fps']:.2f}")
+    print(f"平均mask FPS: {avg_metrics['avg_mask_fps']:.2f}")
     print(f"生成器平均时间: {avg_metrics['avg_gen_time']:.4f}s")
     print(f"预测器平均时间: {avg_metrics['avg_pred_time']:.4f}s")
     print(f"生成器平均内存: {avg_metrics['avg_gen_memory']:.2f}MB")

@@ -1,0 +1,11 @@
+--2025-05-10 16:35:34--  https://hkust-vgd.nas.ust.hk:5001/fsdownload/webapi/file_download.cgi/batch000.zip?dlink=%222f35305f3330302f62617463683030302e7a6970%22
+正在解析主机 hkust-vgd.nas.ust.hk (hkust-vgd.nas.ust.hk)... 143.89.50.87
+正在连接 hkust-vgd.nas.ust.hk (hkust-vgd.nas.ust.hk)|143.89.50.87|:5001... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 未指定 [application/json]
+正在保存至: ‘batch000.zip?dlink="2f35305f3330302f62617463683030302e7a6970"’
+
+batch000.zip?dlink="2f35305f3330302f62617463683030302e7a6970     [<=>                                                                                                                                            ]       0  --.-KB/s               batch000.zip?dlink="2f35305f3330302f62617463683030302e7a6970     [ <=>                                                                                                                                           ]      38  --.-KB/s    用时 0s    
+
+2025-05-10 16:35:35 (13.7 MB/s) - ‘batch000.zip?dlink="2f35305f3330302f62617463683030302e7a6970"’ 已保存 [38]
+

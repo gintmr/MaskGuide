@@ -18,7 +18,8 @@ def main():
     
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_type", type=str, default="tiny_msam", help="model type", choices=["vit_t","tiny_msam", "vit_h"])
-    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/only_distill_8epoch.pth", help="path to the checkpoint")
+    # parser.add_argument("--model_type", type=str, default="vit_t", help="model type", choices=["vit_t","tiny_msam", "vit_h"])
+    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v5.pth", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/sam_vit_h_4b8939.pth", help="path to the checkpoint")
@@ -28,7 +29,7 @@ def main():
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
     parser.add_argument("--visualize_mask_path", default="/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results")
     parser.add_argument("--ori_SAM", default=False)
-    parser.add_argument("--sample_num", type=int, default=50, help="sample_num")
+    parser.add_argument("--sample_num", type=int, default=500, help="sample_num")
     
     args = parser.parse_args()
     
@@ -98,9 +99,10 @@ def main():
         predictor_results = results_dict['predictor_results']
         image_masks = results_dict['image_masks']
         
+        single_masks = results_dict['single_masks']
         current_metrics, accumulated_metrics, avg_metrics = process_performance_metrics(
         results_dict['performance_metrics'], 
-        accumulated_metrics
+        accumulated_metrics, single_masks=single_masks
     )
 
         bbox_pred_masks = predictor_results['bbox']['masks']

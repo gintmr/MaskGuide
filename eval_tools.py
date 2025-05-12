@@ -446,6 +446,8 @@ def inference_image_fps(image_path, annotations=None, mask_generator=None, mask_
         }
         
         mask_predictor.set_image(image)
+        
+        len_of_mask = len(image_annotations)
         for anno in image_annotations:
             if bbox_prompt:
                 input_box = np.array([
@@ -504,6 +506,7 @@ def inference_image_fps(image_path, annotations=None, mask_generator=None, mask_
         'height': height,
         'width': width,
         'image_array': image_array,
+        'single_masks': len_of_mask,
         'performance_metrics': {
             'fps': fps,
             'total_time_seconds': total_time,

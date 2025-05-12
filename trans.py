@@ -10,8 +10,8 @@ def trans_ckpt(ckpt_path, save_path =None):
             save_checkpoint[k.replace("S_model.image_encoder", "image_encoder")] = v
         elif "T_model.prompt_encoder" in k:
             save_checkpoint[k.replace("T_model.prompt_encoder", "prompt_encoder")] = v
-        elif "T_model.mask_decoder" in k:
-            save_checkpoint[k.replace("T_model.mask_decoder", "mask_decoder")] = v
+        elif "S_model.mask_decoder" in k:
+            save_checkpoint[k.replace("S_model.mask_decoder", "mask_decoder")] = v
 
     if not save_path:
         torch.save(save_checkpoint, "/data2/wuxinrui/RA-L/MobileSAM/weights/temp_weights/temp.pth")
@@ -20,4 +20,4 @@ def trans_ckpt(ckpt_path, save_path =None):
         torch.save(save_checkpoint, save_path)
         return save_path
 
-trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v5.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/only_distill40epoch_coco6epoch.pth")
+trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v11.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v5.pth")

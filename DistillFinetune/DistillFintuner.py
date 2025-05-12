@@ -152,12 +152,12 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
             if freeze_image_encoder:
                 for param in model.image_encoder.parameters():
                     param.requires_grad = False
-            # if freeze_prompt_encoder:
-            #     for param in model.prompt_encoder.parameters():
-            #         param.requires_grad = False
-            # if freeze_mask_decoder:
-            #     for param in model.mask_decoder.parameters():
-            #         param.requires_grad = False
+            if freeze_prompt_encoder:
+                for param in model.prompt_encoder.parameters():
+                    param.requires_grad = False
+            if freeze_mask_decoder:
+                for param in model.mask_decoder.parameters():
+                    param.requires_grad = False
         for model in [self.T_model]:
             for param in model.image_encoder.parameters():
                 param.requires_grad = False

@@ -19,10 +19,10 @@ def finetune(**kwargs):
     self = kwargs['self']
     if hasattr(self, 'model'):
         model = self.model
-    elif hasattr(self, 'T_model'):
-        model = self.T_model
+    elif hasattr(self, 'S_model'):
+        model = self.S_model
     
-    if random.random() < 0.2:
+    if random.random() < 0.5:
         self.use_bbox  = False
     else:
         self.use_bbox  = True
