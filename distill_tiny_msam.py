@@ -83,7 +83,7 @@ def main():
     parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
     parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", type=str, required=False, help="path to the checkpoint")
 
-    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v3.pth", type=str, required=False, help="path to the checkpoint")
+    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v7.pth", type=str, required=False, help="path to the checkpoint")
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/Tools_weights/prune_init_weights/tiny_msam_mobilesam.pth", type=str, required=False, help="path to the checkpoint")
 
     # 添加一个名为multimask的参数，类型为布尔型，默认值为False，当该参数被指定时，其值为True，用于生成多掩码
@@ -95,8 +95,8 @@ def main():
     parser.add_argument("--batch_size", type=int, default=2, help="batch size")
     parser.add_argument("--save_topk", type=int, default=3, help="save top K models")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
-    parser.add_argument("--epochs", type=int, default=25, help="number of steps")
-    parser.add_argument("--num_points", type=int, default=6, help="number of random points")
+    parser.add_argument("--epochs", type=int, default=50, help="number of steps")
+    parser.add_argument("--num_points", type=int, default=10, help="number of random points")
     parser.add_argument("--length", type=int, default=200, help="the length `of the chosen masks")
  
     parser.add_argument("--learning_rate", type=float, default=1.0e-5, help="learning rate")
@@ -104,7 +104,7 @@ def main():
     parser.add_argument("--metrics_interval", type=int, default=500, help="interval for logging metrics")
 
     parser.add_argument("--only_distill", default=False)
-    parser.add_argument("--add_distill", default=True)
+    parser.add_argument("--add_distill", default=False)
     parser.add_argument("--repeat_sample", default=False)
 
     args = parser.parse_args()

@@ -181,7 +181,6 @@ def build_tiny_msam(checkpoint=None):
 
             print(f"S_model randomly inited")
 
-        mobile_sam.eval()
         return mobile_sam
     
     elif os.environ['MODEL_MODE'] == "train":

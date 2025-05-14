@@ -1,0 +1,37 @@
+2025-05-14 15:17:37 - INFO - Using device: cuda
+2025-05-14 15:17:37 - INFO - Devices num is 4
+2025-05-14 15:17:37 - INFO - args: Namespace(model_type='tiny_msam', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=1, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=500)
+2025-05-14 15:17:40 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-05-14 15:17:40 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json##################################################
+2025-05-14 15:18:36 - INFO - bbox_PA: 0.9912836617610131
+2025-05-14 15:18:36 - INFO - bbox_IoU: 0.8151592677064152
+2025-05-14 15:18:36 - INFO - bbox_Dice: 0.8789780864903192
+2025-05-14 15:18:36 - INFO - bbox_Precision: 0.9466468921087976
+2025-05-14 15:18:36 - INFO - bbox_Recall: 0.8447897280948209
+2025-05-14 15:18:36 - INFO - bbox_F1 Score: 0.8789780864903192
+2025-05-14 15:18:36 - INFO - bbox_MAE: 0.008716337382793427
+2025-05-14 15:18:36 - INFO - bbox_MSE: 0.008716337382793427
+2025-05-14 15:18:36 - INFO - point_PA: 0.9681684040138038
+2025-05-14 15:18:36 - INFO - point_IoU: 0.5860797095417596
+2025-05-14 15:18:36 - INFO - point_Dice: 0.6662810206380199
+2025-05-14 15:18:36 - INFO - point_Precision: 0.8893696348762562
+2025-05-14 15:18:36 - INFO - point_Recall: 0.6296717183216188
+2025-05-14 15:18:36 - INFO - point_F1 Score: 0.6662810206380199
+2025-05-14 15:18:36 - INFO - point_MAE: 0.03183159604668617
+2025-05-14 15:18:36 - INFO - point_MSE: 0.03183159604668617
+2025-05-14 15:18:36 - INFO - 
+=== 当前帧性能指标 ===
+2025-05-14 15:18:36 - INFO - FPS: 33.30
+2025-05-14 15:18:36 - INFO - 生成器时间: 0.0002s
+2025-05-14 15:18:36 - INFO - 预测器时间: 0.0204s
+2025-05-14 15:18:36 - INFO - 生成器内存: 0.00MB
+2025-05-14 15:18:36 - INFO - 预测器内存: 0.00MB
+2025-05-14 15:18:36 - INFO - 峰值内存: 256.29MB
+2025-05-14 15:18:36 - INFO - 
+=== 平均性能指标 ===
+2025-05-14 15:18:36 - INFO - 平均FPS: 25.39
+2025-05-14 15:18:36 - INFO - 生成器平均时间: 0.0002s
+2025-05-14 15:18:36 - INFO - 预测器平均时间: 0.0317s
+2025-05-14 15:18:36 - INFO - 生成器平均内存: 0.00MB
+2025-05-14 15:18:36 - INFO - 预测器平均内存: 0.01MB
+2025-05-14 15:18:36 - INFO - 峰值内存: 256.29MB
