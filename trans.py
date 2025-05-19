@@ -60,4 +60,4 @@ def compare_mask_decoders(ckpt_path, reference_path):
 #     "/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt"
 # )
 
-trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v13.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v7.pth")
+trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v15.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v9.pth")

@@ -68,16 +68,15 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
         input_images = torch.stack([self.T_model.preprocess(imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
         input_images.to(device)
         try:
-            T_features, T_layers_features = self.T_model.image_encoder(input_images)
-            S_features, S_layers_features = self.S_model.image_encoder(input_images)
+            T_features = self.T_model.image_encoder(input_images)
+            S_features = self.S_model.image_encoder(input_images)
 
             RATE = self.global_step / self.max_steps
             
-            distill_loss = self.feature_distillation_loss(T_features, S_features, T_layers_features, S_layers_features, RATE)
+            distill_loss = self.feature_distillation_loss(T_features, S_features, RATE)
             if not self.add_distill:
                 distill_loss -= distill_loss
 
-            del T_layers_features, S_layers_features
             num_masks = sum([len(b) for b in bboxes])
 
             BS_LOSS = 0

@@ -623,11 +623,7 @@ class TinyViT(nn.Module):
         x, features = self.forward_features(x)
         #x = self.norm_head(x)
         #x = self.head(x)
-        import os
-        DISTILL = os.environ.get('DISTILL', 'F')
-        if DISTILL == "T":
-            return x, features
-        del features
+
         return x
 
 class tiny_TinyViT(TinyViT):

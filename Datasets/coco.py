@@ -175,7 +175,7 @@ class Coco2MaskDataset(Dataset):
             #g 将张量的维度从HWC转换为CHW
             input_image_torch = input_image_torch.permute(2, 0, 1).contiguous()
             
-            weights = [0.3, 0.0, 0.4, 0.3]
+            weights = [0.2, 0.0, 0.5, 0.3]
             prompt_types = ['1_point', '3_points', '5_points', '8_points']
             prompt_type = random.choices(prompt_types, weights=weights, k=1)[0]
             
@@ -511,8 +511,8 @@ class Coco2MaskDataset_repeat(Dataset):
             #g 将张量的维度从HWC转换为CHW
             input_image_torch = input_image_torch.permute(2, 0, 1).contiguous()
             
-            weights = [0.0, 0.0, 1.0]
-            prompt_types = ['1_point', '3_points', '5_points']
+            weights = [0.2, 0.0, 0.5, 0.3]
+            prompt_types = ['1_point', '3_points', '5_points', '8_points']
             prompt_type = random.choices(prompt_types, weights=weights, k=1)[0]
             
             if prompt_type == "1_point":
@@ -524,6 +524,10 @@ class Coco2MaskDataset_repeat(Dataset):
             elif prompt_type == "5_points":
                 given_points = given_points[:, :5]
                 point_labels = point_labels[:, :5]
+            elif prompt_type == "8_points":
+                given_points = given_points[:, :8]
+                point_labels = point_labels[:, :8]
+
 
 
             return (

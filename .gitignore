@@ -18,3 +18,4 @@ __py
 /data2/wuxinrui/RA-L/MobileSAM/training_visual/
 training_visual_distill/
 training_visual_sft/
+nohup.out

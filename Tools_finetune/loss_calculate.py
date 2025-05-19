@@ -172,7 +172,7 @@ class OceanSegmentationLoss:
 
         # 组合损失（可根据需要调整权重）
         total_loss = (
-            2.0 * results['iou_loss'] + 
+            2.5 * results['iou_loss'] + 
             # 0.5 * results['dice_loss'] + 
             # 0.2 * results['tversky_loss'] +
             20.0 * results['focal_loss'] + 

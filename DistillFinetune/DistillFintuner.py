@@ -235,7 +235,7 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
             shuffle=False)
         return val_loader
 
-    def feature_distillation_loss(self, T_features, S_features, T_layers_features, S_layers_features, RATE, reduction='batchmean', alpha=0.8, beta=0.2):
+    def feature_distillation_loss(self, T_features, S_features, RATE, reduction='batchmean', alpha=0.8, beta=0.2):
         """
         计算教师模型和学生模型特征的蒸馏损失。
 

@@ -24,7 +24,6 @@ os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:32'
 os.environ['INFERENCE_MODE'] = "test"# 是否下采样1/2
 # os.environ['INFERENCE_MODE'] = "train"# 是否下采样1/2
 os.environ['MODEL_MODE'] = "test" # 是否构造完整模型
-os.environ['DISTILL'] = "T"
 
 # torch.cuda.set_per_process_memory_fraction(0.9, device=0)
 # torch.cuda.set_per_process_memory_fraction(0.9, device=1)  
@@ -80,11 +79,12 @@ def main():
 
     parser.add_argument("--T_model", default='vit_t', type=str, required=False, help="model type")
     # parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
-    parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
+    # parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
+    parser.add_argument("--S_model", default='rep_sam', type=str, required=False, help="model type")
     parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", type=str, required=False, help="path to the checkpoint")
 
-    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v7.pth", type=str, required=False, help="path to the checkpoint")
-    # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/Tools_weights/prune_init_weights/tiny_msam_mobilesam.pth", type=str, required=False, help="path to the checkpoint")
+    # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint")
+    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/Tools_weights/prune_init_weights/init_rep_sam.pth", type=str, required=False, help="path to the checkpoint")
 
     # 添加一个名为multimask的参数，类型为布尔型，默认值为False，当该参数被指定时，其值为True，用于生成多掩码
     parser.add_argument("--multimask", action="store_true", help="generate multi masks")
@@ -95,16 +95,16 @@ def main():
     parser.add_argument("--batch_size", type=int, default=2, help="batch size")
     parser.add_argument("--save_topk", type=int, default=3, help="save top K models")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
-    parser.add_argument("--epochs", type=int, default=50, help="number of steps")
+    parser.add_argument("--epochs", type=int, default=5, help="number of steps")
     parser.add_argument("--num_points", type=int, default=10, help="number of random points")
     parser.add_argument("--length", type=int, default=200, help="the length `of the chosen masks")
  
-    parser.add_argument("--learning_rate", type=float, default=1.0e-5, help="learning rate")
+    parser.add_argument("--learning_rate", type=float, default=1.0e-4, help="learning rate")
     parser.add_argument("--weight_decay", type=float, default=1e-2, help="weight decay")
     parser.add_argument("--metrics_interval", type=int, default=500, help="interval for logging metrics")
 
     parser.add_argument("--only_distill", default=False)
-    parser.add_argument("--add_distill", default=False)
+    parser.add_argument("--add_distill", default=True)
     parser.add_argument("--repeat_sample", default=False)
 
     args = parser.parse_args()
@@ -124,20 +124,20 @@ def main():
         else:
             dataset = Coco2MaskDataset_repeat
         # load the dataset
-        train_dataset_MIMC = dataset(data_root=args.train_data_MIMC, annotation_path=args.train_anno_MIMC, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
-        val_dataset_MIMC = dataset(data_root=args.val_data_MIMC, annotation_path=args.val_anno_MIMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        # train_dataset_MIMC = dataset(data_root=args.train_data_MIMC, annotation_path=args.train_anno_MIMC, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        # val_dataset_MIMC = dataset(data_root=args.val_data_MIMC, annotation_path=args.val_anno_MIMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
             
-        train_dataset = combined_datasets([train_dataset_MIMC, ])
-        val_dataset = combined_datasets([val_dataset_MIMC, ])
+        # train_dataset = combined_datasets([train_dataset_MIMC, ])
+        # val_dataset = combined_datasets([val_dataset_MIMC, ])
 
-        # train_dataset_COCO = Coco2MaskDataset(data_root=args.train_data_COCO, annotation_path=args.train_anno_COCO, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
-        # val_dataset_COCO = Coco2MaskDataset(data_root=args.val_data_COCO, annotation_path=args.val_anno_COCO, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        train_dataset_COCO = Coco2MaskDataset(data_root=args.train_data_COCO, annotation_path=args.train_anno_COCO, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        val_dataset_COCO = Coco2MaskDataset(data_root=args.val_data_COCO, annotation_path=args.val_anno_COCO, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
 
-        # train_dataset = combined_datasets([train_dataset_COCO])
-        # val_dataset = combined_datasets([val_dataset_COCO])
+        train_dataset = combined_datasets([train_dataset_COCO])
+        val_dataset = combined_datasets([val_dataset_COCO])
         
-        # train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_COCO])
-        # val_dataset = combined_datasets([val_dataset_MIMC, val_dataset_COCO])
+        train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_COCO])
+        val_dataset = combined_datasets([val_dataset_MIMC, val_dataset_COCO])
         
     else:
         train_dataset_MIMC = Coco2IMGDataset(data_root=args.train_data_MIMC, image_size=args.image_size,)
