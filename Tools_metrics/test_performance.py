@@ -11,6 +11,7 @@ module_path = "./"
 if module_path not in sys.path:
     sys.path.append(module_path)
 from mobile_sam.modeling import ImageEncoderViT, MaskDecoder, PromptEncoder, Sam, TwoWayTransformer, TinyViT, tiny_TinyViT
+from mobile_sam.repvit import repvit_m0_5
 
 # 假设你的 TinyViT 和其他组件已经定义好了
 # from your_model_file import TinyViT, PromptEncoder, MaskDecoder, TwoWayTransformer
@@ -29,7 +30,7 @@ class RandomImageDataset(Dataset):
         image = torch.randn(3, self.image_size, self.image_size)
         return image
 
-def test_image_encoder(image_encoder, dataset, batch_size=32, num_batches=32):
+def test_image_encoder(image_encoder, dataset, batch_size=32, num_batches=320):
     # 将模型和数据移动到 GPU
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     image_encoder.to(device)
@@ -94,13 +95,21 @@ def test_image_encoder(image_encoder, dataset, batch_size=32, num_batches=32):
 #     layer_lr_decay=0.8
 # )
 
-image_encoder = TinyViT(
+image_encoder = tiny_TinyViT(
     img_size=1024,
     in_chans=3,
     num_classes=1000,
-    embed_dims=[64, 128, 160, 320],
-    depths=[2, 2, 6, 2],
-    num_heads=[2, 4, 5, 10],
+    # embed_dims=[64, 128, 160, 320],
+    # depths=[2, 2, 6, 2],
+    # num_heads=[2, 4, 5, 10],
+    # window_sizes=[7, 7, 14, 7],
+    # embed_dims=[64, 96, 128, 320],
+    # depths=[1, 2, 4, 1],
+    # num_heads=[2, 3, 4, 8],
+    # window_sizes=[7, 7, 14, 7],
+    embed_dims=[64, 80, 160, 320],
+    depths=[1, 1, 1, 1],
+    num_heads=[2, 2, 4, 8],
     window_sizes=[7, 7, 14, 7],
     mlp_ratio=4.,
     drop_rate=0.,
@@ -110,9 +119,9 @@ image_encoder = TinyViT(
     local_conv_size=3,
     layer_lr_decay=0.8
 )
-
+# image_encoder = repvit_m0_5()
 # 创建随机图像数据集
-dataset = RandomImageDataset(size=1000, image_size=1024)
+dataset = RandomImageDataset(size=10000, image_size=1024)
 
 # 运行测试
-test_image_encoder(image_encoder, dataset, batch_size=1, num_batches=10)
+test_image_encoder(image_encoder, dataset, batch_size=1, num_batches=320)

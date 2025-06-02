@@ -180,6 +180,19 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
         """
         pass
 
+    def validation_step(self, batch, batch_idx):
+        """
+        Validation step.
+        """
+        pass
+
+    def validation_epoch_end(self, outputs):
+        """
+        在每个验证周期结束时汇总结果。
+        """
+        pass
+
+
     def configure_optimizers(self):
         opt = torch.optim.AdamW(self.parameters(), lr=self.learning_rate, weight_decay=self.weight_decay, capturable=True)
 
@@ -187,16 +200,16 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
         def lr_schedule(step):
             progress = step / self.max_steps
             #g === 先高后低
-            if progress < 0.5:
-                factor = 2 * progress
-                decay_factor = 0.25 + 0.75 * (1 - math.cos(math.pi * factor)) / 2
-            else:
-                factor = 2 * (progress - 0.5)
-                decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
+            # if progress < 0.5:
+            #     factor = 2 * progress
+            #     decay_factor = 0.25 + 0.75 * (1 - math.cos(math.pi * factor)) / 2
+            # else:
+            #     factor = 2 * (progress - 0.5)
+            #     decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
             
             #g ====从高到低
-            # factor = progress
-            # decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
+            factor = progress
+            decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
 
             return decay_factor
         

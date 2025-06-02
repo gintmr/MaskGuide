@@ -72,7 +72,7 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             S_features = self.S_model.image_encoder(input_images)
 
             RATE = self.global_step / self.max_steps
-            
+            os.environ['RATE'] = str(RATE)
             distill_loss = self.feature_distillation_loss(T_features, S_features, RATE)
             if not self.add_distill:
                 distill_loss -= distill_loss
@@ -118,8 +118,10 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             # av_BS_loss_tversky = BS_loss_tversky / BS
             av_BS_loss_mse = BS_loss_mse / BS
             av_BS_loss_focal = BS_loss_focal / BS
-
-            assert not torch.isnan(BS_LOSS), "loss is nan"
+            if BS_LOSS == 0:
+                pass
+            else:
+                assert not torch.isnan(BS_LOSS), "loss is nan"
 
             loss = BS_LOSS + distill_loss * self.distill_weight
 
@@ -163,3 +165,37 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
         del outputs, log_metrics
         torch.cuda.empty_cache()
         return metrics
+
+
+    def validation_step(self, batch, batch_idx):
+        imgs, bboxes, labels, center_points, point_labels, img_name, category_ids ,original_input_size,resized_input_size, coco_image_names = batch
+
+        # with autocast():
+        #     outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
+        with torch.no_grad():
+            outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
+
+        if outputs['loss'] == 0:
+            print("Skipping invalid batch")
+            return None
+        metrics = {}
+        metrics['av_BS_IoU'] = outputs['av_BS_IoU']
+        metrics['loss'] = outputs['loss']
+        return metrics
+        
+            
+    def validation_epoch_end(self, outputs):
+        if not outputs:
+            print("No valid batches in validation step.")
+            return
+
+        # 汇总所有批次的指标
+        avg_metrics = {}
+        for key in outputs[0].keys():
+            values = [output[key] for output in outputs if output is not None]
+            if values:
+                avg_metrics[key] = sum(values) / len(values)  # 直接对 float 类型的指标进行平均
+
+        # 记录汇总后的指标到日志中
+        for key, value in avg_metrics.items():
+            self.log(f'val_{key}', value, on_epoch=True, sync_dist=True)

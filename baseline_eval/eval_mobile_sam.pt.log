@@ -307,3 +307,40 @@ point_MSE: 0.04157627373933792
 2025-05-10 22:10:44 - INFO - 生成器平均内存: 0.00MB
 2025-05-10 22:10:44 - INFO - 预测器平均内存: 0.00MB
 2025-05-10 22:10:44 - INFO - 峰值内存: 285.24MB
+2025-06-01 11:50:22 - INFO - Using device: cuda
+2025-06-01 11:50:22 - INFO - Devices num is 4
+2025-06-01 11:50:22 - INFO - args: Namespace(model_type='vit_t', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/train_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/train-taxonomic_cleaned.json', label_num=None, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=200)
+2025-06-01 11:50:24 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-06-01 11:50:24 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/train-taxonomic_cleaned.json##################################################
+2025-06-01 11:50:54 - INFO - bbox_PA: 0.9907776127206466
+2025-06-01 11:50:54 - INFO - bbox_IoU: 0.8518905660013321
+2025-06-01 11:50:54 - INFO - bbox_Dice: 0.9128457424604257
+2025-06-01 11:50:54 - INFO - bbox_Precision: 0.9030356056627113
+2025-06-01 11:50:54 - INFO - bbox_Recall: 0.9331523046234631
+2025-06-01 11:50:54 - INFO - bbox_F1 Score: 0.9128457424604257
+2025-06-01 11:50:54 - INFO - bbox_MAE: 0.00922238640487194
+2025-06-01 11:50:54 - INFO - bbox_MSE: 0.00922238640487194
+2025-06-01 11:50:54 - INFO - point_PA: 0.9907776127206466
+2025-06-01 11:50:54 - INFO - point_IoU: 0.8518905660013321
+2025-06-01 11:50:54 - INFO - point_Dice: 0.9128457424604257
+2025-06-01 11:50:54 - INFO - point_Precision: 0.9030356056627113
+2025-06-01 11:50:54 - INFO - point_Recall: 0.9331523046234631
+2025-06-01 11:50:54 - INFO - point_F1 Score: 0.9128457424604257
+2025-06-01 11:50:54 - INFO - point_MAE: 0.00922238640487194
+2025-06-01 11:50:54 - INFO - point_MSE: 0.00922238640487194
+2025-06-01 11:50:54 - INFO - 
+=== 当前帧性能指标 ===
+2025-06-01 11:50:54 - INFO - FPS: 14.98
+2025-06-01 11:50:54 - INFO - 生成器时间: 0.0288s
+2025-06-01 11:50:54 - INFO - 预测器时间: 0.0248s
+2025-06-01 11:50:54 - INFO - 生成器内存: 0.00MB
+2025-06-01 11:50:54 - INFO - 预测器内存: 0.00MB
+2025-06-01 11:50:54 - INFO - 峰值内存: 285.10MB
+2025-06-01 11:50:54 - INFO - 
+=== 平均性能指标 ===
+2025-06-01 11:50:54 - INFO - 平均FPS: 14.34
+2025-06-01 11:50:54 - INFO - 生成器平均时间: 0.0251s
+2025-06-01 11:50:54 - INFO - 预测器平均时间: 0.0360s
+2025-06-01 11:50:54 - INFO - 生成器平均内存: 0.00MB
+2025-06-01 11:50:54 - INFO - 预测器平均内存: 0.02MB
+2025-06-01 11:50:54 - INFO - 峰值内存: 285.10MB

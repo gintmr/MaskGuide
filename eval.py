@@ -15,21 +15,23 @@ from Tools_metrics.performance_process import log_performance_metrics, process_p
 os.environ['MODEL_MODE'] = "test"
 os.environ['INFERENCE_MODE'] = "test"
 def main():
-    
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_type", type=str, default="tiny_msam", help="model type", choices=["vit_t","tiny_msam", "vit_h"])
+    parser.add_argument("--model_type", type=str, default="rep_sam", help="model type", choices=["vit_t","tiny_msam", "vit_h", "rep_sam"])
     # parser.add_argument("--model_type", type=str, default="vit_t", help="model type", choices=["vit_t","tiny_msam", "vit_h"])
-    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v9.pth", help="path to the checkpoint")
+    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/step=22050-val_av_BS_IoU=0.6144.pth", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", help="path to the checkpoint")
-    # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", help="path to the checkpoint")
+    # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage3.pth", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/sam_vit_h_4b8939.pth", help="path to the checkpoint")
     parser.add_argument("--test_img_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list", help="the test image path")
     parser.add_argument("--label_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json", help="the test json path")
-    parser.add_argument("--label_num", type=int, default=5, help="the num of points // more prior than label_path")
+    # parser.add_argument("--test_img_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/train_list", help="the test image path")
+    # parser.add_argument("--label_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/train-taxonomic_cleaned.json", help="the test json path")
+    parser.add_argument("--label_num", type=int, default=None, help="the num of points // more prior than label_path")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
     parser.add_argument("--visualize_mask_path", default="/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results")
     parser.add_argument("--ori_SAM", default=False)
-    parser.add_argument("--sample_num", type=int, default=None, help="sample_num")
+    parser.add_argument("--sample_num", type=int, default=200, help="sample_num")
     
     args = parser.parse_args()
     
@@ -90,48 +92,55 @@ def main():
     sample_num = args.sample_num
     accumulated_metrics = None
     for img_file in tqdm(img_files[:sample_num], miniters=50):
-        
-        img_path = os.path.join(args.test_img_path, img_file)
-        ext_name = img_file.split('.')[-1]
-        
-        results_dict = inference_image_fps(img_path, annotations, mask_generator, mask_predictor, device=device, bbox_prompt=True, point_prompt=True)
-        
-        predictor_results = results_dict['predictor_results']
-        image_masks = results_dict['image_masks']
-        
-        single_masks = results_dict['single_masks']
-        current_metrics, accumulated_metrics, avg_metrics = process_performance_metrics(
-        results_dict['performance_metrics'], 
-        accumulated_metrics, single_masks=single_masks
-    )
+        try:
 
-        bbox_pred_masks = predictor_results['bbox']['masks']
-        point_pred_masks = predictor_results['point']['masks']
-        
-        output_path_bbox = os.path.join(visualize_mask_path, img_file.replace(ext_name, "_bbox_pred.jpg"))
-        output_path_point = os.path.join(visualize_mask_path, img_file.replace(ext_name, "_point_pred.jpg"))
-        
-        overlay_mask_on_image(bbox_pred_masks, output_path=output_path_bbox, image_path=img_path)
-        overlay_mask_on_image(point_pred_masks, output_path=output_path_point, image_path=img_path)
-        
-        
-        bbox_metric_dict = calculate_metrics(bbox_pred_masks, image_masks)
-        if bbox_metric_dicts is None:
-            bbox_metric_dicts = {}
-            for metric_name, metric_list in bbox_metric_dict.items():
-                bbox_metric_dicts[metric_name] = []
-        for metric_name, metric_list in bbox_metric_dict.items():
-            bbox_metric_dicts[metric_name].extend(metric_list[i] for i in range(len(metric_list)))
-
-
-        point_metric_dict = calculate_metrics(point_pred_masks, image_masks)
-        if point_metric_dicts is None:
-            point_metric_dicts = {}
-            for metric_name, metric_list in point_metric_dict.items():
-                point_metric_dicts[metric_name] = []
-        for metric_name, metric_list in point_metric_dict.items():
-            point_metric_dicts[metric_name].extend(metric_list[i] for i in range(len(metric_list)))
+            img_path = os.path.join(args.test_img_path, img_file)
+            ext_name = img_file.split('.')[-1]
+            point_prompt = True
+            # results_dict = inference_image_fps(img_path, annotations, mask_generator, mask_predictor, device=device, bbox_prompt=True, point_prompt=point_prompt)
+            results_dict = inference_image_fps(img_path, annotations, mask_generator, mask_predictor, device=device, bbox_prompt=True, point_prompt=point_prompt)
             
+            predictor_results = results_dict['predictor_results']
+            image_masks = results_dict['image_masks']
+            
+            single_masks = results_dict['single_masks']
+            current_metrics, accumulated_metrics, avg_metrics = process_performance_metrics(
+            results_dict['performance_metrics'], 
+            accumulated_metrics, single_masks=single_masks
+            )
+
+            bbox_pred_masks = predictor_results['bbox']['masks']
+            point_pred_masks =  predictor_results['point']['masks'] if point_prompt else bbox_pred_masks
+            # point_pred_masks = predictor_results['point']['masks']
+            
+            output_path_bbox = os.path.join(visualize_mask_path, img_file.replace(ext_name, "_bbox_pred.jpg"))
+            output_path_point = os.path.join(visualize_mask_path, img_file.replace(ext_name, "_point_pred.jpg"))
+            
+            overlay_mask_on_image(bbox_pred_masks, output_path=output_path_bbox, image_path=img_path)
+            overlay_mask_on_image(point_pred_masks, output_path=output_path_point, image_path=img_path)
+            
+            
+            bbox_metric_dict = calculate_metrics(bbox_pred_masks, image_masks)
+            if bbox_metric_dicts is None:
+                bbox_metric_dicts = {}
+                for metric_name, metric_list in bbox_metric_dict.items():
+                    bbox_metric_dicts[metric_name] = []
+            for metric_name, metric_list in bbox_metric_dict.items():
+                bbox_metric_dicts[metric_name].extend(metric_list[i] for i in range(len(metric_list)))
+
+
+            point_metric_dict = calculate_metrics(point_pred_masks, image_masks)
+            if point_metric_dicts is None:
+                point_metric_dicts = {}
+                for metric_name, metric_list in point_metric_dict.items():
+                    point_metric_dicts[metric_name] = []
+            for metric_name, metric_list in point_metric_dict.items():
+                point_metric_dicts[metric_name].extend(metric_list[i] for i in range(len(metric_list)))
+        
+        except Exception as e:
+            print(f"Error processing image {img_file}: {e}")
+            continue
+
         # pa_list, iou_list = calculate_pa_iou(bbox_pred_masks, image_masks)
         # bbox_iou_list.extend(iou_list[i] for i in range(len(iou_list)))
         # bbox_pa_list.extend(pa_list[i] for i in range(len(pa_list)))

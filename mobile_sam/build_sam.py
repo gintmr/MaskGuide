@@ -220,6 +220,100 @@ def build_tiny_msam(checkpoint=None):
         return mobile_sam
 
 
+
+def build_micro_sam(checkpoint=None):
+    prompt_embed_dim = 256
+    image_size = 1024
+    vit_patch_size = 16
+    image_embedding_size = image_size // vit_patch_size
+    if os.environ['MODEL_MODE'] == "test":
+        mobile_sam = Sam(
+                image_encoder=tiny_TinyViT(img_size=1024, in_chans=3, num_classes=1000,
+                embed_dims=[64, 80, 160, 320],
+                depths=[1, 1, 1, 1],
+                num_heads=[2, 2, 4, 8],
+                window_sizes=[7, 7, 14, 7],
+                    mlp_ratio=4.,
+                    drop_rate=0.,
+                    drop_path_rate=0.0,
+                    use_checkpoint=False,
+                    mbconv_expand_ratio=4.0,
+                    local_conv_size=3,
+                    layer_lr_decay=0.8
+                ),
+                prompt_encoder=PromptEncoder(
+                embed_dim=prompt_embed_dim, # 256
+                image_embedding_size=(image_embedding_size, image_embedding_size),
+                input_image_size=(image_size, image_size),
+                mask_in_chans=16,
+                ),
+                mask_decoder=MaskDecoder(
+                        num_multimask_outputs=3,
+                        transformer=TwoWayTransformer(
+                        depth=2,
+                        embedding_dim=prompt_embed_dim,
+                        mlp_dim=2048,
+                        num_heads=8,
+                    ),
+                    transformer_dim=prompt_embed_dim,
+                    iou_head_depth=3,
+                    iou_head_hidden_dim=256,
+                ),
+                pixel_mean=[123.675, 116.28, 103.53],
+                pixel_std=[58.395, 57.12, 57.375],)
+        
+        if checkpoint is not None:
+            with open(checkpoint, "rb") as f:
+                state_dict = torch.load(f)
+                check_missing_layers(mobile_sam, state_dict)
+                state_dict_filtered = {k: v for k, v in state_dict.items() if k in mobile_sam.state_dict()}
+            mobile_sam.load_state_dict(state_dict_filtered, strict=False)
+            print(f"S_model inited by {checkpoint}")
+
+        else:
+            init_weights_by_mobilesam(mobile_sam)
+
+            print(f"S_model randomly inited")
+
+        return mobile_sam
+    
+    elif os.environ['MODEL_MODE'] == "train":
+        mobile_sam = Sam(
+                image_encoder=tiny_TinyViT(img_size=1024, in_chans=3, num_classes=1000,
+                embed_dims=[64, 80, 160, 320],
+                depths=[1, 1, 1, 1],
+                num_heads=[2, 2, 4, 8],
+                window_sizes=[7, 7, 14, 7],
+                mlp_ratio=4.,
+                drop_rate=0.,
+                drop_path_rate=0.0,
+                use_checkpoint=False,
+                mbconv_expand_ratio=4.0,
+                local_conv_size=3,
+                layer_lr_decay=0.8
+            ),
+            prompt_encoder=None,
+            mask_decoder=None,
+            pixel_mean=[123.675, 116.28, 103.53],
+            pixel_std=[58.395, 57.12, 57.375],)
+
+        if checkpoint is not None:
+            with open(checkpoint, "rb") as f:
+                state_dict = torch.load(f)
+                check_missing_layers(mobile_sam, state_dict)
+                state_dict_filtered = {k: v for k, v in state_dict.items() if k in mobile_sam.state_dict()}
+            mobile_sam.load_state_dict(state_dict_filtered, strict=False)
+            print(f"S_model inited by {checkpoint}")
+        else:
+            mobile_sam.image_encoder.apply(init_weights)
+            mobile_sam.prompt_encoder.apply(init_weights)
+            mobile_sam.mask_decoder.apply(init_weights)
+            print(f"S_model randomly inited")
+
+        mobile_sam.image_encoder.apply(init_weights)
+        return mobile_sam
+
+
 from .repvit import repvit_m0_5
 def build_rep_sam(checkpoint=None):
     prompt_embed_dim = 256
@@ -317,6 +411,7 @@ sam_model_registry = {
     "vit_b": build_sam_vit_b,
     "vit_t": build_sam_vit_t,
     "tiny_msam": build_tiny_msam,
+    "micro_sam": build_micro_sam,
     "rep_sam": build_rep_sam,
 }
 

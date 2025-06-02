@@ -425,6 +425,11 @@ def inference_image_fps(image_path, annotations=None, mask_generator=None, mask_
         torch.cuda.synchronize()
         pre_gen_mem = torch.cuda.memory_allocated()
     
+    # for mask in image_masks:
+    #     mask_8u = cv2.convertScaleAbs(mask)
+    #     contours, _ = cv2.findContours(mask_8u, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    #     cv2.drawContours(image, contours, -1, (255, 255, 255), 2)
+    cv2.imwrite("test.png", image)
     generator_results = mask_generator.generate(image) if mask_generator else None
     
     if device == "cuda":
@@ -633,7 +638,10 @@ def overlay_mask_on_image(mask, image_path=None, image_array=None, mask_color=(1
         if len(dims) == 3:
             if dims[0] in [1, 3, 4]:
                 # print("检测到 CHW 格式，正在转换为 HWC...")
-                image = image.permute((1, 2, 0))
+                if isinstance(image, torch.Tensor):
+                    image = image.permute((1, 2, 0))
+                else:
+                    image = image.transpose((1, 2, 0))
             elif dims[2] in [1, 3, 4]:
                 image = image
                 # print("图像已经是 HWC 格式，无需转换。")

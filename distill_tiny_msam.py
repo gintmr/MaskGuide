@@ -77,14 +77,16 @@ def main():
     parser.add_argument("--Tar", default="Img_Encoder", choices=["Img_Encoder", "Mask_Decoder", "Prompt_Encoder"],type=str, required=False, help="target to be distilled")
 
 
+    # parser.add_argument("--T_model", default='tiny_msam', type=str, required=False, help="model type")
     parser.add_argument("--T_model", default='vit_t', type=str, required=False, help="model type")
     # parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
     # parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
-    parser.add_argument("--S_model", default='rep_sam', type=str, required=False, help="model type")
+    parser.add_argument("--S_model", default='micro_sam', type=str, required=False, help="model type")
     parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", type=str, required=False, help="path to the checkpoint")
+    # parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint")
 
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint")
-    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/Tools_weights/prune_init_weights/init_rep_sam.pth", type=str, required=False, help="path to the checkpoint")
+    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/Tools_weights/prune_init_weights/init_micro_sam.pth", type=str, required=False, help="path to the checkpoint")
 
     # 添加一个名为multimask的参数，类型为布尔型，默认值为False，当该参数被指定时，其值为True，用于生成多掩码
     parser.add_argument("--multimask", action="store_true", help="generate multi masks")
@@ -92,14 +94,14 @@ def main():
     parser.add_argument("--use_bbox", default=False, help="generate multi masks")
     parser.add_argument("--use_centerpoint", action="store_true", help="use only one center point", default=False)
     parser.add_argument('--every_n_train_steps', default=50)
-    parser.add_argument("--batch_size", type=int, default=2, help="batch size")
-    parser.add_argument("--save_topk", type=int, default=3, help="save top K models")
+    parser.add_argument("--batch_size", type=int, default=4, help="batch size")
+    parser.add_argument("--save_topk", type=int, default=5, help="save top K models")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
-    parser.add_argument("--epochs", type=int, default=5, help="number of steps")
+    parser.add_argument("--epochs", type=int, default=8, help="number of steps")
     parser.add_argument("--num_points", type=int, default=10, help="number of random points")
     parser.add_argument("--length", type=int, default=200, help="the length `of the chosen masks")
- 
-    parser.add_argument("--learning_rate", type=float, default=1.0e-4, help="learning rate")
+
+    parser.add_argument("--learning_rate", type=float, default=5.0e-5, help="learning rate")
     parser.add_argument("--weight_decay", type=float, default=1e-2, help="weight decay")
     parser.add_argument("--metrics_interval", type=int, default=500, help="interval for logging metrics")
 
@@ -124,20 +126,20 @@ def main():
         else:
             dataset = Coco2MaskDataset_repeat
         # load the dataset
-        # train_dataset_MIMC = dataset(data_root=args.train_data_MIMC, annotation_path=args.train_anno_MIMC, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
-        # val_dataset_MIMC = dataset(data_root=args.val_data_MIMC, annotation_path=args.val_anno_MIMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        train_dataset_MIMC = dataset(data_root=args.train_data_MIMC, annotation_path=args.train_anno_MIMC, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        val_dataset_MIMC = dataset(data_root=args.val_data_MIMC, annotation_path=args.val_anno_MIMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
             
         # train_dataset = combined_datasets([train_dataset_MIMC, ])
-        # val_dataset = combined_datasets([val_dataset_MIMC, ])
+        val_dataset = combined_datasets([val_dataset_MIMC, ])
 
-        train_dataset_COCO = Coco2MaskDataset(data_root=args.train_data_COCO, annotation_path=args.train_anno_COCO, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
-        val_dataset_COCO = Coco2MaskDataset(data_root=args.val_data_COCO, annotation_path=args.val_anno_COCO, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        train_dataset_COCO = dataset(data_root=args.train_data_COCO, annotation_path=args.train_anno_COCO, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        # val_dataset_COCO = dataset(data_root=args.val_data_COCO, annotation_path=args.val_anno_COCO, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
 
-        train_dataset = combined_datasets([train_dataset_COCO])
-        val_dataset = combined_datasets([val_dataset_COCO])
+        # # train_dataset = combined_datasets([train_dataset_COCO])
+        # val_dataset = combined_datasets([val_dataset_COCO])
         
         train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_COCO])
-        val_dataset = combined_datasets([val_dataset_MIMC, val_dataset_COCO])
+        # val_dataset = combined_datasets([val_dataset_MIMC, val_dataset_COCO])
         
     else:
         train_dataset_MIMC = Coco2IMGDataset(data_root=args.train_data_MIMC, image_size=args.image_size,)
@@ -154,8 +156,11 @@ def main():
         # val_dataset = val_dataset_MIMC
         
         
-        train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_COCO, train_dataset_VOC,])
-        val_dataset = combined_datasets([val_dataset_MIMC, val_dataset_COCO, val_dataset_VOC, ])
+        train_dataset = combined_datasets([train_dataset_MIMC,])
+        val_dataset = combined_datasets([val_dataset_MIMC, ])
+
+        # train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_COCO, train_dataset_VOC,])
+        # val_dataset = combined_datasets([val_dataset_MIMC, val_dataset_COCO, val_dataset_VOC, ])
 
 
     steps_in_epoch = len(train_dataset) // (args.batch_size * NUM_GPUS)
@@ -187,7 +192,7 @@ def main():
         args.S_checkpoint_path,
         freeze_image_encoder=False,
         freeze_prompt_encoder=True,
-        freeze_mask_decoder=False,
+        freeze_mask_decoder=True,
         train_dataset=train_dataset,
         val_dataset=val_dataset,
         batch_size=args.batch_size,
@@ -198,7 +203,7 @@ def main():
         use_bbox=args.use_bbox,
         max_steps=max_steps,
         epochs=args.epochs,
-        distill_weight=3, #g 初始化权重时 0.2
+        distill_weight=8, #g 初始化权重时 0.2
         only_distill=args.only_distill,
         add_distill=args.add_distill,
     )
@@ -210,10 +215,10 @@ def main():
         LearningRateMonitor(logging_interval='step'),
         ModelCheckpoint(
             dirpath=output_dir,
-            filename='{step}-{val_per_mask_iou:.4f}',
+            filename='{step}-{val_av_BS_IoU:.4f}',
             save_last=True,  # 保存最新的模型
             save_top_k=args.save_topk,  # 保存最好的模型数量
-            monitor="val_per_mask_iou",  # 监控的指标
+            monitor="val_av_BS_IoU",  # 监控的指标
             mode="max",  # 监控指标的最大值
             save_weights_only=False,  # 只保存模型权重
             every_n_train_steps=args.every_n_train_steps,  # 每训练args.metrics_interval步保存一次模型
@@ -229,16 +234,17 @@ def main():
         max_epochs=-1,
         logger=logger,
         max_steps=max_steps,
-        val_check_interval=args.metrics_interval,
-        check_val_every_n_epoch=None,
+        val_check_interval=0.5,
+        check_val_every_n_epoch=2,
+        limit_val_batches=0.8, 
         num_sanity_val_steps=0,
         profiler="simple",
-        gradient_clip_val=1.0
+        gradient_clip_val=1.0,
         # accumulate_grad_batches=4
     )
 
-    # trainer.fit(model, ckpt_path="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v7.ckpt")
-    trainer.fit(model, )
+    trainer.fit(model, ckpt_path="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_micro_sam/last-v1.ckpt")
+    # trainer.fit(model, )
     # save_checkpoint = {}
     # for k, v in model.S_model.state_dict().items():
     #     if "S_model." in k:

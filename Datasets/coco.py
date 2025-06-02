@@ -13,6 +13,33 @@ from pycocotools.coco import COCO
 import torchvision.transforms as T
 from torchvision.transforms import ToPILImage
 import random
+import cv2
+import numpy as np
+
+def draw_random_contours(image, contours, draw_ratio=0.5, color=(255, 255, 255), thickness=2):
+    """
+    随机绘制部分轮廓
+    :param image: 原始图像
+    :param contours: 轮廓列表
+    :param draw_ratio: 绘制的点的比例（0 到 1 之间）
+    :param color: 绘制的颜色
+    :param thickness: 线条的厚度
+    :return: 绘制后的图像
+    """
+    for contour in contours:
+        # 随机选择一部分点
+        num_points = int(len(contour) * draw_ratio)
+        random_indices = np.random.choice(len(contour), num_points, replace=False)
+        random_points = contour[random_indices]
+
+        # 将随机点转换为连续的轮廓格式
+        random_contour = random_points.reshape(-1, 1, 2).astype(np.int32)
+
+        # 绘制随机轮廓
+        cv2.polylines(image, [random_contour], isClosed=False, color=color, thickness=thickness)
+
+    return image
+
 
 
 class Coco2MaskDataset(Dataset):
@@ -263,7 +290,7 @@ class Coco2IMGDataset(Dataset):
             img_file_path = os.path.join(self.data_root, img_name)
 
             image = Image.open(img_file_path).convert("RGB")
-            # image = self.augmentations(image) if random.random() > 0.25 else image
+            image = self.augmentations(image) if random.random() > 0.5 else image
             image = np.array(image)
 
             original_height, original_width = image.shape[0], image.shape[1]
@@ -332,7 +359,7 @@ class Coco2MaskDataset_repeat(Dataset):
         self.num_points = num_points
         self.use_centerpoint = use_centerpoint
         self.imgIds = self.coco.getImgIds()[:]
-        self.repeat_times = 4
+        self.repeat_times = 3
         self.repeat_count = 0
         self.current_index = 0
         
@@ -341,7 +368,7 @@ class Coco2MaskDataset_repeat(Dataset):
             T.GaussianBlur(kernel_size=(3, 7), sigma=(0.1, 2.0)), # 高斯模糊
             T.RandomAdjustSharpness(sharpness_factor=2, p=0.5), # 随机调整锐度
             T.ToTensor(),  # 将 PIL 图像转换为张量
-            # T.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0.5, inplace=False),  # 随机遮挡
+            T.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0.5, inplace=False),  # 随机遮挡
             ToPILImage(),  # 将张量转换回 PIL 图像
         ])
         
@@ -401,7 +428,8 @@ class Coco2MaskDataset_repeat(Dataset):
             coco_image_name = img_info["file_name"]
             image_path = os.path.join(self.data_root, coco_image_name)
             image = Image.open(image_path).convert("RGB")
-            image = self.augmentations(image) if random.random() > 0.8 else image
+            # image = self.augmentations(image) if random.random() > 0.2 else image
+            image = self.augmentations(image)
             image = np.array(image)
 
             original_height, original_width = image.shape[0], image.shape[1]
@@ -470,13 +498,24 @@ class Coco2MaskDataset_repeat(Dataset):
                 original_image_with_boundaries = input_image.copy()
                 contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 r = random.random()
-                if self.repeat_count == 0:
+                RATE = float(os.getenv('RATE', "0"))
+                # if self.repeat_count == 0:
+                if self.repeat_count == 0 and RATE <= 0.5:
+                    # original_image_with_boundaries = draw_random_contours(image=original_image_with_boundaries, contours=contours, draw_ratio=0.8, color=(0,0,0), thickness=1)
                     cv2.drawContours(original_image_with_boundaries, contours, -1, (255, 255, 255), 2)
-                elif self.repeat_count == 1:
-                    original_image_with_boundaries = original_image_with_boundaries
+                elif self.repeat_count == 0 and RATE > 0.5:
+                    original_image_with_boundaries = draw_random_contours(image=original_image_with_boundaries, contours=contours, draw_ratio=0.6, color=(255,255,255), thickness=1)
                     # cv2.drawContours(original_image_with_boundaries, contours, -1, (255, 255, 255), 1)
+                # elif self.repeat_count == 1:
+                elif self.repeat_count == 1 and RATE <= 0.5:
+                    # original_image_with_boundaries = original_image_with_boundaries
+                    # original_image_with_boundaries = draw_random_contours(image=original_image_with_boundaries, contours=contours, draw_ratio=0.3, color=(0,0,0), thickness=1)
+                    cv2.drawContours(original_image_with_boundaries, contours, -1, (255, 255, 255), 1)
+                elif self.repeat_count == 1 and RATE > 0.5:
+                    original_image_with_boundaries = draw_random_contours(image=original_image_with_boundaries, contours=contours, draw_ratio=0.1, color=(255,255,255), thickness=1)
                 elif self.repeat_count == 2:
                     original_image_with_boundaries = original_image_with_boundaries
+                    # cv2.drawContours(original_image_with_boundaries, contours, -1, (255, 255, 255), 2)
                 elif self.repeat_count == 3:
                     original_image_with_boundaries = original_image_with_boundaries
 
