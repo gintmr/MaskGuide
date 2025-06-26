@@ -19,3 +19,4 @@ __py
 training_visual_distill/
 training_visual_sft/
 nohup.out
+*.out
