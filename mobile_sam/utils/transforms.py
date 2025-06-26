@@ -67,29 +67,35 @@ class ResizeLongestSide:
             image, target_size, mode="bilinear", align_corners=False, antialias=True
         )
 
-    def apply_coords_torch(
-        self, coords: torch.Tensor, original_size: Tuple[int, ...]
-    ) -> torch.Tensor:
+    def apply_coords_torch(self, coords: torch.Tensor, original_size: Tuple[int, int]) -> torch.Tensor:
         """
         Expects a torch tensor with length 2 in the last dimension. Requires the
         original image size in (H, W) format.
         """
-        # if original_size.dim() == 1:            
-        #     old_h, old_w = original_size[0], original_size[1]
-        # elif original_size.dim() == 2:
-        #     old_h, old_w = original_size[0][0], original_size[0][1]
-        # print(f"size = {original_size}")
-        # old_h, old_w = self.extract_height_width(original_size)
+        # 确保 coords 是 torch.Tensor 类型
+        if not isinstance(coords, torch.Tensor):
+            coords = torch.tensor(coords, dtype=torch.float)
 
-        old_h, old_w = original_size[0], original_size[1]
-        new_h, new_w = self.get_preprocess_shape(
-            old_h, old_w, self.target_length
-        )
-        coords = np.array(deepcopy(coords))
-        # print(f"coords = {coords}")
-        coords = torch.tensor(coords, dtype=torch.float)
-        coords[..., 0] = coords[..., 0] * (new_w / old_w)
-        coords[..., 1] = coords[..., 1] * (new_h / old_h)
+        # 确保 coords 是浮点类型
+        coords = coords.to(dtype=torch.float)
+
+        # 提取原始图像的高和宽
+        old_h, old_w = original_size
+
+        # 计算新的图像尺寸
+        new_h, new_w = self.get_preprocess_shape(old_h, old_w, self.target_length)
+
+        # # 打印调试信息
+        # print(f"Original size: (H={old_h}, W={old_w})")
+        # print(f"New size: (H={new_h}, W={new_w})")
+        # print(f"coords before scaling: {coords}")
+
+        # 缩放坐标
+        coords[..., 0] = coords[..., 0] * (new_w / old_w)  # 缩放 x 坐标
+        coords[..., 1] = coords[..., 1] * (new_h / old_h)  # 缩放 y 坐标
+
+        # 打印调试信息
+        # print(f"coords after scaling: {coords}")
 
         return coords
 

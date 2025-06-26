@@ -17,21 +17,22 @@ os.environ['INFERENCE_MODE'] = "test"
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_type", type=str, default="rep_sam", help="model type", choices=["vit_t","tiny_msam", "vit_h", "rep_sam"])
-    # parser.add_argument("--model_type", type=str, default="vit_t", help="model type", choices=["vit_t","tiny_msam", "vit_h"])
-    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/step=22050-val_av_BS_IoU=0.6144.pth", help="path to the checkpoint")
+    # parser.add_argument("--model_type", type=str, default="tiny_msam", help="model type", choices=["vit_t","tiny_msam", "vit_h", "rep_sam", "micro_sam"])
+    parser.add_argument("--model_type", type=str, default="vit_t", help="model type", choices=["vit_t","tiny_msam", "vit_h"])
+    # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", help="path to the checkpoint")
+    parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_vit_t/temp/last.pth", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", help="path to the checkpoint")
-    # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage3.pth", help="path to the checkpoint")
+    # parser.add_argument("--checkpoint_path", type=str, default="//data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_micro_sam/temp/micro_sam_stage10.pth", help="path to the checkpoint")
     # parser.add_argument("--checkpoint_path", type=str, default="/data2/wuxinrui/RA-L/MobileSAM/weights/sam_vit_h_4b8939.pth", help="path to the checkpoint")
     parser.add_argument("--test_img_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list", help="the test image path")
     parser.add_argument("--label_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json", help="the test json path")
     # parser.add_argument("--test_img_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/train_list", help="the test image path")
     # parser.add_argument("--label_path", type=str, default="/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/train-taxonomic_cleaned.json", help="the test json path")
-    parser.add_argument("--label_num", type=int, default=None, help="the num of points // more prior than label_path")
+    parser.add_argument("--label_num", type=int, default=5, help="the num of points // more prior than label_path")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
     parser.add_argument("--visualize_mask_path", default="/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results")
     parser.add_argument("--ori_SAM", default=False)
-    parser.add_argument("--sample_num", type=int, default=200, help="sample_num")
+    parser.add_argument("--sample_num", type=int, default=None, help="sample_num")
     
     args = parser.parse_args()
     

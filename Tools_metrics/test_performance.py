@@ -43,6 +43,7 @@ def test_image_encoder(image_encoder, dataset, batch_size=32, num_batches=320):
     total_time = 0
     pynvml.nvmlInit()
     handle = pynvml.nvmlDeviceGetHandleByIndex(0)  # 假设使用第一块 GPU
+    all_fps_img_encoder = 0
 
     with torch.no_grad():
         for batch_idx, batch in enumerate(dataloader):
@@ -65,14 +66,19 @@ def test_image_encoder(image_encoder, dataset, batch_size=32, num_batches=320):
             end_time = time.time()
             total_time += (end_time - start_time)
 
+
+            length = len(batch)
+            fps_img_encoder = length / (end_time - start_time)
+            all_fps_img_encoder += fps_img_encoder
             # 获取 GPU 使用情况
             mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
             gpu_memory_used = mem_info.used / (1024 ** 2)  # 转换为 MB
-            print(f"Batch {batch_idx + 1}/{num_batches}, Time: {end_time - start_time:.4f}s, GPU Memory Used: {gpu_memory_used:.2f} MB")
+            print(f"Batch {batch_idx + 1}/{num_batches}, Time: {end_time - start_time:.4f}s, GPU Memory Used: {gpu_memory_used:.2f} MB, fps_img_encoder: {fps_img_encoder:.2f}")
 
     # 计算平均耗时
     avg_time = total_time / num_batches
     print(f"Average Time per Batch: {avg_time:.4f}s")
+    print(f"Average fps_img_encoder: {all_fps_img_encoder / num_batches:.2f}")
 
     # 清理
     pynvml.nvmlShutdown()
@@ -99,18 +105,18 @@ image_encoder = tiny_TinyViT(
     img_size=1024,
     in_chans=3,
     num_classes=1000,
-    # embed_dims=[64, 128, 160, 320],
-    # depths=[2, 2, 6, 2],
-    # num_heads=[2, 4, 5, 10],
-    # window_sizes=[7, 7, 14, 7],
-    # embed_dims=[64, 96, 128, 320],
+    embed_dims=[64, 128, 160, 320], #g vit_t
+    depths=[2, 2, 6, 2],
+    num_heads=[2, 4, 5, 10],
+    window_sizes=[7, 7, 14, 7],
+    # embed_dims=[64, 96, 128, 320], #g tiny_msam
     # depths=[1, 2, 4, 1],
     # num_heads=[2, 3, 4, 8],
     # window_sizes=[7, 7, 14, 7],
-    embed_dims=[64, 80, 160, 320],
-    depths=[1, 1, 1, 1],
-    num_heads=[2, 2, 4, 8],
-    window_sizes=[7, 7, 14, 7],
+    # embed_dims=[64, 80, 160, 320], #g micro sam
+    # depths=[1, 1, 1, 1],
+    # num_heads=[2, 2, 4, 8],
+    # window_sizes=[7, 7, 14, 7],
     mlp_ratio=4.,
     drop_rate=0.,
     drop_path_rate=0.0,
@@ -124,4 +130,4 @@ image_encoder = tiny_TinyViT(
 dataset = RandomImageDataset(size=10000, image_size=1024)
 
 # 运行测试
-test_image_encoder(image_encoder, dataset, batch_size=1, num_batches=320)
+test_image_encoder(image_encoder, dataset, batch_size=1, num_batches=500)

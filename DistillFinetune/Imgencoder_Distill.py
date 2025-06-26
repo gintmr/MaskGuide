@@ -10,7 +10,7 @@ from Tools_finetune.finetuner import finetune
 
 
 class Imgencoder_Distill(AbstractDistillFinetuner):
-    mask_threshold: float = 0.5
+
     def __init__(
             self,
             T_model,
@@ -58,24 +58,39 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
         self.only_distill = only_distill  # 是否只蒸馏
         self.add_distill = add_distill
         
-    def forward(self, imgs, bboxes, labels, center_points, point_labels, target_labels, original_input_size, resized_input_size, coco_image_names):
+    def forward(self, imgs, bboxes, labels, center_points, point_labels, target_labels, original_input_size, resized_input_size, coco_image_names, validate=False):
         device = imgs.device
         imgs.to("cpu")
         assert self.T_model.image_encoder.img_size == self.S_model.image_encoder.img_size
         # imgs = random_resize(imgs)
         actual_batch_size = imgs.size(0)
 
-        input_images = torch.stack([self.T_model.preprocess(imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
-        input_images.to(device)
-        try:
-            T_features = self.T_model.image_encoder(input_images)
-            S_features = self.S_model.image_encoder(input_images)
+        if os.getenv("distill", "ori") == "ori":
+            S_imgs = imgs
+            T_imgs = imgs
+        elif os.getenv("distill", "ori") == "mask":
+            #g 此时得到的imgs是两种格式数据沿通道纬度拼接起来的数据，其中前3个通道是正常img，后3个通道仅保留mask处像素的img
+            # print("mask-distill mode!")
+            S_imgs = imgs[:, :3, :, :]
+            T_imgs = imgs[:, 3:, :, :]
+            # print(f"S_imgs: {S_imgs.shape}, T_imgs: {T_imgs.shape}")
 
+        S_input_images = torch.stack([self.T_model.preprocess(S_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+        T_input_images = torch.stack([self.T_model.preprocess(T_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+        S_input_images.to(device)
+        T_input_images.to(device)
+
+        try:
             RATE = self.global_step / self.max_steps
             os.environ['RATE'] = str(RATE)
-            distill_loss = self.feature_distillation_loss(T_features, S_features, RATE)
-            if not self.add_distill:
-                distill_loss -= distill_loss
+            S_features = self.S_model.image_encoder(S_input_images)
+
+            if not validate and self.add_distill:
+                T_features = self.T_model.image_encoder(T_input_images)
+                distill_loss = self.feature_distillation_loss(T_features, S_features, RATE)
+                # distill_loss = self.new_feature_distillation_loss(T_features, S_features, RATE)
+            else:
+                distill_loss = torch.tensor(0)
 
             num_masks = sum([len(b) for b in bboxes])
 
@@ -86,17 +101,19 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             if self.multimask:
                 num_masks *= 3
 
-            if self.only_distill:
+            if self.only_distill and not validate:
+                Finetune_dict = None
                 pass
+            
             else:
-                for T_feature, S_feature, bbox, label, center_point, point_label, target_label, original_input_size_item, resized_input_size_item, coco_image_name, img in \
-                        zip(T_features, S_features, bboxes, labels, center_points, point_labels, target_labels, original_input_size, resized_input_size, coco_image_names, imgs):
+                for S_feature, bbox, label, center_point, point_label, target_label, original_input_size_item, resized_input_size_item, coco_image_name, img, T_img in \
+                        zip(S_features, bboxes, labels, center_points, point_labels, target_labels, original_input_size, resized_input_size, coco_image_names, S_imgs, T_imgs):
                     '''
                     original_input_size_item: ori阶段图像尺寸 => H0,W0
                     resized_input_size_item: middle阶段图像尺寸 => H1,W1(未填充成正方形)
                     img: 填充成正方形(resized_input_size_item的长边)
                     '''
-                    Finetune_dict = finetune(feature=S_feature, bbox=bbox, label=label, center_point=center_point, point_label=point_label, target_label=target_label, original_input_size_item=original_input_size_item, resized_input_size_item=resized_input_size_item, coco_image_name=coco_image_name, img=img, training_visual_path=f"/data2/wuxinrui/RA-L/MobileSAM/training_visual_distill/{self.current_epoch}", self=self)
+                    Finetune_dict = finetune(feature=S_feature, bbox=bbox, label=label, center_point=center_point, point_label=point_label, target_label=target_label, original_input_size_item=original_input_size_item, resized_input_size_item=resized_input_size_item, coco_image_name=coco_image_name, img=img, T_img=T_img,  training_visual_path=f"/data2/wuxinrui/RA-L/MobileSAM/training_visual_distill/{self.current_epoch}", self=self, validate=validate)
 
                     #g 排除低质样本的副作用
                     BS_LOSS += Finetune_dict["total_loss"]
@@ -122,8 +139,15 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                 pass
             else:
                 assert not torch.isnan(BS_LOSS), "loss is nan"
+            if Finetune_dict:
+                iou =  Finetune_dict["iou"]
+            else:
+                iou = 0
 
-            loss = BS_LOSS + distill_loss * self.distill_weight
+            if iou < 0.9:
+                loss = BS_LOSS + distill_loss * self.distill_weight
+            else:
+                loss = BS_LOSS + (distill_loss * self.distill_weight) / 2
 
             assert not torch.isnan(loss), "loss is nan"
 
@@ -173,7 +197,7 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
         # with autocast():
         #     outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
         with torch.no_grad():
-            outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
+            outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names, validate=True)
 
         if outputs['loss'] == 0:
             print("Skipping invalid batch")

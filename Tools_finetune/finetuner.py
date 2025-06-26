@@ -5,14 +5,16 @@ from torch.cuda.amp import autocast
 import numpy as np
 import os 
 import random
-from eval_tools import calculate_pa_iou, overlay_mask_on_image,overlay_point_on_image, combine_visualize_results, calculate_segmentation_losses
+from eval_tools import calculate_pa_iou, overlay_mask_on_image, overlay_point_on_image, combine_visualize_results, calculate_segmentation_losses, combine_visualize_results_only2
 import random
 from Tools_finetune.loss_calculate import OceanSegmentationLoss
 
 oceanegmentationLoss = OceanSegmentationLoss()
 
 def finetune(**kwargs):
-    feature, bbox, label, center_point, point_label, target_label, original_input_size_item, resized_input_size_item, coco_image_name, img = kwargs['feature'], kwargs['bbox'], kwargs['label'], kwargs['center_point'], kwargs['point_label'], kwargs['target_label'], kwargs['original_input_size_item'], kwargs['resized_input_size_item'], kwargs['coco_image_name'], kwargs['img']
+    feature, bbox, label, center_point, point_label, target_label, original_input_size_item, resized_input_size_item, coco_image_name, img, T_img = kwargs['feature'], kwargs['bbox'], kwargs['label'], kwargs['center_point'], kwargs['point_label'], kwargs['target_label'], kwargs['original_input_size_item'], kwargs['resized_input_size_item'], kwargs['coco_image_name'], kwargs['img'], kwargs['T_img']
+
+    validate = kwargs['validate']
 
     training_visual_path = kwargs['training_visual_path']
 
@@ -21,11 +23,25 @@ def finetune(**kwargs):
         model = self.model
     elif hasattr(self, 'S_model'):
         model = self.S_model
-    
-    if random.random() < 0.5:
-        self.use_bbox  = False
+
+
+    if validate:
+        if os.getenv("test_prompts", "bbox") == "bbox":
+            points = None
+            self.use_bbox = True
+        elif os.getenv("test_prompts", "bbox") == "point":
+            points = (center_point, point_label)
+            self.use_bbox = False
+
+
     else:
-        self.use_bbox  = True
+        if random.random() < 0.5:
+            self.use_bbox  = False
+        else:
+            self.use_bbox  = True
+        
+        points = (center_point, point_label)
+
     if self.use_bbox:
         bbox_input=bbox
     else:
@@ -33,7 +49,7 @@ def finetune(**kwargs):
 
 
     sparse_embeddings, dense_embeddings = model.prompt_encoder(
-        points=(center_point, point_label),
+        points=points,
         boxes=bbox_input,
         masks=None,
     )
@@ -96,26 +112,52 @@ def finetune(**kwargs):
         os.makedirs(training_visual_path, exist_ok=True)
     #G 1% to save images
     # if random.random() < 0.03:
-    output_path_combined = os.path.join(training_visual_path, f"{self.current_epoch}_{coco_image_name.replace(ext_name, '_combined.jpg')}")
 
-    pred_mask_array = overlay_mask_on_image(pred_masks, image_array=img, array_out=True, save_img=False)
-    GT_mask_array = overlay_mask_on_image(iou_label, image_array=img, array_out=True, save_img=False)
-    point_array = overlay_point_on_image(center_point, image_array=img, array_out=True, save_img=False)
-    combine_visualize_results(pred_mask_array, GT_mask_array, point_array, output_path_combined)
-
-    #G check to avoid too many images in the folder
-    image_files = [f for f in os.listdir(training_visual_path) if f.endswith(('_combined.jpg'))]
-    if len(image_files) > 100:
-        #G randomly select three file prefixes
-        random_prefixes = random.sample(set(f.split('_combined.jpg')[0] for f in image_files), 3)
-        for prefix in random_prefixes:
-            suffix = ('_combined.jpg')
-            file_to_delete = os.path.join(training_visual_path, f"{prefix}{suffix}")
-            if os.path.exists(file_to_delete):
-                try: #G 防止误删可视化图后报错
-                    os.remove(file_to_delete)
-                except:
-                    pass
+    if not validate:
+        if random.random() < 0.005:
+            output_path_combined = os.path.join(training_visual_path, f"{self.current_epoch}_{coco_image_name.replace(ext_name, '_combined.jpg')}")
+            pred_mask_array = overlay_mask_on_image(pred_masks, image_array=img, array_out=True, save_img=False)
+            GT_mask_array = overlay_mask_on_image(iou_label, image_array=img, array_out=True, save_img=False)
+            point_array = overlay_point_on_image(center_point, image_array=img, array_out=True, save_img=False)
+            combine_visualize_results(pred_mask_array, GT_mask_array, point_array, output_path_combined)
+            #G check to avoid too many images in the folder
+            image_files = [f for f in os.listdir(training_visual_path) if f.endswith(('_combined.jpg'))]
+            if len(image_files) > 100:
+                delta = len(image_files) - 100
+                #G randomly select three file prefixes
+                random_prefixes = random.sample(set(f.split('_combined.jpg')[0] for f in image_files), delta)
+                for prefix in random_prefixes:
+                    suffix = ('_combined.jpg')
+                    file_to_delete = os.path.join(training_visual_path, f"{prefix}{suffix}")
+                    if os.path.exists(file_to_delete):
+                        try: #G 防止误删可视化图后报错
+                            os.remove(file_to_delete)
+                        except:
+                            pass
+    else:
+        val_visual_pth = training_visual_path.replace("training_visual_distill", "valing_visual_distill")
+        os.makedirs(val_visual_pth, exist_ok=True)
+        
+        if random.random() < 0.05:
+            pred_mask_array = overlay_mask_on_image(pred_masks, image_array=img, array_out=True, save_img=False)
+            GT_mask_array = overlay_mask_on_image(iou_label, image_array=img, array_out=True, save_img=False)
+            output_path_combined = os.path.join(val_visual_pth, f"{self.current_epoch}_{coco_image_name.replace(ext_name, '_combined.jpg')}")
+            ori_img = T_img.cpu().numpy().transpose(1, 2, 0)
+            combine_visualize_results(pred_mask_array, GT_mask_array, ori_img, output_path_combined)
+            # combine_visualize_results_only2(pred_mask_array, GT_mask_array, output_path_combined)
+            #G check to avoid too many images in the folder
+            image_files = [f for f in os.listdir(val_visual_pth) if f.endswith(('_combined.jpg'))]
+            if len(image_files) > 100:
+                delta = len(image_files) - 100
+                #G randomly select three file prefixes
+                random_prefixes = random.sample(set(f for f in image_files), delta)
+                for prefix in random_prefixes:
+                    file_to_delete = os.path.join(training_visual_path, prefix)
+                    if os.path.exists(file_to_delete):
+                        try: #G 防止误删可视化图后报错
+                            os.remove(file_to_delete)
+                        except:
+                            pass
     #G ------- 计算IoU + 可视化输出--------G#
 
     loss_dict = oceanegmentationLoss(pred_masks, iou_label)

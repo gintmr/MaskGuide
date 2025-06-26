@@ -187,7 +187,7 @@ class MaskDecoder(nn.Module):
             upscaled_embedding = upscaled_embedding.to(dtype=torch.float16)
             mask_chunk = (hyper_in @ upscaled_embedding.view(b, c, h * w)).view(b, -1, h, w)
             masks.append(mask_chunk)
-            
+
         masks = torch.cat(masks, dim=1)
         iou_pred = self.iou_prediction_head(iou_token_out)
         

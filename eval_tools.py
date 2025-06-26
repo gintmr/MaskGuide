@@ -57,6 +57,44 @@ def combine_visualize_results(pred_mask_array, GT_mask_array, point_array, save_
     plt.savefig(save_path, bbox_inches='tight', pad_inches=0.1)
     plt.close()  # 关闭图形窗口，释放资源
 
+
+def combine_visualize_results_only2(pred_mask_array, GT_mask_array, save_path):
+    """
+    将三张图像（预测掩码图、真实掩码图和点标记图）绘制在一起并保存到文件。
+
+    参数:
+        pred_mask_array (numpy.ndarray): 预测掩码图的数组，形状为 (H, W, 3)，BGR格式。
+        GT_mask_array (numpy.ndarray): 真实掩码图的数组，形状为 (H, W, 3)，BGR格式。
+        point_array (numpy.ndarray): 点标记图的数组，形状为 (H, W, 3)，BGR格式。
+        save_path (str): 保存图像的路径。
+    """
+
+
+    # 创建一个图形窗口
+    plt.figure(figsize=(10, 5))
+
+    # 绘制预测掩码图
+    plt.subplot(1, 3, 1)  # 1行3列的第1个
+    plt.imshow(pred_mask_array)
+    plt.title("Predicted Mask")
+    plt.axis("off")  # 关闭坐标轴
+
+    # 绘制真实掩码图
+    plt.subplot(1, 3, 2)  # 1行3列的第2个
+    plt.imshow(GT_mask_array)
+    plt.title("Ground Truth Mask")
+    plt.axis("off")  # 关闭坐标轴
+
+
+    # 自动调整子图参数，确保图像之间没有重叠
+    plt.tight_layout()
+
+    # 保存图像
+    plt.savefig(save_path, bbox_inches='tight', pad_inches=0.1)
+    plt.close()  # 关闭图形窗口，释放资源
+
+
+
 # 示例调用
 # 假设 pred_mask_array, GT_mask_array, point_array 已经通过相关函数生成
 # save_images(pred_mask_array, GT_mask_array, point_array, save_path="output_images/combined_image.png")
@@ -226,7 +264,8 @@ def calculate_metrics(pred_masks, ori_masks):
         # Intersection over Union (IoU)
         intersection = np.sum((pred_mask == True) & (ori_mask == True))
         union = np.sum((pred_mask == True) | (ori_mask == True))
-        iou = intersection / union if union != 0 else 0
+        # iou = intersection / (union) if union != 0 else 0
+        iou = intersection / (union + 1e-6)
         iou_list.append(iou)
 
         # Dice Similarity Coefficient (Dice)
@@ -548,7 +587,9 @@ def get_bool_mask_from_segmentation(segmentation, height, width) -> np.ndarray:
         mask = np.array(mask_utils.decode(rle), dtype=np.uint8)
         bool_mask = mask.astype(bool)
         return bool_mask
-        
+
+
+
 def random_croods_in_mask(mask, num_croods=1):
     '''
     generate croods in mask where > 0
@@ -564,6 +605,55 @@ def random_croods_in_mask(mask, num_croods=1):
     selected_croods = croods_to_chose[np.random.choice(len(croods_to_chose), num_croods, replace=False)]
     
     return selected_croods, num_croods
+
+
+import numpy as np
+
+def random_croods_in_mask_5pieces(mask, num_segments=5, points_per_segment=2):
+    '''
+    Generate coordinates in mask where > 0
+    mask shape: H,W
+    将mask分成5个区域，每个区域随机选择2个点
+    参数：mask: H,W
+    num_segments: 分成几块
+    points_per_segment: 每块选择几个点
+    默认选择5块，每块2个点
+    '''
+    mask_T = mask.T  # Transpose mask to shape W,H
+    croods_to_chose = np.argwhere(mask_T > 0)  # Get all coordinates where mask_T > 0
+
+    if len(croods_to_chose) == 0:
+        return np.array([]), 0  # Return empty array if no valid coordinates
+
+    # Get the range of x-coordinates (width)
+    x_coords = croods_to_chose[:, 0]
+    min_x = np.min(x_coords)
+    max_x = np.max(x_coords)
+    segment_length = (max_x - min_x) / num_segments
+
+    selected_croods = []
+    for i in range(num_segments):
+        # Define the range for the current segment
+        start_x = min_x + i * segment_length
+        end_x = min_x + (i + 1) * segment_length
+
+        # Filter coordinates within the current segment
+        segment_croods = croods_to_chose[(croods_to_chose[:, 0] >= start_x) & (croods_to_chose[:, 0] < end_x)]
+
+        # If there are not enough points in the segment, use all available points
+        if len(segment_croods) < points_per_segment:
+            selected_croods.extend(segment_croods)
+        else:
+            # Randomly select points_per_segment points from the segment
+            selected_segment_croods = segment_croods[np.random.choice(len(segment_croods), points_per_segment, replace=False)]
+            selected_croods.extend(selected_segment_croods)
+
+    # Convert the list of coordinates to a numpy array
+    selected_croods = np.array(selected_croods)
+
+    return selected_croods, len(selected_croods)
+
+
 
 def overlay_point_on_image(center_points, image_path=None, image_array=None, array_out=False, save_img=True, output_path=None):
     """

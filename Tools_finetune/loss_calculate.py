@@ -31,7 +31,7 @@ class OceanSegmentationLoss:
                 union = TP + FP + FN
                 iou = intersection / (union + 1e-6)
                 dice = (2*intersection) / (np.sum(p) + np.sum(t) + 1e-6)
-                
+
                 dice_list.append(dice)
                 iou_list.append(iou)
             
@@ -43,7 +43,7 @@ class OceanSegmentationLoss:
         """计算IoU损失"""
         intersection = (pred_probs * ori_masks).sum(dim=(1,2))
         union = (pred_probs + ori_masks).sum(dim=(1,2)) - intersection
-        iou = (intersection + 1e-6) / (union + 1e-6)
+        iou = (intersection) / (union + 1e-6)
         
         return 1 - iou.mean()
 
@@ -52,7 +52,7 @@ class OceanSegmentationLoss:
         torch.cuda.empty_cache() 
         """计算Dice损失"""
         intersection = (pred_probs * ori_masks).sum(dim=(1,2))
-        numerator = 2 * intersection + 1e-6
+        numerator = 2 * intersection
         denominator = pred_probs.sum(dim=(1,2)) + ori_masks.sum(dim=(1,2)) + 1e-6
         dice = numerator / denominator
         return 1 - dice.mean()
@@ -64,7 +64,7 @@ class OceanSegmentationLoss:
         TP = (pred_probs * ori_masks).sum(dim=(1, 2))
         FP = (pred_probs * (1 - ori_masks)).sum(dim=(1, 2))
         FN = ((1 - pred_probs) * ori_masks).sum(dim=(1, 2))
-        tversky = (TP + 1e-6) / (TP + self.alpha * FP + self.beta * FN + 1e-6)
+        tversky = (TP) / (TP + self.alpha * FP + self.beta * FN + 1e-6)
         return 1 - tversky.mean()
 
 
@@ -170,6 +170,10 @@ class OceanSegmentationLoss:
         if torch.isnan(results['focal_loss']):
             results['focal_loss'] = torch.tensor(0.0)
 
+        if iou < 0.9:
+            penalty_coefficient = (1.0 + iou) / 10
+            results['iou_loss'] /= penalty_coefficient
+
         # 组合损失（可根据需要调整权重）
         total_loss = (
             1.0 * results['iou_loss'] + 
@@ -181,8 +185,6 @@ class OceanSegmentationLoss:
             1.0 * results['mse_loss']
         )
 
-        penalty_coefficient = (1.0 + iou) / 2
-        total_loss = total_loss / penalty_coefficient
         results['total_loss'] = total_loss
 
         return results

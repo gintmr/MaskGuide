@@ -148,6 +148,7 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
         Freeze layers based on the provided flags.
         """
         # for model in [self.T_model, self.S_model]:
+        self.S_model.train()
         for model in [self.S_model]:
             if freeze_image_encoder:
                 for param in model.image_encoder.parameters():
@@ -199,7 +200,7 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
         # 新学习率调度函数：余弦衰减（初始→1/10）
         def lr_schedule(step):
             progress = step / self.max_steps
-            #g === 先高后低
+            # g === 先高后低
             # if progress < 0.5:
             #     factor = 2 * progress
             #     decay_factor = 0.25 + 0.75 * (1 - math.cos(math.pi * factor)) / 2
@@ -208,8 +209,11 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
             #     decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
             
             #g ====从高到低
-            factor = progress
-            decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
+            # factor = progress
+            # decay_factor = 0.25 + 0.75 * (1 + math.cos(math.pi * factor)) / 2
+            
+            #g ====持续维持1/2
+            decay_factor = 0.5
 
             return decay_factor
         
@@ -248,6 +252,46 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
             shuffle=False)
         return val_loader
 
+    def new_feature_distillation_loss(self, T_features, S_features, RATE, reduction='mean', alpha=0.5, beta=0.3, gamma=0.2):
+        """
+        改进版特征蒸馏损失：MSE + 余弦 + 注意力权重
+        参数:
+            alpha: MSE损失的权重
+            beta: 余弦损失的权重
+            gamma: 注意力权重的KL损失（可选）
+            
+        与原始distill损失不同的是：
+        temperature更平滑，更大
+        损失组合更灵活
+        """
+        # 1. 动态温度调整（更平滑的调度）
+        temperature = 1.0 + 4.0 * (1 + math.cos(math.pi * RATE))  # 温度范围 1.0~5.0
+        
+        # 2. MSE损失（直接特征值匹配）
+        mse_loss = F.mse_loss(S_features, T_features.detach(), reduction=reduction)
+        
+        # 3. 余弦相似度损失（特征方向对齐）
+        T_norm = F.normalize(T_features.detach(), p=2, dim=1)
+        S_norm = F.normalize(S_features, p=2, dim=1)
+        cosine_loss = 1 - F.cosine_similarity(T_norm, S_norm, dim=1).mean()
+        
+        # 4. （可选）注意力蒸馏：计算注意力图的KL散度
+        if gamma > 0:
+            T_attention = F.softmax(T_features.abs().mean(dim=1, keepdim=True) / temperature, dim=-1)
+            S_attention = F.softmax(S_features.abs().mean(dim=1, keepdim=True) / temperature, dim=-1)
+            attention_kl = F.kl_div(
+                S_attention.log(), 
+                T_attention, 
+                reduction=reduction
+            ) * (temperature ** 2)
+        else:
+            attention_kl = 0.0
+        
+        # 组合损失
+        total_loss = alpha * mse_loss + beta * cosine_loss + gamma * attention_kl
+        return total_loss
+
+
     def feature_distillation_loss(self, T_features, S_features, RATE, reduction='batchmean', alpha=0.8, beta=0.2):
         """
         计算教师模型和学生模型特征的蒸馏损失。
@@ -270,7 +314,7 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
             S_features = torch.where(torch.isnan(S_features), torch.tensor(epsilon, device=S_features.device), S_features)
             
         temperature = 0.8 + 3.2 * (1 + math.cos(math.pi * RATE)) / 2
-        temperature = max(0.8, min(2.0, temperature))  # 限制温度在 0.8 到 2.0 之间
+        temperature = max(0.8, min(4.0, temperature))  # 限制温度在 0.8 到 2.0 之间
 
         epsilon = 1e-7
         student_softmax = F.softmax(S_features / temperature, dim=1).clamp(min=epsilon, max=1 - epsilon)

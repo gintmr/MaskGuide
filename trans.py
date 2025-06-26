@@ -75,6 +75,17 @@ def trans_pth(pth_path, reference_path=None):
         reference_path = pth_path.replace(".pth", "_mobilesamMaskdecoder.pth")
     torch.save(pth_weights, reference_path)
 
+
+
+# 示例调用
+# compare_mask_decoders_and_image_encoders("path_to_ckpt.pth", "path_to_reference.pth")
+
+
+
+
 # trans_pth("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage3.pth")
 
-trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/step=22050-val_av_BS_IoU=0.6144.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/step=22050-val_av_BS_IoU=0.6144.pth")
+trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Mask_Decoder_T_vit_h_S_vit_t/last-v2.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Mask_Decoder_T_vit_h_S_vit_t/temp/last-v2.pth")
+# trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_micro_sam/last-v6.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_micro_sam/temp/micro_sam_stage6.pth")
+
+# compare_mask_decoders("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Mask_Decoder_T_vit_h_S_vit_t/last.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt")

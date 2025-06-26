@@ -1,6 +1,6 @@
 import torch
 
-def trans_ckpt(ckpt_path, save_path =None):
+def trans_ckpt(ckpt_path, save_path = None):
     checkpoint = torch.load(ckpt_path, map_location="cuda")
     # print(checkpoint.keys())
     state_dict = checkpoint['state_dict']
