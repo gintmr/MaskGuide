@@ -260,6 +260,7 @@ class Coco2MaskDataset(Dataset):
             ToPILImage(),  # 将张量转换回 PIL 图像
         ])
         self.distill_target = os.getenv("distill", "ori")
+        print(f"distill_target: {self.distill_target}\n" * 10)
         
     def preview_input(self, img, coco_image_name):
         import torchvision.transforms.functional as F
@@ -348,6 +349,7 @@ class Coco2MaskDataset(Dataset):
 
             input_image = self.preprocess(input_image)
             masked_image = np.zeros_like(input_image)
+            original_image_with_boundaries = input_image.copy()
 
             for annotation in annotations[:self.length]:
                 x, y, w, h = annotation["bbox"]
@@ -368,14 +370,23 @@ class Coco2MaskDataset(Dataset):
                 # points = self.transform.apply_coords_torch(points, original_input_size)
                 # bbox = self.transform.apply_boxes_torch(bbox, original_input_size)
                 
-                # 将mask应用到图像上
+                #! 将mask应用到图像上
                 masked_region = cv2.bitwise_and(input_image, input_image, mask=mask)
                 # 将处理后的区域叠加到全黑图像上
                 masked_image = cv2.add(masked_image, masked_region)
                 
+                #! 将mask反向应用到图像上
+                inverse_mask = cv2.bitwise_not(mask)
+                unmasked_image = cv2.bitwise_and(input_image, input_image, mask=inverse_mask)
+
+                #! 将outline画到图像上
+                contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                cv2.drawContours(original_image_with_boundaries, contours, -1, (255, 255, 255), 1)
+
+
+
                 ## bbox需要resize,同理center_points需要resize, points也需要resize; 但是mask不resize
-                
-                
+
                 center_points.append([(bbox[0] + bbox[2]) / 2.0, (bbox[1] + bbox[3]) / 2.0])
                 bboxes.append(bbox)
                 masks.append(mask)
@@ -392,7 +403,7 @@ class Coco2MaskDataset(Dataset):
             
             center_points = np.stack(center_points, axis=0)
             combined_points = np.stack(combined_points, axis=0)
-            category_ids = np.stack(category_ids, axis=0)
+            # category_ids = np.stack(category_ids, axis=0)
 
             if self.use_centerpoint:
                 given_points = center_points
@@ -440,11 +451,28 @@ class Coco2MaskDataset(Dataset):
             # masked_image = self.preprocess(masked_image)
             masked_image_torch = torch.tensor(masked_image)
             masked_image_torch = masked_image_torch.permute(2, 0, 1).contiguous()
-            combined_image = torch.cat([input_image_torch, masked_image_torch], dim=0)
+            unmasked_image_torch = torch.tensor(unmasked_image)
+            unmasked_image_torch = unmasked_image_torch.permute(2, 0, 1).contiguous()
+            original_image_with_boundaries_torch = torch.tensor(original_image_with_boundaries)
+            original_image_with_boundaries_torch = original_image_with_boundaries_torch.permute(2, 0, 1).contiguous()
+
+
+
+
             if self.distill_target == "mask":
-                return_img = combined_image
+                return_img = torch.cat([input_image_torch, masked_image_torch], dim=0)
+            elif self.distill_target == "unmask":
+                return_img = torch.cat([input_image_torch, unmasked_image_torch], dim=0)
+            elif self.distill_target == "mask&unmask":
+                return_img = torch.cat([input_image_torch, masked_image_torch, unmasked_image_torch], dim=0)
             elif self.distill_target == "ori":
                 return_img = input_image_torch
+            elif self.distill_target == "outline":
+                return_img = torch.cat([input_image_torch, original_image_with_boundaries_torch], dim=0)
+            elif self.distill_target == "mask&outline":
+                return_img = torch.cat([input_image_torch, masked_image_torch, original_image_with_boundaries_torch], dim=0)
+            
+            # print(f"return_img.shape = {return_img.shape}")
 
             return (
                 return_img,
@@ -453,7 +481,7 @@ class Coco2MaskDataset(Dataset):
                 torch.tensor(given_points),
                 torch.tensor(point_labels),
                 coco_image_name,
-                torch.tensor(category_ids),
+                # torch.tensor(category_ids),
                 original_input_size,
                 resized_input_size,
                 str(coco_image_name),
@@ -470,9 +498,10 @@ class Coco2MaskDataset(Dataset):
         
     @classmethod
     def collate_fn(cls, batch):
-        images, bboxes, masks, center_points, point_labels, img_name, category_ids ,original_input_size, resized_input_size, coco_image_names = zip(*batch)
+        images, bboxes, masks, center_points, point_labels, img_name ,original_input_size, resized_input_size, coco_image_names = zip(*batch)
         images = torch.stack(images, dim=0)
-        return images, bboxes, masks, center_points, point_labels, img_name, category_ids, original_input_size, resized_input_size, coco_image_names
+        # print(f"images.shape = {images.shape}")
+        return images, bboxes, masks, center_points, point_labels, img_name, original_input_size, resized_input_size, coco_image_names
 
 
 
@@ -550,7 +579,8 @@ class Coco2IMGDataset(Dataset):
                 torch.tensor(given_points),
                 torch.tensor(point_labels),
                 img_name,
-                torch.tensor(category_ids),
+                # category_ids.clone().detach(),
+                # torch.tensor(category_ids),
                 original_input_size,
                 resized_input_size,
                 str(img_name),
@@ -567,9 +597,9 @@ class Coco2IMGDataset(Dataset):
 
     @classmethod
     def collate_fn(cls, batch):
-        images, bboxes, masks, center_points, point_labels, img_name, category_ids ,original_input_size, resized_input_size, coco_image_names = zip(*batch)
+        images, bboxes, masks, center_points, point_labels, img_name ,original_input_size, resized_input_size, coco_image_names = zip(*batch)
         images = torch.stack(images, dim=0)
-        return images, bboxes, masks, center_points, point_labels, img_name, category_ids, original_input_size, resized_input_size, coco_image_names
+        return images, bboxes, masks, center_points, point_labels, img_name, original_input_size, resized_input_size, coco_image_names
 
 
 
@@ -811,7 +841,8 @@ class Coco2MaskDataset_repeat(Dataset):
                 torch.tensor(given_points),
                 torch.tensor(point_labels),
                 coco_image_name,
-                torch.tensor(category_ids),
+                # torch.tensor(category_ids),
+                category_ids.clone().detach(),
                 original_input_size,
                 resized_input_size,
                 str(coco_image_name),

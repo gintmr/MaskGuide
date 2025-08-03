@@ -4,7 +4,7 @@ import random
 import sys
 from collections import defaultdict, deque
 import pickle
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 import numpy as np
 from PIL import Image
 import cv2
@@ -27,7 +27,7 @@ from mobile_sam import sam_model_registry
 from torch.cuda.amp import autocast
 
 NUM_WORKERS=4
-NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
+# NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
 
 
 

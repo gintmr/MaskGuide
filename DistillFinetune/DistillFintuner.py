@@ -2,7 +2,7 @@ import os
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque
 import pickle
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 import numpy as np
 from PIL import Image
 import cv2
@@ -27,7 +27,6 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 import math
 
 NUM_WORKERS=4
-NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
 
 
 

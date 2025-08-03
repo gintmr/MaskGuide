@@ -12,7 +12,7 @@ from Tools_finetune.loss_calculate import OceanSegmentationLoss
 oceanegmentationLoss = OceanSegmentationLoss()
 
 def finetune(**kwargs):
-    feature, bbox, label, center_point, point_label, target_label, original_input_size_item, resized_input_size_item, coco_image_name, img, T_img = kwargs['feature'], kwargs['bbox'], kwargs['label'], kwargs['center_point'], kwargs['point_label'], kwargs['target_label'], kwargs['original_input_size_item'], kwargs['resized_input_size_item'], kwargs['coco_image_name'], kwargs['img'], kwargs['T_img']
+    feature, bbox, label, center_point, point_label, original_input_size_item, resized_input_size_item, coco_image_name, img, T_img = kwargs['feature'], kwargs['bbox'], kwargs['label'], kwargs['center_point'], kwargs['point_label'], kwargs['original_input_size_item'], kwargs['resized_input_size_item'], kwargs['coco_image_name'], kwargs['img'], kwargs['T_img']
 
     validate = kwargs['validate']
 

@@ -20,12 +20,15 @@ def init_weights(module):
         if module.bias is not None:
             nn.init.constant_(module.bias, 0)
     elif isinstance(module, nn.Linear):
-        xavier_uniform_(module.weight)
+        nn.init.normal_(module.weight, mean=0.0, std=0.02)
         if module.bias is not None:
-            nn.init.constant_(module.bias, 0)
+            nn.init.zeros_(module.bias)
     elif isinstance(module, nn.LayerNorm):
         nn.init.constant_(module.weight, 1.0)
         nn.init.constant_(module.bias, 0)
+    elif isinstance(module, nn.Embedding):
+        nn.init.normal_(module.weight, mean=0.0, std=0.02)
+        
 
 
 def init_weights_by_mobilesam(model):

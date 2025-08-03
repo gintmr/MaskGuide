@@ -170,7 +170,7 @@ class OceanSegmentationLoss:
         if torch.isnan(results['focal_loss']):
             results['focal_loss'] = torch.tensor(0.0)
 
-        if iou < 0.9:
+        if iou < 0.8:
             penalty_coefficient = (1.0 + iou) / 10
             results['iou_loss'] /= penalty_coefficient
 

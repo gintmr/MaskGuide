@@ -20,4 +20,4 @@ def trans_ckpt(ckpt_path, save_path = None):
         torch.save(save_checkpoint, save_path)
         return save_path
 
-# trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/last-v2.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Distilled_encoder/msam_mix_data_2epoch_only_dsitill1epoch.pth")
+# trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v6.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp/all50epoch_ocean50epoch.pth")

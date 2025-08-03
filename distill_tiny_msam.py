@@ -17,20 +17,27 @@ from Tools_weights.trans_ckpt import trans_ckpt
 from torch.utils.data import ConcatDataset, WeightedRandomSampler
 import torch
 import numpy as np
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
-# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['NCCL_P2P_DISABLE'] = '1'
+
+torch.set_float32_matmul_precision('high')  # 或'medium'
+# torch.set_float32_matmul_precision('highest')  # 禁用Tensor Core加速
+
+
+# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,2,3'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
 DEVICE = 'cuda'
-os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:32'
+# os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:32'
 os.environ['INFERENCE_MODE'] = "test"# 是否下采样1/2
 # os.environ['INFERENCE_MODE'] = "train"# 是否下采样1/2
 os.environ['MODEL_MODE'] = "test" # 是否构造完整模型
-os.environ['distill'] = "mask"
+os.environ['distill'] = "mask&unmask"
 os.environ['test_prompts'] = "bbox"
 # torch.cuda.set_per_process_memory_fraction(0.9, device=0)
-# torch.cuda.set_per_process_memory_fraction(0.9, device=1)  
-# torch.cuda.set_per_process_memory_fraction(0.9, device=2)  
-# torch.cuda.set_per_process_memory_fraction(0.9, device=3)  
+# torch.cuda.set_per_process_memory_fraction(0.9, device=1)
+# torch.cuda.set_per_process_memory_fraction(0.9, device=2)
+# torch.cuda.set_per_process_memory_fraction(0.9, device=3)
 
 
 
@@ -91,17 +98,18 @@ def main():
     parser.add_argument("--T_model", default='vit_t', type=str, required=False, help="model type")
     # parser.add_argument("--T_model", default='vit_h', type=str, required=False, help="model type")
     # parser.add_argument("--S_model", default='vit_h', type=str, required=False, help="model type")
-    # parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
-    parser.add_argument("--S_model", default='vit_t', type=str, required=False, help="model type")
+    parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
+    # parser.add_argument("--S_model", default='vit_t', type=str, required=False, help="model type")
     # parser.add_argument("--S_model", default='vit_h', type=str, required=False, help="model type")
     # parser.add_argument("--S_model", default='micro_sam', type=str, required=False, help="model type")
     # parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/sam_vit_h_4b8939.pth", type=str, required=False, help="path to the checkpoint")
-    parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", type=str, required=False, help="path to the checkpoint")
+    # parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", type=str, required=False, help="path to the checkpoint")
+    parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/temp_weights/distillv3.pth", type=str, required=False, help="path to the checkpoint")
     # parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_h_S_vit_t/temp/distill_v2.pth", type=str, required=False, help="path to the checkpoint")
     # parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint")
 
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/temp_weights/UIIS854IMC947.pth", type=str, required=False, help="path to the checkpoint") #g vit_h
-    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/temp_weights/distillv3.pth", type=str, required=False, help="path to the checkpoint") #g vit_t
+    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam_1/temp/only_distill_50epoch.pth", type=str, required=False, help="path to the checkpoint") #g tiny_msam
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_vit_t/temp/step=43650-val_av_BS_IoU=0.8981.pth", type=str, required=False, help="path to the checkpoint") #g vit_t
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_micro_sam/temp/micro_sam_stage11.pth", type=str, required=False, help="path to the checkpoint") #g micro_sam
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint") #g tiny_msam
@@ -113,14 +121,14 @@ def main():
     parser.add_argument("--use_bbox", default=False, help="generate multi masks")
     parser.add_argument("--use_centerpoint", action="store_true", help="use only one center point", default=False)
     parser.add_argument('--every_n_train_steps', default=50)
-    parser.add_argument("--batch_size", type=int, default=1, help="batch size")
+    parser.add_argument("--batch_size", type=int, default=2, help="batch size")
     parser.add_argument("--save_topk", type=int, default=5, help="save top K models")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
-    parser.add_argument("--epochs", type=int, default=2, help="number of steps")
+    parser.add_argument("--epochs", type=int, default=60, help="number of steps")
     parser.add_argument("--num_points", type=int, default=10, help="number of random points")
     parser.add_argument("--length", type=int, default=10, help="the length of the chosen masks")
 
-    parser.add_argument("--learning_rate", type=float, default=1.0e-8, help="learning rate")
+    parser.add_argument("--learning_rate", type=float, default=1.0e-5, help="learning rate")
     parser.add_argument("--weight_decay", type=float, default=1e-2, help="weight decay")
     parser.add_argument("--metrics_interval", type=int, default=500, help="interval for logging metrics")
 
@@ -144,7 +152,7 @@ def main():
         def __init__(self, datasets, sample_weights=None):
             super().__init__(datasets)
             self.datasets = datasets
-            self.sample_weights = sample_weights if sample_weights is not None else [1.0] * len(datasets)
+            self.sample_weights = sample_weights if sample_weights is not None else [1.0 / len(datasets)] * len(datasets)
             self._build_index_map()
 
         def _build_index_map(self):
@@ -168,22 +176,27 @@ def main():
 
         @classmethod
         def collate_fn(cls, batch):
-            images, bboxes, masks, center_points, point_labels, img_name, category_ids, original_input_size, resized_input_size, coco_image_names = zip(*batch)
+            images, bboxes, masks, center_points, point_labels, img_name, original_input_size, resized_input_size, coco_image_names = zip(*batch)
             images = torch.stack(images, dim=0)
-            return images, bboxes, masks, center_points, point_labels, img_name, category_ids, original_input_size, resized_input_size, coco_image_names
+            return images, bboxes, masks, center_points, point_labels, img_name, original_input_size, resized_input_size, coco_image_names
 
 
 
-    if not args.only_distill:
+    # if not args.only_distill:
+    if True:
         if not args.repeat_sample:
+            print(f"distill dataset!!!!!!!!!!!!")
             dataset = Coco2MaskDataset
         else:
             dataset = Coco2MaskDataset_repeat
+    
+        dataset = Coco2MaskDataset
+        
         # load the dataset
         train_dataset_MIMC = dataset(data_root=args.train_data_MIMC, annotation_path=args.train_anno_MIMC, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
         # train_dataset = combined_datasets([train_dataset_MIMC, ])
         
-        train_dataset_IMC = dataset(data_root=args.train_data_IMC, annotation_path=args.train_anno_IMC, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+        # train_dataset_IMC = dataset(data_root=args.train_data_IMC, annotation_path=args.train_anno_IMC, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
         
         train_dataset_UIIS = dataset(data_root=args.train_data_UIIS, annotation_path=args.train_anno_UIIS, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
         # train_dataset = combined_datasets([train_dataset_UIIS, ])
@@ -193,12 +206,13 @@ def main():
 
         # train_dataset_COCO = dataset(data_root=args.train_data_COCO, annotation_path=args.train_anno_COCO, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
 
-        # # train_dataset = combined_datasets([train_dataset_COCO])
+        # train_dataset = combined_datasets([train_dataset_COCO])
         
-        # train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_COCO])
+        train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_UIIS])
         
     else:
         if os.getenv("distill", "ori") == "ori":
+            print(f"distill ori!!!!!!!!!!!!")
             train_dataset_MIMC = Coco2IMGDataset(data_root=args.train_data_MIMC, image_size=args.image_size,)
             train_dataset_COCO = Coco2IMGDataset(data_root=args.train_data_COCO, image_size=args.image_size,)
             train_dataset_VOC = Coco2IMGDataset(data_root=args.train_data_VOC, image_size=args.image_size,)
@@ -207,21 +221,26 @@ def main():
         
         
         elif os.getenv("distill", "ori") == "mask":
+            print(f"distill mask!!!!!!!!!!!!")
             train_dataset_IMC = val_COCODataset(data_root=args.val_data_IMC, annotation_path=args.val_anno_IMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
             train_dataset_MIMC = val_COCODataset(data_root=args.val_data_MIMC, annotation_path=args.val_anno_MIMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
             train_dataset_UIIS = val_COCODataset(data_root=args.train_data_UIIS, annotation_path=args.train_anno_UIIS, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+            train_dataset_COCO = val_COCODataset(data_root=args.train_data_COCO, annotation_path=args.train_anno_COCO, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+            train_dataset_VOC = val_COCODataset(data_root=args.train_data_VOC, annotation_path=args.train_anno_VOC, image_size=args.image_size,length=args.length,num_points=args.num_points,use_centerpoint=args.use_centerpoint)
         
         # train_dataset = train_dataset_MIMC
 
         # train_dataset = combined_datasets([train_dataset_MIMC,])
 
+        train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_UIIS], sample_weights=[0.6, 0.4])
         # train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_COCO, train_dataset_VOC, train_dataset_UIIS])
         # train_dataset = combined_datasets([train_dataset_UIIS, train_dataset_MIMC])
         # train_dataset = combined_datasets([train_dataset_MIMC])
 
-    train_dataset = combined_datasets([train_dataset_UIIS, train_dataset_IMC], sample_weights=[0.6, 0.4])
+        # train_dataset = combined_datasets([train_dataset_UIIS, train_dataset_IMC], sample_weights=[0.6, 0.4])
+    
 
-    val_dataset = val_COCODataset(data_root=args.val_data_IMC, annotation_path=args.val_anno_IMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+    val_dataset = Coco2MaskDataset(data_root=args.val_data_IMC, annotation_path=args.val_anno_IMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
 
     # val_dataset = val_COCODataset(data_root=args.val_data_MIMC, annotation_path=args.val_anno_MIMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
 
@@ -257,7 +276,7 @@ def main():
         args.S_checkpoint_path,
         freeze_image_encoder=False,
         freeze_prompt_encoder=True,
-        freeze_mask_decoder=False,
+        freeze_mask_decoder=True,
         train_dataset=train_dataset,
         val_dataset=val_dataset,
         batch_size=args.batch_size,
@@ -268,7 +287,7 @@ def main():
         use_bbox=args.use_bbox,
         max_steps=max_steps,
         epochs=args.epochs,
-        distill_weight=1, #g 初始化权重时 0.2
+        distill_weight=0.2, #g 初始化权重时 0.2
         only_distill=args.only_distill,
         add_distill=args.add_distill,
     )
@@ -298,8 +317,9 @@ def main():
         logger=logger,
         max_steps=max_steps,
         val_check_interval=1.0,
-        # check_val_every_n_epoch=1,
-        check_val_every_n_epoch=-1,
+        # val_check_interval=5000,
+        check_val_every_n_epoch=1,
+        # check_val_every_n_epoch=None,
         limit_val_batches=1.0, 
         num_sanity_val_steps=1,
         profiler="simple",
@@ -309,7 +329,7 @@ def main():
     
     
     # trainer.validate(model)
-    # trainer.fit(model, ckpt_path="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_vit_h/last-v5.ckpt")
+    # trainer.fit(model, ckpt_path="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v3.ckpt")
     trainer.fit(model, )
     
     

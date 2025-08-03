@@ -58,36 +58,101 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
         self.only_distill = only_distill  # 是否只蒸馏
         self.add_distill = add_distill
         
-    def forward(self, imgs, bboxes, labels, center_points, point_labels, target_labels, original_input_size, resized_input_size, coco_image_names, validate=False):
+    def forward(self, imgs, bboxes, labels, center_points, point_labels, original_input_size, resized_input_size, coco_image_names, validate=False):
         device = imgs.device
         imgs.to("cpu")
         assert self.T_model.image_encoder.img_size == self.S_model.image_encoder.img_size
         # imgs = random_resize(imgs)
         actual_batch_size = imgs.size(0)
 
+        # print(f"imgs.shape = {imgs.shape}")
+
         if os.getenv("distill", "ori") == "ori":
             S_imgs = imgs
             T_imgs = imgs
-        elif os.getenv("distill", "ori") == "mask":
+            S_input_images = torch.stack([self.T_model.preprocess(S_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+            T_input_images = torch.stack([self.T_model.preprocess(T_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+            S_input_images.to(device)
+            T_input_images.to(device)
+        elif os.getenv("distill", "ori") == "mask" or os.getenv("distill", "ori") == "outline":
             #g 此时得到的imgs是两种格式数据沿通道纬度拼接起来的数据，其中前3个通道是正常img，后3个通道仅保留mask处像素的img
             # print("mask-distill mode!")
             S_imgs = imgs[:, :3, :, :]
             T_imgs = imgs[:, 3:, :, :]
+            S_input_images = torch.stack([self.T_model.preprocess(S_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+            T_input_images = torch.stack([self.T_model.preprocess(T_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+            S_input_images.to(device)
+            T_input_images.to(device)
             # print(f"S_imgs: {S_imgs.shape}, T_imgs: {T_imgs.shape}")
-
-        S_input_images = torch.stack([self.T_model.preprocess(S_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
-        T_input_images = torch.stack([self.T_model.preprocess(T_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
-        S_input_images.to(device)
-        T_input_images.to(device)
-
+        elif os.getenv("distill", "ori") == "mask&outline":
+            # import pdb 
+            # pdb.set_trace()
+            S_imgs = imgs[:, :3, :, :]
+            T_imgs = S_imgs #! 仅用于后续可能的可视化，所以直接使用S_imgs
+            T_imgs_mask = imgs[:, 3:6, :, :]
+            T_imgs_outline = imgs[:, 6:, :, :]
+            # print(f"S_imgs: {S_imgs.shape}, T_imgs: {T_imgs.shape}")
+            S_input_images = torch.stack([self.T_model.preprocess(S_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+            T_input_images_mask = torch.stack([self.T_model.preprocess(T_imgs_mask[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+            T_input_images_outline = torch.stack([self.T_model.preprocess(T_imgs_outline[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+            S_input_images.to(device)
+            T_input_images_mask.to(device)
+            T_input_images_outline.to(device)
+            T_input_images = [T_input_images_mask, T_input_images_outline]
+        elif os.getenv("distill", "ori") == "mask&unmask":
+            if validate:
+                S_imgs = imgs[:, :3, :, :]
+                T_imgs = S_imgs
+                S_imgs_mask = imgs[:, 3:6, :, :]
+                S_imgs_unmask = imgs[:, 6:, :, :]
+                S_input_images = torch.stack([self.T_model.preprocess(S_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+                S_input_images_mask = torch.stack([self.T_model.preprocess(S_imgs_mask[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+                S_input_images_unmask = torch.stack([self.T_model.preprocess(S_imgs_unmask[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+                S_input_images.to(device)
+                S_input_images_mask.to(device)
+                S_input_images_unmask.to(device)
+                S_input_images = S_input_images
+                # S_input_images = [S_input_images_mask, S_input_images_unmask]
+                # S_input_images = S_input_images_unmask
+                # S_input_images = S_input_images_mask
+                
+            else:
+                S_imgs = imgs[:, :3, :, :]
+                T_imgs = S_imgs
+                T_imgs_mask = imgs[:, 3:6, :, :]
+                T_imgs_unmask = imgs[:, 6:, :, :]
+                S_input_images = torch.stack([self.T_model.preprocess(S_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+                T_input_images_mask = torch.stack([self.T_model.preprocess(T_imgs_mask[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+                T_input_images_unmask = torch.stack([self.T_model.preprocess(T_imgs_unmask[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
+                S_input_images.to(device)
+                T_input_images_mask.to(device)
+                T_input_images_unmask.to(device)
+                T_input_images = [T_input_images_mask, T_input_images_unmask]
+                # S_input_images = S_input_images_unmask
+                # S_input_images = S_input_images_mask
         try:
             RATE = self.global_step / self.max_steps
             os.environ['RATE'] = str(RATE)
-            S_features = self.S_model.image_encoder(S_input_images)
+            if isinstance(S_input_images, list):
+                S_features_list = [self.S_model.image_encoder(S_input_images[i]) for i in range(len(S_input_images))]
+                S_features = sum(S_features_list) / len(S_features_list)
+            else:            
+                S_features = self.S_model.image_encoder(S_input_images)
 
             if not validate and self.add_distill:
-                T_features = self.T_model.image_encoder(T_input_images)
-                distill_loss = self.feature_distillation_loss(T_features, S_features, RATE)
+                distill_loss = torch.tensor(0, device="cuda", dtype=torch.float32)
+                if isinstance(T_input_images, list):
+                    T_features_list = [self.T_model.image_encoder(T_input_images[i]) for i in range(len(T_input_images))]
+                    T_features = sum(T_features_list) / len(T_features_list)
+                else:
+                    T_features = self.T_model.image_encoder(T_input_images)
+                if isinstance(T_features, list):
+                    for T_feature in T_features:
+                        device = T_feature.device
+                        distill_loss = distill_loss.to(device)
+                        distill_loss += self.feature_distillation_loss(T_feature, S_features, RATE)
+                else:
+                    distill_loss = self.feature_distillation_loss(T_features, S_features, RATE)
                 # distill_loss = self.new_feature_distillation_loss(T_features, S_features, RATE)
             else:
                 distill_loss = torch.tensor(0)
@@ -106,14 +171,14 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                 pass
             
             else:
-                for S_feature, bbox, label, center_point, point_label, target_label, original_input_size_item, resized_input_size_item, coco_image_name, img, T_img in \
-                        zip(S_features, bboxes, labels, center_points, point_labels, target_labels, original_input_size, resized_input_size, coco_image_names, S_imgs, T_imgs):
+                for S_feature, bbox, label, center_point, point_label, original_input_size_item, resized_input_size_item, coco_image_name, img, T_img in \
+                        zip(S_features, bboxes, labels, center_points, point_labels, original_input_size, resized_input_size, coco_image_names, S_imgs, T_imgs):
                     '''
                     original_input_size_item: ori阶段图像尺寸 => H0,W0
                     resized_input_size_item: middle阶段图像尺寸 => H1,W1(未填充成正方形)
                     img: 填充成正方形(resized_input_size_item的长边)
                     '''
-                    Finetune_dict = finetune(feature=S_feature, bbox=bbox, label=label, center_point=center_point, point_label=point_label, target_label=target_label, original_input_size_item=original_input_size_item, resized_input_size_item=resized_input_size_item, coco_image_name=coco_image_name, img=img, T_img=T_img,  training_visual_path=f"/data2/wuxinrui/RA-L/MobileSAM/training_visual_distill/{self.current_epoch}", self=self, validate=validate)
+                    Finetune_dict = finetune(feature=S_feature, bbox=bbox, label=label, center_point=center_point, point_label=point_label, original_input_size_item=original_input_size_item, resized_input_size_item=resized_input_size_item, coco_image_name=coco_image_name, img=img, T_img=T_img,  training_visual_path=f"/data2/wuxinrui/RA-L/MobileSAM/training_visual_distill/{self.current_epoch}", self=self, validate=validate)
 
                     #g 排除低质样本的副作用
                     BS_LOSS += Finetune_dict["total_loss"]
@@ -172,12 +237,12 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             raise e
 
     def training_step(self, batch, batch_nb):
-        imgs, bboxes, labels, center_points, point_labels, img_name, category_ids ,original_input_size,resized_input_size, coco_image_names = batch
+        imgs, bboxes, labels, center_points, point_labels, img_name ,original_input_size,resized_input_size, coco_image_names = batch
 
         # with autocast():
         #     outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
 
-        outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
+        outputs = self(imgs, bboxes, labels, center_points, point_labels ,original_input_size,resized_input_size, coco_image_names)
 
         if outputs['loss'] == 0:
             print("Skipping invalid batch")
@@ -192,12 +257,12 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
 
 
     def validation_step(self, batch, batch_idx):
-        imgs, bboxes, labels, center_points, point_labels, img_name, category_ids ,original_input_size,resized_input_size, coco_image_names = batch
+        imgs, bboxes, labels, center_points, point_labels, img_name ,original_input_size,resized_input_size, coco_image_names = batch
 
         # with autocast():
         #     outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names)
         with torch.no_grad():
-            outputs = self(imgs, bboxes, labels, center_points, point_labels,category_ids,original_input_size,resized_input_size, coco_image_names, validate=True)
+            outputs = self(imgs, bboxes, labels, center_points, point_labels,original_input_size,resized_input_size, coco_image_names, validate=True)
 
         if outputs['loss'] == 0:
             print("Skipping invalid batch")

@@ -15,18 +15,21 @@ from DistillFinetune.Imgencoder_Distill import Imgencoder_Distill
 from Datasets.coco import Coco2MaskDataset, Coco2IMGDataset, Coco2MaskDataset_repeat, val_COCODataset
 
 from Tools_weights.trans_ckpt import trans_ckpt
+os.environ['NCCL_P2P_DISABLE'] = '1'
 
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
-# os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,2,3'
 NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
 DEVICE = 'cuda'
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:32'
 os.environ['INFERENCE_MODE'] = "test"# 是否下采样1/2
 # os.environ['INFERENCE_MODE'] = "train"# 是否下采样1/2
 os.environ['MODEL_MODE'] = "test" # 是否构造完整模型
-os.environ['distill'] = "mask"
+os.environ['test_prompts'] = "bbox"
+os.environ['distill'] = "ori"
+# os.environ['distill'] = "mask&unmask"
 # torch.cuda.set_per_process_memory_fraction(0.9, device=0)
 # torch.cuda.set_per_process_memory_fraction(0.9, device=1)  
 # torch.cuda.set_per_process_memory_fraction(0.9, device=2)  
@@ -90,8 +93,8 @@ def main():
     # parser.add_argument("--T_model", default='tiny_msam', type=str, required=False, help="model type")
     parser.add_argument("--T_model", default='vit_t', type=str, required=False, help="model type")
     # parser.add_argument("--T_model", default='vit_h', type=str, required=False, help="model type")
-    parser.add_argument("--S_model", default='vit_h', type=str, required=False, help="model type")
-    # parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
+    # parser.add_argument("--S_model", default='vit_h', type=str, required=False, help="model type")
+    parser.add_argument("--S_model", default='tiny_msam', type=str, required=False, help="model type")
     # parser.add_argument("--S_model", default='vit_t', type=str, required=False, help="model type")
     # parser.add_argument("--S_model", default='micro_sam', type=str, required=False, help="model type")
     # parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/sam_vit_h_4b8939.pth", type=str, required=False, help="path to the checkpoint")
@@ -99,11 +102,11 @@ def main():
     # parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint")
 
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_vit_h/last-v3.ckpt", type=str, required=False, help="path to the checkpoint") #g vit_h
-    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_vit_h/last-v9.ckpt", type=str, required=False, help="path to the checkpoint") #g vit_h
+    # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/step=717300-val_av_BS_IoU=0.7539.ckpt", type=str, required=False, help="path to the checkpoint") #g vit_h
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/temp_weights/distillv3.pth", type=str, required=False, help="path to the checkpoint") #g vit_t
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt", type=str, required=False, help="path to the checkpoint") #g vit_t
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Mask_Decoder_T_vit_h_S_vit_t/last-v5.ckpt", type=str, required=False, help="path to the checkpoint") #g vit_t
-    # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint") #g tiny_msam
+    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam_1/temp/all50epoch_ocean100epoch.pth", type=str, required=False, help="path to the checkpoint") #g tiny_msam
 
 
     # 添加一个名为multimask的参数，类型为布尔型，默认值为False，当该参数被指定时，其值为True，用于生成多掩码
@@ -173,11 +176,11 @@ def main():
         # train_dataset = combined_datasets([train_dataset_MIMC, train_dataset_UIIS])
         train_dataset = combined_datasets([train_dataset_MIMC])
 
-    val_dataset = val_COCODataset(data_root=args.val_data_IMC, annotation_path=args.val_anno_IMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+    val_dataset = Coco2MaskDataset(data_root=args.val_data_IMC, annotation_path=args.val_anno_IMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
 
     # val_dataset = val_COCODataset(data_root=args.val_data_MIMC, annotation_path=args.val_anno_MIMC, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
     
-    # val_dataset = val_COCODataset(data_root=args.val_data_UIIS, annotation_path=args.val_anno_UIIS, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
+    # val_dataset = Coco2MaskDataset(data_root=args.val_data_UIIS, annotation_path=args.val_anno_UIIS, image_size=args.image_size,length=args.length, num_points=args.num_points,use_centerpoint=args.use_centerpoint)
 
 
     steps_in_epoch = len(train_dataset) // (args.batch_size * NUM_GPUS)

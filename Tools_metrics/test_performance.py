@@ -6,6 +6,9 @@ import torch.cuda.profiler as profiler
 from torch.utils.data import DataLoader, Dataset
 import numpy as np
 import pynvml
+from functools import partial
+
+
 import sys
 module_path = "./"
 if module_path not in sys.path:
@@ -45,6 +48,10 @@ def test_image_encoder(image_encoder, dataset, batch_size=32, num_batches=320):
     handle = pynvml.nvmlDeviceGetHandleByIndex(0)  # 假设使用第一块 GPU
     all_fps_img_encoder = 0
 
+    # 计算中间 50% 的起始和结束索引
+    start_idx = num_batches // 4
+    end_idx = num_batches * 3 // 4
+
     with torch.no_grad():
         for batch_idx, batch in enumerate(dataloader):
             if batch_idx >= num_batches:
@@ -64,59 +71,38 @@ def test_image_encoder(image_encoder, dataset, batch_size=32, num_batches=320):
 
             # 结束计时
             end_time = time.time()
-            total_time += (end_time - start_time)
+            elapsed_time = end_time - start_time
 
+            # 仅对中间 50% 的批次进行统计
+            if start_idx <= batch_idx < end_idx:
+                total_time += elapsed_time
+                all_fps_img_encoder += len(batch) / elapsed_time
 
-            length = len(batch)
-            fps_img_encoder = length / (end_time - start_time)
-            all_fps_img_encoder += fps_img_encoder
             # 获取 GPU 使用情况
             mem_info = pynvml.nvmlDeviceGetMemoryInfo(handle)
             gpu_memory_used = mem_info.used / (1024 ** 2)  # 转换为 MB
-            print(f"Batch {batch_idx + 1}/{num_batches}, Time: {end_time - start_time:.4f}s, GPU Memory Used: {gpu_memory_used:.2f} MB, fps_img_encoder: {fps_img_encoder:.2f}")
+            print(f"Batch {batch_idx + 1}/{num_batches}, Time: {elapsed_time:.4f}s, GPU Memory Used: {gpu_memory_used:.2f} MB, fps_img_encoder: {len(batch) / elapsed_time:.2f}")
 
     # 计算平均耗时
-    avg_time = total_time / num_batches
-    print(f"Average Time per Batch: {avg_time:.4f}s")
-    print(f"Average fps_img_encoder: {all_fps_img_encoder / num_batches:.2f}")
+    num_batches_middle = end_idx - start_idx
+    avg_time = total_time / num_batches_middle if num_batches_middle > 0 else 0
+    avg_fps_img_encoder = all_fps_img_encoder / num_batches_middle if num_batches_middle > 0 else 0
+
+    print(f"Average Time per Batch (Middle 50%): {avg_time:.4f}s")
+    print(f"Average fps_img_encoder (Middle 50%): {avg_fps_img_encoder:.2f}")
 
     # 清理
     pynvml.nvmlShutdown()
 
 # # 定义 TinyViT 的参数
-# image_encoder = tiny_TinyViT(
-#     img_size=1024,
-#     in_chans=3,
-#     num_classes=1000,
-#     embed_dims=[64, 96, 128, 320],
-#     depths=[1, 2, 4, 1],
-#     num_heads=[2, 3, 4, 8],
-#     window_sizes=[7, 7, 14, 7],
-#     mlp_ratio=4.,
-#     drop_rate=0.,
-#     drop_path_rate=0.0,
-#     use_checkpoint=False,
-#     mbconv_expand_ratio=4.0,
-#     local_conv_size=3,
-#     layer_lr_decay=0.8
-# )
-
 image_encoder = tiny_TinyViT(
     img_size=1024,
     in_chans=3,
     num_classes=1000,
-    embed_dims=[64, 128, 160, 320], #g vit_t
-    depths=[2, 2, 6, 2],
-    num_heads=[2, 4, 5, 10],
+    embed_dims=[64, 96, 128, 320],
+    depths=[1, 2, 4, 1],
+    num_heads=[2, 3, 4, 8],
     window_sizes=[7, 7, 14, 7],
-    # embed_dims=[64, 96, 128, 320], #g tiny_msam
-    # depths=[1, 2, 4, 1],
-    # num_heads=[2, 3, 4, 8],
-    # window_sizes=[7, 7, 14, 7],
-    # embed_dims=[64, 80, 160, 320], #g micro sam
-    # depths=[1, 1, 1, 1],
-    # num_heads=[2, 2, 4, 8],
-    # window_sizes=[7, 7, 14, 7],
     mlp_ratio=4.,
     drop_rate=0.,
     drop_path_rate=0.0,
@@ -125,6 +111,46 @@ image_encoder = tiny_TinyViT(
     local_conv_size=3,
     layer_lr_decay=0.8
 )
+
+
+# image_encoder = ImageEncoderViT(
+#             depth=32,
+#             embed_dim=1280,
+#             img_size=1024,
+#             mlp_ratio=4,
+#             norm_layer=partial(torch.nn.LayerNorm, eps=1e-6),
+#             num_heads=16,
+#             patch_size=16,
+#             qkv_bias=True,
+#             use_rel_pos=True,
+#             global_attn_indexes=[7,15,23,31],
+#             window_size=14,
+#             out_chans=256,)
+
+# image_encoder = tiny_TinyViT(
+#     img_size=1024,
+#     in_chans=3,
+#     num_classes=1000,
+#     embed_dims=[64, 128, 160, 320], #g vit_t
+#     depths=[2, 2, 6, 2],
+#     num_heads=[2, 4, 5, 10],
+#     window_sizes=[7, 7, 14, 7],
+#     # embed_dims=[64, 96, 128, 320], #g tiny_msam
+#     # depths=[1, 2, 4, 1],
+#     # num_heads=[2, 3, 4, 8],
+#     # window_sizes=[7, 7, 14, 7],
+#     # embed_dims=[64, 80, 160, 320], #g micro sam
+#     # depths=[1, 1, 1, 1],
+#     # num_heads=[2, 2, 4, 8],
+#     # window_sizes=[7, 7, 14, 7],
+#     mlp_ratio=4.,
+#     drop_rate=0.,
+#     drop_path_rate=0.0,
+#     use_checkpoint=False,
+#     mbconv_expand_ratio=4.0,
+#     local_conv_size=3,
+#     layer_lr_decay=0.8
+# )
 # image_encoder = repvit_m0_5()
 # 创建随机图像数据集
 dataset = RandomImageDataset(size=10000, image_size=1024)

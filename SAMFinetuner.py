@@ -4,7 +4,7 @@ import random
 import sys
 from collections import defaultdict, deque
 import pickle
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 import numpy as np
 from PIL import Image
 import cv2
@@ -31,7 +31,7 @@ from segment_anything import sam_model_registry
 NUM_WORKERS = 0  # https://github.com/pytorch/pytorch/issues/42518
 NUM_GPUS = 2
 DEVICE = 'cuda'
-os.environ["CUDA_VISIBLE_DEVICES"]="2,3"
+# os.environ["CUDA_VISIBLE_DEVICES"]="2,3"
 from shapely.geometry import Point, Polygon
 
 
