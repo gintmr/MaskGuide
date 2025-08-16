@@ -307,6 +307,7 @@ class Coco2MaskDataset(Dataset):
             image_path = os.path.join(self.data_root, coco_image_name)
             image = Image.open(image_path).convert("RGB")
             # image = self.augmentations(image) if random.random() > 0.3 else image
+            # image = self.augmentations(image)
             image = np.array(image)
 
             # if image.shape[-1] == 3:  # HWC格式
@@ -350,6 +351,7 @@ class Coco2MaskDataset(Dataset):
             input_image = self.preprocess(input_image)
             masked_image = np.zeros_like(input_image)
             original_image_with_boundaries = input_image.copy()
+            unmasked_image = input_image.copy()
 
             for annotation in annotations[:self.length]:
                 x, y, w, h = annotation["bbox"]
@@ -361,7 +363,18 @@ class Coco2MaskDataset(Dataset):
                 ## 保持原来的尺寸
                 category_ids.append([annotation["category_id"]])
                 # points, num_points = random_croods_in_mask(mask=mask, num_croods=self.num_points) ## points的坐标顺序与mask相同,W\H
-                points, num_points = random_croods_in_mask_5pieces(mask=mask) ## points的坐标顺序与mask相同,W\H
+                if 'coords' in annotation:
+                    points = annotation['coords']
+                    num_points = len(points)
+                    # print("validating !!!")
+                    prompt_type = "all_points"
+                else:
+                    points, num_points = random_croods_in_mask_5pieces(mask=mask)
+                    weights = [0.0, 0.0, 0.5, 0.0, 0.5]
+                    prompt_types = ['1_point', '3_points', '5_points', '8_points', '10_points']
+                    prompt_type = random.choices(prompt_types, weights=weights, k=1)[0]
+
+                # points, num_points = random_croods_in_mask_5pieces(mask=mask) ## points的坐标顺序与mask相同,W\H
                 #g 分成5个区域，每个区域选两点
                 
                 mask = cv2.resize(mask, (resized_width, resized_height), interpolation=cv2.INTER_LINEAR)
@@ -376,13 +389,15 @@ class Coco2MaskDataset(Dataset):
                 masked_image = cv2.add(masked_image, masked_region)
                 
                 #! 将mask反向应用到图像上
-                inverse_mask = cv2.bitwise_not(mask)
-                unmasked_image = cv2.bitwise_and(input_image, input_image, mask=inverse_mask)
+                # inverse_mask = cv2.bitwise_not(mask)
+                # # unmasked_image = cv2.bitwise_and(input_image, input_image, mask=inverse_mask)
+                # unmasked_region = cv2.bitwise_and(input_image, input_image, mask=inverse_mask)
+                # unmasked_image = cv2.add(unmasked_image, unmasked_region)
+                unmasked_image[mask > 0] = [0, 0, 0]
 
                 #! 将outline画到图像上
                 contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                 cv2.drawContours(original_image_with_boundaries, contours, -1, (255, 255, 255), 1)
-
 
 
                 ## bbox需要resize,同理center_points需要resize, points也需要resize; 但是mask不resize
@@ -397,6 +412,13 @@ class Coco2MaskDataset(Dataset):
                 combined_points.append(points)
                 center_point_labels.append([count_label])
 
+            img_extname = os.path.splitext(coco_image_name)[1]
+            
+            # self.preview_input(masked_image, coco_image_name.replace(img_extname, "_masked" + img_extname))
+            # self.preview_input(unmasked_image, coco_image_name.replace(img_extname, "_unmasked" + img_extname))
+            # self.preview_input(original_image_with_boundaries, coco_image_name.replace(img_extname, "_outline" + img_extname))
+            # self.preview_input(input_image, coco_image_name.replace(img_extname, "_original" + img_extname))
+            
             combined_points = self.transform.apply_coords_torch(combined_points, original_input_size)
             center_points = self.transform.apply_coords_torch(center_points, original_input_size)
             bboxes = self.transform.apply_boxes_torch(bboxes, original_input_size)
@@ -418,14 +440,8 @@ class Coco2MaskDataset(Dataset):
             point_labels = np.stack(point_labels, axis=0)
 
             # 将输入图像转换为torch张量
-            # self.preview_input(original_image_with_boundaries, coco_image_name) #g 预览输入图像
-            
-            
-            # weights = [0.2, 0.4, 0.0, 0.0, 0.4]
-            weights = [0.0, 0.0, 0.5, 0.0, 0.5]
-            prompt_types = ['1_point', '3_points', '5_points', '8_points', '10_points']
-            prompt_type = random.choices(prompt_types, weights=weights, k=1)[0]
-            
+
+
             if prompt_type == "1_point":
                 given_points = given_points[:, :1]
                 point_labels = point_labels[:, :1]
@@ -433,7 +449,7 @@ class Coco2MaskDataset(Dataset):
                 given_points = given_points[:, :3]
                 point_labels = point_labels[:, :3]
             elif prompt_type == "5_points":
-                 # Select points with indices 0, 2, 4, 6, 8
+                    # Select points with indices 0, 2, 4, 6, 8
                 selected_indices = [0, 2, 4, 6, 8]
                 given_points = given_points[:, selected_indices]
                 point_labels = point_labels[:, selected_indices]
@@ -444,6 +460,9 @@ class Coco2MaskDataset(Dataset):
             elif prompt_type == "10_points":
                 given_points = given_points[:, :10]
                 point_labels = point_labels[:, :10]
+            elif prompt_type == "all_points":
+                given_points = given_points
+                point_labels = point_labels
 
             input_image_torch = torch.tensor(input_image)
             #g 将张量的维度从HWC转换为CHW
@@ -463,7 +482,7 @@ class Coco2MaskDataset(Dataset):
                 return_img = torch.cat([input_image_torch, masked_image_torch], dim=0)
             elif self.distill_target == "unmask":
                 return_img = torch.cat([input_image_torch, unmasked_image_torch], dim=0)
-            elif self.distill_target == "mask&unmask":
+            elif "mask&unmask" in self.distill_target:
                 return_img = torch.cat([input_image_torch, masked_image_torch, unmasked_image_torch], dim=0)
             elif self.distill_target == "ori":
                 return_img = input_image_torch

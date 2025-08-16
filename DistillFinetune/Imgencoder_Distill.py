@@ -57,7 +57,11 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
         self.step_in_epoch = max_steps // epochs
         self.only_distill = only_distill  # 是否只蒸馏
         self.add_distill = add_distill
-        
+        self.distill_type = os.getenv("distill", "ori")
+        self.features_folder_name = self.T_model_type + "_" + self.S_model_type + "_" + self.distill_type
+        self.features_folder_path = os.path.join("Tools_accelerate", self.features_folder_name)
+        os.makedirs(self.features_folder_path, exist_ok=True)
+
     def forward(self, imgs, bboxes, labels, center_points, point_labels, original_input_size, resized_input_size, coco_image_names, validate=False):
         device = imgs.device
         imgs.to("cpu")
@@ -74,7 +78,7 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             T_input_images = torch.stack([self.T_model.preprocess(T_imgs[i,:,:,:]) for i in range(actual_batch_size)], dim=0) #G padding
             S_input_images.to(device)
             T_input_images.to(device)
-        elif os.getenv("distill", "ori") == "mask" or os.getenv("distill", "ori") == "outline":
+        elif os.getenv("distill", "ori") == "mask" or os.getenv("distill", "ori") == "outline" or os.getenv("distill", "ori") == "unmask":
             #g 此时得到的imgs是两种格式数据沿通道纬度拼接起来的数据，其中前3个通道是正常img，后3个通道仅保留mask处像素的img
             # print("mask-distill mode!")
             S_imgs = imgs[:, :3, :, :]
@@ -99,7 +103,7 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
             T_input_images_mask.to(device)
             T_input_images_outline.to(device)
             T_input_images = [T_input_images_mask, T_input_images_outline]
-        elif os.getenv("distill", "ori") == "mask&unmask":
+        elif "mask&unmask" in os.getenv("distill", "ori"):
             if validate:
                 S_imgs = imgs[:, :3, :, :]
                 T_imgs = S_imgs
@@ -112,7 +116,23 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                 S_input_images_mask.to(device)
                 S_input_images_unmask.to(device)
                 S_input_images = S_input_images
-                # S_input_images = [S_input_images_mask, S_input_images_unmask]
+                
+                validate_mode = os.getenv("validate", "v0")
+                print(f"validate_mode = {validate_mode}!!!!!!!!!!!")
+                if validate_mode == "v1":
+                    S_input_images = [S_input_images_mask, S_input_images]
+                elif validate_mode == "v2":
+                    S_input_images = [S_input_images_mask, S_input_images_mask, S_input_images]
+                elif validate_mode == "v3":
+                    S_input_images = [S_input_images_mask, S_input_images, S_input_images]
+                elif validate_mode == "v4":
+                    S_input_images = [S_input_images_mask, S_input_images_mask, S_input_images_unmask]
+                elif validate_mode == "v5":
+                    S_input_images = [S_input_images_mask, S_input_images_unmask, S_input_images_unmask]
+                elif validate_mode == "v6":
+                    S_input_images = [S_input_images_mask, S_input_images_unmask]
+                elif validate_mode == "v7":
+                    S_input_images = [S_input_images_mask, S_input_images_unmask, S_input_images]
                 # S_input_images = S_input_images_unmask
                 # S_input_images = S_input_images_mask
                 
@@ -127,7 +147,12 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
                 S_input_images.to(device)
                 T_input_images_mask.to(device)
                 T_input_images_unmask.to(device)
-                T_input_images = [T_input_images_mask, T_input_images_unmask]
+                if os.getenv("distill", "ori") == "mask&unmask":
+                    T_input_images = [T_input_images_mask, S_input_images]
+                elif os.getenv("distill", "ori") == "mask&unmask_neg":
+                    T_input_images = [T_input_images_mask, T_input_images_unmask]
+                elif os.getenv("distill", "ori") == "mask&unmask_v1":
+                    T_input_images = [T_input_images_mask, T_input_images_unmask, S_input_images]
                 # S_input_images = S_input_images_unmask
                 # S_input_images = S_input_images_mask
         try:
@@ -141,12 +166,30 @@ class Imgencoder_Distill(AbstractDistillFinetuner):
 
             if not validate and self.add_distill:
                 distill_loss = torch.tensor(0, device="cuda", dtype=torch.float32)
-                if isinstance(T_input_images, list):
-                    T_features_list = [self.T_model.image_encoder(T_input_images[i]) for i in range(len(T_input_images))]
-                    T_features = sum(T_features_list) / len(T_features_list)
+
+                example_feature_name = coco_image_names[0] + ".npy"
+                if example_feature_name not in os.listdir(self.features_folder_path):
+                    print(f"not have npy exists.")
+                    if isinstance(T_input_images, list):
+                        T_features_list = [self.T_model.image_encoder(T_input_images[i]) for i in range(len(T_input_images))]
+                        T_features = sum(T_features_list) / len(T_features_list)
+                    else:
+                        T_features = self.T_model.image_encoder(T_input_images)
+
+                    for coco_image_name, T_feature in zip(coco_image_names, T_features):
+                        T_feature = T_feature.cpu().detach().numpy()
+                        np.save(os.path.join(self.features_folder_path, coco_image_name + ".npy"), T_feature)
                 else:
-                    T_features = self.T_model.image_encoder(T_input_images)
+                    T_features = []
+                    for coco_image_name in coco_image_names:
+                        if coco_image_name + ".npy" in os.listdir(self.features_folder_path):
+                            # print(f"Loading {coco_image_name + '.npy'}")
+                            T_feature = np.load(os.path.join(self.features_folder_path, coco_image_name + ".npy"))
+                            T_feature = torch.from_numpy(T_feature).to(S_features.device)
+                            T_features.append(T_feature)
+                    T_features = torch.stack(T_features)
                 if isinstance(T_features, list):
+                    print("T_features is a list")
                     for T_feature in T_features:
                         device = T_feature.device
                         distill_loss = distill_loss.to(device)

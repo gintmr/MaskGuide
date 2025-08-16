@@ -24,7 +24,7 @@ torch.set_float32_matmul_precision('high')  # 或'medium'
 
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
 # os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 NUM_GPUS = len(os.environ["CUDA_VISIBLE_DEVICES"].split(","))
 DEVICE = 'cuda'
@@ -109,7 +109,7 @@ def main():
     # parser.add_argument("--T_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint")
 
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/weights/temp_weights/UIIS854IMC947.pth", type=str, required=False, help="path to the checkpoint") #g vit_h
-    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam_1/temp/only_distill_50epoch.pth", type=str, required=False, help="path to the checkpoint") #g tiny_msam
+    parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam_1/temp/all50epoch_ocean100epoch.pth", type=str, required=False, help="path to the checkpoint") #g tiny_msam
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_vit_t/temp/step=43650-val_av_BS_IoU=0.8981.pth", type=str, required=False, help="path to the checkpoint") #g vit_t
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_micro_sam/temp/micro_sam_stage11.pth", type=str, required=False, help="path to the checkpoint") #g micro_sam
     # parser.add_argument("--S_checkpoint_path", default="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp_copy/stroke_v8.pth", type=str, required=False, help="path to the checkpoint") #g tiny_msam
@@ -124,11 +124,11 @@ def main():
     parser.add_argument("--batch_size", type=int, default=2, help="batch size")
     parser.add_argument("--save_topk", type=int, default=5, help="save top K models")
     parser.add_argument("--image_size", type=int, default=1024, help="image size")
-    parser.add_argument("--epochs", type=int, default=60, help="number of steps")
+    parser.add_argument("--epochs", type=int, default=300, help="number of steps")
     parser.add_argument("--num_points", type=int, default=10, help="number of random points")
     parser.add_argument("--length", type=int, default=10, help="the length of the chosen masks")
 
-    parser.add_argument("--learning_rate", type=float, default=1.0e-5, help="learning rate")
+    parser.add_argument("--learning_rate", type=float, default=5.0e-4, help="learning rate")
     parser.add_argument("--weight_decay", type=float, default=1e-2, help="weight decay")
     parser.add_argument("--metrics_interval", type=int, default=500, help="interval for logging metrics")
 
@@ -287,7 +287,7 @@ def main():
         use_bbox=args.use_bbox,
         max_steps=max_steps,
         epochs=args.epochs,
-        distill_weight=0.2, #g 初始化权重时 0.2
+        distill_weight=1, #g 初始化权重时 0.2
         only_distill=args.only_distill,
         add_distill=args.add_distill,
     )
@@ -329,8 +329,8 @@ def main():
     
     
     # trainer.validate(model)
-    # trainer.fit(model, ckpt_path="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v3.ckpt")
-    trainer.fit(model, )
+    trainer.fit(model, ckpt_path="/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/last-v6.ckpt")
+    # trainer.fit(model, )
     
     
     # save_checkpoint = {}

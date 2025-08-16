@@ -1,4 +1,6 @@
 import torch
+import os
+# os.environ['CUDA_VISIBLE_DEVICES'] = '2'
 
 def trans_ckpt(ckpt_path, save_path =None):
     checkpoint = torch.load(ckpt_path, map_location="cuda")
@@ -85,7 +87,7 @@ def trans_pth(pth_path, reference_path=None):
 
 # trans_pth("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage3.pth")
 
-trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/step=253900-val_av_BS_IoU=0.8354.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_tiny_msam/temp/all50epoch_ocean100epoch.pth")
+trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_copy_copy_T_vit_t_S_tiny_msam/step=313950-val_av_BS_IoU=0.8875.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_copy_copy_T_vit_t_S_tiny_msam/temp/only_distill_50epoch_mask&unmask_8870.pth")
 # trans_ckpt("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_micro_sam/last-v6.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_micro_sam/temp/micro_sam_stage6.pth")
 
 # compare_mask_decoders("/data2/wuxinrui/RA-L/MobileSAM/trained_models/Mask_Decoder_T_vit_h_S_vit_t/last.ckpt", "/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt")

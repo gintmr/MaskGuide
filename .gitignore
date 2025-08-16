@@ -20,3 +20,9 @@ training_visual_distill/
 training_visual_sft/
 nohup.out
 *.out
+**.npy
+Tools_charts/
+Tools_charts
+**.JPG
+*.JPG
+**.JPG

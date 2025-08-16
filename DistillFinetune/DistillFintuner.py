@@ -117,10 +117,13 @@ class AbstractDistillFinetuner(pl.LightningModule, ABC):
         self.T_model = T_model
         self.T_model = self.load_model(T_model, T_checkpoint_path)
         self.T_model.to(device=self.device)
+        self.T_model_type = T_model
+        # self.T_model_type = "vit_h"
 
         self.S_model = S_model
         self.S_model = self.load_model(S_model, S_checkpoint_path)
         self.S_model.to(device=self.device)
+        self.S_model_type = S_model
 
         self.freeze_layers(freeze_image_encoder, freeze_prompt_encoder, freeze_mask_decoder)
 
