@@ -11,6 +11,9 @@ from Tools_finetune.loss_calculate import OceanSegmentationLoss
 
 oceanegmentationLoss = OceanSegmentationLoss()
 
+# 尝试使用 torch.compile 加速（PyTorch 2.0+）
+_USE_COMPILE = hasattr(torch, 'compile') and os.getenv('USE_TORCH_COMPILE', '1') == '1'
+
 def finetune(**kwargs):
     feature, bbox, label, center_point, point_label, original_input_size_item, resized_input_size_item, coco_image_name, img, T_img = kwargs['feature'], kwargs['bbox'], kwargs['label'], kwargs['center_point'], kwargs['point_label'], kwargs['original_input_size_item'], kwargs['resized_input_size_item'], kwargs['coco_image_name'], kwargs['img'], kwargs['T_img']
 
@@ -53,8 +56,6 @@ def finetune(**kwargs):
         boxes=bbox_input,
         masks=None,
     )
-    torch.cuda.empty_cache()
-
 
     # Predict masks
     low_res_masks, iou_predictions = model.mask_decoder(
@@ -65,7 +66,6 @@ def finetune(**kwargs):
         dense_prompt_embeddings=dense_embeddings,
         multimask_output=self.multimask,
     )
-    torch.cuda.empty_cache()
     
     # Upscale the masks to the original image resolution
     masks = F.interpolate(
@@ -74,14 +74,11 @@ def finetune(**kwargs):
         mode="bilinear",
         align_corners=False,
     ) ## model.image_encoder.img_size在vit_t设置下为1024
-    torch.cuda.empty_cache()
     del low_res_masks
-    
 
     resized_height, resized_width = img.shape[1], img.shape[2]
     masks = masks[..., : resized_height, : resized_width]
     # masks = F.interpolate(masks, original_input_size_item, mode="bilinear", align_corners=False)
-    torch.cuda.empty_cache()
 
     b,c,h,w=masks.shape
     if self.multimask:
@@ -101,7 +98,6 @@ def finetune(**kwargs):
     #G ------- 计算IoU + 可视化输出--------G#
     pred_masks = masks.squeeze(1)
     iou_label = label.squeeze(1)
-    torch.cuda.empty_cache()
     #g 此处的pred_masks就是输出概率值。（范围+-N）
     #g 计算损失时，常会对齐使用sigmoid函数，将概率值限制在0-1之间 —— pred_probs (0-1)
     #g pred_masks的>0即对应pred_probs的>0.5
@@ -114,7 +110,7 @@ def finetune(**kwargs):
     # if random.random() < 0.03:
 
     if not validate:
-        if random.random() < 0.005:
+        if random.random() < 0.05:
             output_path_combined = os.path.join(training_visual_path, f"{self.current_epoch}_{coco_image_name.replace(ext_name, '_combined.jpg')}")
             pred_mask_array = overlay_mask_on_image(pred_masks, image_array=img, array_out=True, save_img=False)
             GT_mask_array = overlay_mask_on_image(iou_label, image_array=img, array_out=True, save_img=False)
@@ -138,7 +134,7 @@ def finetune(**kwargs):
         val_visual_pth = training_visual_path.replace("training_visual_distill", "valing_visual_distill")
         os.makedirs(val_visual_pth, exist_ok=True)
         
-        if random.random() < 0.05:
+        if random.random() < 0.1:
             pred_mask_array = overlay_mask_on_image(pred_masks, image_array=img, array_out=True, save_img=False)
             GT_mask_array = overlay_mask_on_image(iou_label, image_array=img, array_out=True, save_img=False)
             output_path_combined = os.path.join(val_visual_pth, f"{self.current_epoch}_{coco_image_name.replace(ext_name, '_combined.jpg')}")
@@ -152,7 +148,7 @@ def finetune(**kwargs):
                 #G randomly select three file prefixes
                 random_prefixes = random.sample(set(f for f in image_files), delta)
                 for prefix in random_prefixes:
-                    file_to_delete = os.path.join(training_visual_path, prefix)
+                    file_to_delete = os.path.join(val_visual_pth, prefix)
                     if os.path.exists(file_to_delete):
                         try: #G 防止误删可视化图后报错
                             os.remove(file_to_delete)

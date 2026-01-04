@@ -1,0 +1,190 @@
+2025-05-29 11:09:46 - INFO - Using device: cuda
+2025-05-29 11:09:46 - INFO - Devices num is 4
+2025-05-29 11:09:46 - INFO - args: Namespace(model_type='rep_sam', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage7.pth', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=5, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=500)
+2025-05-29 11:09:48 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-05-29 11:09:48 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json##################################################
+2025-05-29 11:10:58 - INFO - bbox_PA: 0.9727866037940086
+2025-05-29 11:10:58 - INFO - bbox_IoU: 0.5867705217363536
+2025-05-29 11:10:58 - INFO - bbox_Dice: 0.687879419732201
+2025-05-29 11:10:58 - INFO - bbox_Precision: 0.8557138924823992
+2025-05-29 11:10:58 - INFO - bbox_Recall: 0.6345494505389322
+2025-05-29 11:10:58 - INFO - bbox_F1 Score: 0.687879419732201
+2025-05-29 11:10:58 - INFO - bbox_MAE: 0.02721339650452137
+2025-05-29 11:10:58 - INFO - bbox_MSE: 0.02721339650452137
+2025-05-29 11:10:58 - INFO - point_PA: 0.9789667748780879
+2025-05-29 11:10:58 - INFO - point_IoU: 0.6466978013901289
+2025-05-29 11:10:58 - INFO - point_Dice: 0.7545130502128237
+2025-05-29 11:10:58 - INFO - point_Precision: 0.7867274817618897
+2025-05-29 11:10:58 - INFO - point_Recall: 0.7741161486158835
+2025-05-29 11:10:58 - INFO - point_F1 Score: 0.7545130502128237
+2025-05-29 11:10:58 - INFO - point_MAE: 0.02103322371840477
+2025-05-29 11:10:58 - INFO - point_MSE: 0.02103322371840477
+2025-05-29 11:10:58 - INFO - 
+=== 当前帧性能指标 ===
+2025-05-29 11:10:58 - INFO - FPS: 19.42
+2025-05-29 11:10:58 - INFO - 生成器时间: 0.0262s
+2025-05-29 11:10:58 - INFO - 预测器时间: 0.0158s
+2025-05-29 11:10:58 - INFO - 生成器内存: 0.00MB
+2025-05-29 11:10:58 - INFO - 预测器内存: 0.00MB
+2025-05-29 11:10:58 - INFO - 峰值内存: 148.52MB
+2025-05-29 11:10:58 - INFO - 
+=== 平均性能指标 ===
+2025-05-29 11:10:58 - INFO - 平均FPS: 15.19
+2025-05-29 11:10:58 - INFO - 生成器平均时间: 0.0281s
+2025-05-29 11:10:58 - INFO - 预测器平均时间: 0.0301s
+2025-05-29 11:10:58 - INFO - 生成器平均内存: 0.00MB
+2025-05-29 11:10:58 - INFO - 预测器平均内存: 0.01MB
+2025-05-29 11:10:58 - INFO - 峰值内存: 148.52MB
+2025-05-29 11:34:31 - INFO - Using device: cuda
+2025-05-29 11:34:31 - INFO - Devices num is 4
+2025-05-29 11:34:31 - INFO - args: Namespace(model_type='rep_sam', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage7.pth', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=5, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=500)
+2025-05-29 11:34:33 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-05-29 11:34:33 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json##################################################
+2025-05-29 11:34:47 - INFO - Using device: cuda
+2025-05-29 11:34:47 - INFO - Devices num is 4
+2025-05-29 11:34:47 - INFO - args: Namespace(model_type='rep_sam', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage7.pth', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=5, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=500)
+2025-05-29 11:34:49 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-05-29 11:34:49 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json##################################################
+2025-05-29 11:35:57 - INFO - bbox_PA: 0.9748446111983198
+2025-05-29 11:35:57 - INFO - bbox_IoU: 0.6432767696063488
+2025-05-29 11:35:57 - INFO - bbox_Dice: 0.7468245847153396
+2025-05-29 11:35:57 - INFO - bbox_Precision: 0.8372331574699136
+2025-05-29 11:35:57 - INFO - bbox_Recall: 0.7099335052256188
+2025-05-29 11:35:57 - INFO - bbox_F1 Score: 0.7468245847153396
+2025-05-29 11:35:57 - INFO - bbox_MAE: 0.025155389681458473
+2025-05-29 11:35:57 - INFO - bbox_MSE: 0.025155389681458473
+2025-05-29 11:35:57 - INFO - point_PA: 0.976658052012137
+2025-05-29 11:35:57 - INFO - point_IoU: 0.6038787264735448
+2025-05-29 11:35:57 - INFO - point_Dice: 0.7181567135262688
+2025-05-29 11:35:57 - INFO - point_Precision: 0.7502376694080255
+2025-05-29 11:35:57 - INFO - point_Recall: 0.7635857417787321
+2025-05-29 11:35:57 - INFO - point_F1 Score: 0.7181567135262688
+2025-05-29 11:35:57 - INFO - point_MAE: 0.0233419481664896
+2025-05-29 11:35:57 - INFO - point_MSE: 0.0233419481664896
+2025-05-29 11:35:57 - INFO - 
+=== 当前帧性能指标 ===
+2025-05-29 11:35:57 - INFO - FPS: 19.95
+2025-05-29 11:35:57 - INFO - 生成器时间: 0.0246s
+2025-05-29 11:35:57 - INFO - 预测器时间: 0.0160s
+2025-05-29 11:35:57 - INFO - 生成器内存: 0.00MB
+2025-05-29 11:35:57 - INFO - 预测器内存: 0.00MB
+2025-05-29 11:35:57 - INFO - 峰值内存: 148.52MB
+2025-05-29 11:35:57 - INFO - 
+=== 平均性能指标 ===
+2025-05-29 11:35:57 - INFO - 平均FPS: 16.02
+2025-05-29 11:35:57 - INFO - 生成器平均时间: 0.0248s
+2025-05-29 11:35:57 - INFO - 预测器平均时间: 0.0301s
+2025-05-29 11:35:57 - INFO - 生成器平均内存: 0.00MB
+2025-05-29 11:35:57 - INFO - 预测器平均内存: 0.01MB
+2025-05-29 11:35:57 - INFO - 峰值内存: 148.52MB
+2025-05-29 12:00:59 - INFO - Using device: cuda
+2025-05-29 12:00:59 - INFO - Devices num is 4
+2025-05-29 12:00:59 - INFO - args: Namespace(model_type='rep_sam', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage7.pth', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=5, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=None)
+2025-05-29 12:01:01 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-05-29 12:01:01 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json##################################################
+2025-05-29 12:09:59 - INFO - bbox_PA: 0.9715684363723187
+2025-05-29 12:09:59 - INFO - bbox_IoU: 0.6485169293413567
+2025-05-29 12:09:59 - INFO - bbox_Dice: 0.7500655945765365
+2025-05-29 12:09:59 - INFO - bbox_Precision: 0.8569825173570241
+2025-05-29 12:09:59 - INFO - bbox_Recall: 0.7060519994694754
+2025-05-29 12:09:59 - INFO - bbox_F1 Score: 0.7500655945765367
+2025-05-29 12:09:59 - INFO - bbox_MAE: 0.028431562706828117
+2025-05-29 12:09:59 - INFO - bbox_MSE: 0.028431562706828117
+2025-05-29 12:09:59 - INFO - point_PA: 0.9731894822417468
+2025-05-29 12:09:59 - INFO - point_IoU: 0.619430962933184
+2025-05-29 12:09:59 - INFO - point_Dice: 0.7294383498485453
+2025-05-29 12:09:59 - INFO - point_Precision: 0.7634424301261367
+2025-05-29 12:09:59 - INFO - point_Recall: 0.7807869036277054
+2025-05-29 12:09:59 - INFO - point_F1 Score: 0.7294383498485453
+2025-05-29 12:09:59 - INFO - point_MAE: 0.02681051753461361
+2025-05-29 12:09:59 - INFO - point_MSE: 0.02681051753461361
+2025-05-29 12:09:59 - INFO - 
+=== 当前帧性能指标 ===
+2025-05-29 12:09:59 - INFO - FPS: 19.47
+2025-05-29 12:09:59 - INFO - 生成器时间: 0.0268s
+2025-05-29 12:09:59 - INFO - 预测器时间: 0.0163s
+2025-05-29 12:09:59 - INFO - 生成器内存: 0.00MB
+2025-05-29 12:09:59 - INFO - 预测器内存: 0.00MB
+2025-05-29 12:09:59 - INFO - 峰值内存: 148.52MB
+2025-05-29 12:09:59 - INFO - 
+=== 平均性能指标 ===
+2025-05-29 12:09:59 - INFO - 平均FPS: 17.18
+2025-05-29 12:09:59 - INFO - 生成器平均时间: 0.0247s
+2025-05-29 12:09:59 - INFO - 预测器平均时间: 0.0263s
+2025-05-29 12:09:59 - INFO - 生成器平均内存: 0.00MB
+2025-05-29 12:09:59 - INFO - 预测器平均内存: 0.00MB
+2025-05-29 12:09:59 - INFO - 峰值内存: 148.52MB
+2025-05-29 12:35:39 - INFO - Using device: cuda
+2025-05-29 12:35:39 - INFO - Devices num is 4
+2025-05-29 12:35:39 - INFO - args: Namespace(model_type='rep_sam', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage7.pth', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=5, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=None)
+2025-05-29 12:35:41 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-05-29 12:35:41 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json##################################################
+2025-05-29 12:44:40 - INFO - bbox_PA: 0.9715684363723187
+2025-05-29 12:44:40 - INFO - bbox_IoU: 0.6485169293413567
+2025-05-29 12:44:40 - INFO - bbox_Dice: 0.7500655945765365
+2025-05-29 12:44:40 - INFO - bbox_Precision: 0.8569825173570241
+2025-05-29 12:44:40 - INFO - bbox_Recall: 0.7060519994694754
+2025-05-29 12:44:40 - INFO - bbox_F1 Score: 0.7500655945765367
+2025-05-29 12:44:40 - INFO - bbox_MAE: 0.028431562706828117
+2025-05-29 12:44:40 - INFO - bbox_MSE: 0.028431562706828117
+2025-05-29 12:44:40 - INFO - point_PA: 0.9731894822417468
+2025-05-29 12:44:40 - INFO - point_IoU: 0.619430962933184
+2025-05-29 12:44:40 - INFO - point_Dice: 0.7294383498485453
+2025-05-29 12:44:40 - INFO - point_Precision: 0.7634424301261367
+2025-05-29 12:44:40 - INFO - point_Recall: 0.7807869036277054
+2025-05-29 12:44:40 - INFO - point_F1 Score: 0.7294383498485453
+2025-05-29 12:44:40 - INFO - point_MAE: 0.02681051753461361
+2025-05-29 12:44:40 - INFO - point_MSE: 0.02681051753461361
+2025-05-29 12:44:40 - INFO - 
+=== 当前帧性能指标 ===
+2025-05-29 12:44:40 - INFO - FPS: 19.38
+2025-05-29 12:44:40 - INFO - 生成器时间: 0.0268s
+2025-05-29 12:44:40 - INFO - 预测器时间: 0.0162s
+2025-05-29 12:44:40 - INFO - 生成器内存: 0.00MB
+2025-05-29 12:44:40 - INFO - 预测器内存: 0.00MB
+2025-05-29 12:44:40 - INFO - 峰值内存: 148.52MB
+2025-05-29 12:44:40 - INFO - 
+=== 平均性能指标 ===
+2025-05-29 12:44:40 - INFO - 平均FPS: 17.14
+2025-05-29 12:44:40 - INFO - 生成器平均时间: 0.0247s
+2025-05-29 12:44:40 - INFO - 预测器平均时间: 0.0264s
+2025-05-29 12:44:40 - INFO - 生成器平均内存: 0.00MB
+2025-05-29 12:44:40 - INFO - 预测器平均内存: 0.00MB
+2025-05-29 12:44:40 - INFO - 峰值内存: 148.52MB
+2025-06-01 00:07:42 - INFO - Using device: cuda
+2025-06-01 00:07:42 - INFO - Devices num is 4
+2025-06-01 00:07:42 - INFO - args: Namespace(model_type='rep_sam', checkpoint_path='/data2/wuxinrui/RA-L/MobileSAM/trained_models/Img_Encoder_T_vit_t_S_rep_sam/temp/rep_sam_stage7.pth', test_img_path='/data2/wuxinrui/Datasets/IMC_1000/MIMC_FINAL/seen/test_list', label_path='/data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_1_prompts.json', label_num=5, image_size=1024, visualize_mask_path='/data2/wuxinrui/RA-L/MobileSAM/modified_mobilesam_results', ori_SAM=False, sample_num=500)
+2025-06-01 00:07:45 - INFO - ##################################################INFERENCE_MODE = test##################################################
+2025-06-01 00:07:45 - INFO - ##################################################label_path = /data2/wuxinrui/Datasets/IMC_1000/jsons_for_salient_instance_segmentation/test_5_prompts.json##################################################
+2025-06-01 00:08:53 - INFO - bbox_PA: 0.9748446111983198
+2025-06-01 00:08:53 - INFO - bbox_IoU: 0.6432767696063488
+2025-06-01 00:08:53 - INFO - bbox_Dice: 0.7468245847153396
+2025-06-01 00:08:53 - INFO - bbox_Precision: 0.8372331574699136
+2025-06-01 00:08:53 - INFO - bbox_Recall: 0.7099335052256188
+2025-06-01 00:08:53 - INFO - bbox_F1 Score: 0.7468245847153396
+2025-06-01 00:08:53 - INFO - bbox_MAE: 0.025155389681458473
+2025-06-01 00:08:53 - INFO - bbox_MSE: 0.025155389681458473
+2025-06-01 00:08:53 - INFO - point_PA: 0.976658052012137
+2025-06-01 00:08:53 - INFO - point_IoU: 0.6038787264735448
+2025-06-01 00:08:53 - INFO - point_Dice: 0.7181567135262688
+2025-06-01 00:08:53 - INFO - point_Precision: 0.7502376694080255
+2025-06-01 00:08:53 - INFO - point_Recall: 0.7635857417787321
+2025-06-01 00:08:53 - INFO - point_F1 Score: 0.7181567135262688
+2025-06-01 00:08:53 - INFO - point_MAE: 0.0233419481664896
+2025-06-01 00:08:53 - INFO - point_MSE: 0.0233419481664896
+2025-06-01 00:08:53 - INFO - 
+=== 当前帧性能指标 ===
+2025-06-01 00:08:53 - INFO - FPS: 19.82
+2025-06-01 00:08:53 - INFO - 生成器时间: 0.0253s
+2025-06-01 00:08:53 - INFO - 预测器时间: 0.0157s
+2025-06-01 00:08:53 - INFO - 生成器内存: 0.00MB
+2025-06-01 00:08:53 - INFO - 预测器内存: 0.00MB
+2025-06-01 00:08:53 - INFO - 峰值内存: 148.52MB
+2025-06-01 00:08:53 - INFO - 
+=== 平均性能指标 ===
+2025-06-01 00:08:53 - INFO - 平均FPS: 15.89
+2025-06-01 00:08:53 - INFO - 生成器平均时间: 0.0251s
+2025-06-01 00:08:53 - INFO - 预测器平均时间: 0.0304s
+2025-06-01 00:08:53 - INFO - 生成器平均内存: 0.00MB
+2025-06-01 00:08:53 - INFO - 预测器平均内存: 0.01MB
+2025-06-01 00:08:53 - INFO - 峰值内存: 148.52MB

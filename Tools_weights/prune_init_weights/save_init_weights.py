@@ -11,4 +11,4 @@ os.environ['MODEL_MODE'] = "test"
 init_model = sam_model_registry["tiny_msam"]
 model = init_model()
 state_dict = model.state_dict()
-torch.save(model.state_dict(), "/data2/wuxinrui/RA-L/MobileSAM/Tools_weights/prune_init_weights/init_tiny_msam.pth")
+torch.save(model.state_dict(), "/data2/wuxinrui/Distill-SAM/weights/init_tiny_msam.pth")

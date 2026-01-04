@@ -32,7 +32,7 @@ def init_weights(module):
 
 
 def init_weights_by_mobilesam(model):
-    mobilesam_pt_path = "/data2/wuxinrui/RA-L/MobileSAM/weights/mobile_sam.pt"
+    mobilesam_pt_path = "/data2/wuxinrui/Distill-SAM/weights/mobile_sam.pt"
     mobilesam_weight = torch.load(mobilesam_pt_path)
 
     model.image_encoder.apply(init_weights)

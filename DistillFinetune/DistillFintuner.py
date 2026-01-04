@@ -26,7 +26,9 @@ from torch.optim.lr_scheduler import OneCycleLR
 from torch.optim.lr_scheduler import CosineAnnealingLR
 import math
 
-NUM_WORKERS=4
+# 优化：根据 CPU 核心数自动设置 num_workers（可以手动设置环境变量覆盖）
+import multiprocessing
+NUM_WORKERS = int(os.getenv('NUM_WORKERS', min(16, multiprocessing.cpu_count())))
 
 
 

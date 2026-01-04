@@ -1,0 +1,37 @@
+train_data_MIMC: /data4/wuxinrui/RA-L/MobileSAM/NEW_MIMC_1024/images/train
+train_anno_MIMC: /data4/wuxinrui/RA-L/MobileSAM/NEW_MIMC_1024/annotations/train.json
+val_data_MIMC: /data4/wuxinrui/RA-L/MobileSAM/NEW_MIMC_1024/images/val
+val_anno_MIMC: /data4/wuxinrui/RA-L/MobileSAM/NEW_MIMC_1024/annotations/val.json
+
+train_data_COCO: /data4/wuxinrui/Datasets/COCO/images/train2017
+train_anno_COCO: /data4/wuxinrui/Datasets/COCO/annotations/instances_train2017.json
+val_data_COCO: /data4/wuxinrui/Datasets/COCO/images/val2017
+val_anno_COCO: /data4/wuxinrui/Datasets/COCO/annotations/instances_val2017_sampled_2000.json
+
+train_data_VOC: /data4/wuxinrui/Datasets/VOCdevkit/VOC2007/JPEGImages
+train_anno_VOC: /data4/wuxinrui/Datasets/VOCdevkit/VOC2007/COCO_Annotations/train2017.json
+val_data_VOC: /data4/wuxinrui/Datasets/VOCdevkit/VOC2007/JPEGImages
+val_anno_VOC: /data4/wuxinrui/Datasets/VOCdevkit/VOC2007/COCO_Annotations/val2017.json
+
+    
+
+Tar: Img_Encoder
+T_model: vit_t
+S_model: tiny_msam
+T_checkpoint_path: /data2/wuxinrui/Distill-SAM/weights/mobile_sam.pt
+S_checkpoint_path: /data2/wuxinrui/Distill-SAM/Tools_weights/prune_init_weights/init_weights_tiny_msam.pth
+
+multimask: true
+use_bbox: false
+use_centerpoint: false
+every_n_train_steps: 500
+batch_size: 1
+save_topk: 3
+image_size: 1024
+epochs: 10
+num_points: 6
+length: 100
+learning_rate: 0.0005
+weight_decay: 0.03
+metrics_interval: 500
+only_distill: false
