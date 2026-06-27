@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaskGuide — Efficient Distillation for Deployable Marine Segmentation</title>
+<meta name="description" content="MaskGuide is a feature-level distillation framework for lightweight marine segmentation. Its ultra-light Tiny-MSAM has 3.5M params, runs at 164.7 FPS, and keeps 99.4% of SAM's accuracy underwater. Accepted at IEEE RAL 2026.">
+<meta name="author" content="Xinrui Wu, Ziqiang Zheng, Yiwei Chen, Zeyu Ma, Yang Yang, Sai-Kit Yeung">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="MaskGuide — Deployable Lightweight Marine Segmentation (IEEE RAL 2026)">
+<meta property="og:description" content="Feature-level distillation for the ocean: Tiny-MSAM keeps 99.4% of SAM's accuracy at 3.5M params and 164.7 FPS.">
+<meta property="og:image" content="assets/overview.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opt,wght@0,16..72,400;0,16..72,500;0,16..72,600;1,16..72,400;1,16..72,500;1,16..72,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============================== NAV ============================== -->
+<header class="nav">
+  <div class="nav-inner">
+    <span class="brand">Mask<em>Guide</em></span>
+    <nav class="nav-links">
+      <a href="#motivation">Motivation</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#examples">Examples</a>
+      <a href="#cite">Cite</a>
+    </nav>
+    <div class="nav-right">
+      <button class="btn icon-btn" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" id="theme-icon"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <a class="btn btn-dark nav-cta" href="https://ieeexplore.ieee.org/document/11479799" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h11l5 5v11H4z"/><path d="M14 4v6h6"/></svg>
+        <span class="nav-cta-text">Paper</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================== HERO ============================== -->
+<section class="hero">
+  <div class="wrap">
+    <a class="accepted" href="https://ieeexplore.ieee.org/document/11479799" target="_blank" rel="noopener"><span class="pulse"></span> Accepted at IEEE Robotics and Automation Letters (RA-L) · 2026</a>
+    <h1>MaskGuide<span class="l2">lightweight segmentation, built for the ocean.</span></h1>
+    <p class="lead">
+      The Segment Anything Model is accurate but far too heavy for underwater robots, while lightweight
+      models lose accuracy in murky, low-contrast seas. <b>MaskGuide</b> closes the gap with a
+      <strong>feature-level distillation</strong> framework that disentangles teacher features into
+      foreground and background and fuses them into a cleaner supervisory signal — yielding
+      <strong>Tiny-MSAM</strong>, an ultra-light encoder that keeps <strong>99.4% of SAM's accuracy</strong>
+      at <strong>3.5M parameters</strong> and <strong>164.7 FPS</strong>.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn btn-dark" href="https://ieeexplore.ieee.org/document/11479799" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h11l5 5v11H4z"/><path d="M14 4v6h6"/></svg>
+        Read the Paper
+      </a>
+      <a class="btn" href="https://github.com/gintmr/MaskGuide" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.555-1.11-4.555-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+        Code
+      </a>
+    </div>
+
+    <div class="authors">
+      <div class="names">
+        <span class="aut" data-email="xinruiwu.wxr@gmail.com">Xinrui Wu</span><sup>1#</sup> &nbsp;
+        <span class="aut" data-email="zhengziqiang1@gmail.com">Ziqiang Zheng</span><sup>2#</sup> &nbsp;
+        <span class="aut" data-email="ychenmb@connect.ust.hk">Yiwei Chen</span><sup>2</sup> &nbsp;
+        <span class="aut" data-email="mazeyu@uestc.edu.cn">Zeyu Ma</span><sup>1*</sup> &nbsp;
+        <span class="aut" data-email="yang.yang@uestc.edu.cn">Yang Yang</span><sup>1</sup> &nbsp;
+        <span class="aut" data-email="saikit@ust.hk">Sai-Kit Yeung</span><sup>2</sup>
+      </div>
+      <div class="aff"><sup>1</sup>University of Electronic Science and Technology of China &nbsp;·&nbsp; <sup>2</sup>The Hong Kong University of Science and Technology</div>
+      <div class="aff"><sup>#</sup>Equal contribution &nbsp;·&nbsp; <sup>*</sup>Corresponding author</div>
+      <div class="emails">
+        Xinrui Wu <a href="mailto:xinruiwu.wxr@gmail.com">xinruiwu.wxr@gmail.com</a> &nbsp;·&nbsp;
+        Ziqiang Zheng <a href="mailto:zhengziqiang1@gmail.com">zhengziqiang1@gmail.com</a> &nbsp;·&nbsp;
+        Yiwei Chen <a href="mailto:ychenmb@connect.ust.hk">ychenmb@connect.ust.hk</a> &nbsp;·&nbsp;
+        Zeyu Ma <a href="mailto:mazeyu@uestc.edu.cn">mazeyu@uestc.edu.cn</a> &nbsp;·&nbsp;
+        Yang Yang <a href="mailto:yang.yang@uestc.edu.cn">yang.yang@uestc.edu.cn</a> &nbsp;·&nbsp;
+        Sai-Kit Yeung <a href="mailto:saikit@ust.hk">saikit@ust.hk</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TEASER PANEL ============================== -->
+<div class="wrap">
+  <div class="panel teaser-panel reveal">
+    <div class="panel-head">
+      <span>Feature quality vs. model size — Ours, MobileSAM, SAM 2</span>
+      <span class="r">edge-deployable</span>
+    </div>
+    <img src="assets/overview.png" alt="Feature-map and prediction comparison: MaskGuide (13.42 MB) matches SAM 2 (856 MB) feature quality at a fraction of the size, and far surpasses MobileSAM">
+  </div>
+</div>
+
+<!-- ============================== STATS ============================== -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stats-head">
+      <span>Tiny-MSAM at a glance</span>
+      <span class="sync">real-time · on-device · marine-adapted <i class="dot"></i></span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat reveal"><div class="num">3.5<small>M</small></div><div class="lab">parameters</div></div>
+      <div class="stat reveal"><div class="num">164.7<small>FPS</small></div><div class="lab">inference speed</div></div>
+      <div class="stat reveal"><div class="num">99.4<small>%</small></div><div class="lab">of SAM ViT-H accuracy</div></div>
+      <div class="stat reveal"><div class="num">13.4<small>MB</small></div><div class="lab">weight footprint</div></div>
+    </div>
+    <div class="stat-sub reveal">
+      <span class="chip"><b>0.5%</b> of SAM's parameters</span>
+      <span class="chip"><b>58%</b> of MobileSAM's parameters</span>
+      <span class="chip"><b>+133%</b> FPS vs MobileSAM</span>
+      <span class="chip"><b>3-stage</b> TIO training</span>
+      <span class="chip">UIIS · IMC · COCO</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MOTIVATION ============================== -->
+<section class="block" id="motivation">
+  <div class="wrap two-col">
+    <div>
+      <p class="kicker">The challenge</p>
+      <blockquote class="pullquote">
+        Marine biologists need <span class="q-accent">SAM-level masks</span> on an
+        underwater robot — but SAM's ViT-H encoder is <span class="q-accent">637&nbsp;M parameters</span>,
+        and shrinking it underwater wrecks the accuracy.
+      </blockquote>
+    </div>
+    <div class="prose">
+      <p>Underwater imagery is a worst case for segmentation: <strong>light attenuation</strong>, <strong>color distortion</strong>, low contrast and <strong>cluttered backgrounds</strong> erode the very cues a model relies on. SAM and SAM&nbsp;2 still cope — but their heavyweight encoders can't run on the edge devices marine robots actually carry.</p>
+      <p>Off-the-shelf lightweight models (MobileSAM, FastSAM) are fast, yet they were distilled on <strong>everyday land scenes</strong> with generic strategies, so they degrade sharply in the sea. The result is a stubborn gap: <strong>either accurate and unusable, or deployable and unreliable</strong>.</p>
+      <p>MaskGuide attacks the gap at the <strong>feature level</strong> — improving the supervisory signal itself rather than pre-processing pixels — to train an encoder that is both tiny and ocean-ready.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PROBLEM / FAILURE MODES ============================== -->
+<section class="block tight" style="background:var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <p class="eyebrow">Why naive distillation fails underwater</p>
+    <h2 class="section-title">Three ways feature maps <em>break</em> in the sea.</h2>
+    <p class="lead">Distilling straight from raw marine images carries noise and weak guidance into the student. A PCA view of the feature maps exposes three recurring failures — each of which MaskGuide is designed to repair.</p>
+
+    <div class="panel reveal" style="margin-top:34px;">
+      <div class="panel-head">
+        <span>Feature-map diagnosis — baseline vs. MaskGuide</span>
+        <span class="r">PCA heatmaps</span>
+      </div>
+      <img src="assets/problems.png" alt="PCA heatmaps comparing baseline and MaskGuide features across three failure modes: foreground-background confusion, inter-class overlap, and ambiguous boundaries">
+    </div>
+
+    <div class="fails">
+      <div class="fail reveal" style="--swatch:#5aa9ff;"><span class="bad-tag">foreground ↔ background</span><div class="fail-name">Confused with background</div><p>The target blends into cluttered reef and sand; activations look the same inside and outside the object.</p></div>
+      <div class="fail reveal" style="--swatch:#57e08a;"><span class="bad-tag">inter-class overlap</span><div class="fail-name">Confused with other objects</div><p>Different organisms share near-identical features, so the model can't tell one instance from another.</p></div>
+      <div class="fail reveal" style="--swatch:#ff8fb3;"><span class="bad-tag">diffuse edges</span><div class="fail-name">Unclear boundaries</div><p>Activations smear out and never form a crisp contour, blurring the object's true outline.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== METHOD ============================== -->
+<section class="block" id="method">
+  <div class="wrap">
+    <p class="eyebrow">Our approach</p>
+    <h2 class="section-title">MaskGuide: <em>disentangle, then fuse</em>.</h2>
+    <p class="lead">Rather than enhancing the input image, MaskGuide enhances the <strong>teacher's features</strong>. Using the teacher's own mask, it splits each feature map into a foreground stream and a background stream, then recombines all three views into a single, higher-quality target for distillation — at <strong>no extra inference cost</strong> to the student.</p>
+
+    <div class="panel reveal" style="margin-top:34px;">
+      <div class="panel-head">
+        <span>The MaskGuide pipeline — MaskFusion + IoU-guided dynamic weighting</span>
+        <span class="r">A · B · C</span>
+      </div>
+      <img src="assets/method-pipeline.png" alt="MaskGuide schematic: teacher features are masked into foreground and background branches, fused by MaskFusion, and distilled into the student encoder with IoU-guided dynamic weighting">
+    </div>
+
+    <div class="scales">
+      <div class="scale reveal">
+        <div class="st">Branch 1 · Foreground</div>
+        <div class="sn">Foreground purification</div>
+        <p>Element-wise gating keeps target features and suppresses background noise, focusing the student on the teacher's intrinsic object representation.</p>
+        <span class="eq">I_fg = I ⊙ M</span>
+      </div>
+      <div class="scale reveal">
+        <div class="st">Branch 2 · Background</div>
+        <div class="sn">Context enhancement</div>
+        <p>The inverted mask amplifies surrounding context, restoring boundary discrimination and contextual reasoning that pure foreground focus would lose.</p>
+        <span class="eq">I_bg = I ⊙ (1 − M)</span>
+      </div>
+      <div class="scale reveal">
+        <div class="st">Fusion · Core</div>
+        <div class="sn">MaskFusion</div>
+        <p>A weighted element-wise average of the original, foreground and background streams builds a richer teacher signal while staying cheap and inference-free.</p>
+        <span class="eq">F_fused = Fusion(F_orig, F_fg, F_bg)</span>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-serif); font-weight:600; font-size:1.5rem; margin:54px 0 6px;">TIO — a three-stage training curriculum</h3>
+    <p class="lead">A static distillation schedule can't transfer SAM's full capability into a tiny model. TIO (Three-stage Iterative Optimization) sequences the objectives — general grounding, marine distillation, then hard-sample refinement — to avoid catastrophic forgetting.</p>
+
+    <div class="tree reveal">
+      <div class="tnode"><span class="lv">STAGE I</span><div class="tname">Primary Capability</div><div class="tdesc">Broad pre-training on COCO builds foundational features and prevents premature overfitting to marine data.</div><span class="arrow">→</span></div>
+      <div class="tnode"><span class="lv">STAGE II</span><div class="tname">Feature Distillation</div><div class="tdesc">MaskGuide transfers knowledge on marine data (UIIS + IMC), focusing the student on biological features.</div><span class="arrow">→</span></div>
+      <div class="tnode"><span class="lv">STAGE III</span><div class="tname">Refinement</div><div class="tdesc">IoU-guided dynamic weighting up-weights low-IoU hard cases: λ = 10/(1+IoU) when IoU &lt; 0.9.</div></div>
+    </div>
+    <p class="tree-note">general grounding → marine feature distillation → hard-sample refinement</p>
+  </div>
+</section>
+
+<!-- ============================== RESULTS ============================== -->
+<section class="block tight" id="results" style="background:var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <p class="eyebrow">Benchmarks · UIIS · IMC · COCO</p>
+    <h2 class="section-title">Smaller, faster, <em>and</em> more accurate.</h2>
+    <p class="lead">On underwater instance segmentation (UIIS), our marine-tuned IMC benchmark, and COCO, MaskGuide lifts both backbones above their teachers, while the from-scratch Tiny-MSAM rivals SAM at a fraction of the cost. <strong>Avg.</strong> is the mean of 1-point, 5-point and box-prompt mIoU.</p>
+
+    <div class="results-grid" style="margin-top:42px;">
+      <div>
+        <table class="lb reveal">
+          <thead>
+            <tr><th>Method</th><th>Params</th><th>UIIS Avg.</th><th>IMC Avg.</th><th>COCO</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>SAM (ViT-H) <span class="grp">teacher</span></td><td>637 M</td><td><span class="cell-score" style="background:#aee0d6">39.8</span></td><td><span class="cell-score" style="background:#f3b48d">86.5</span></td><td>80.4</td></tr>
+            <tr><td>SAM 2 (Large)</td><td>224 M</td><td><span class="cell-score" style="background:#b6e2d3">41.0</span></td><td><span class="cell-score" style="background:#f5bd92">85.6</span></td><td>80.8</td></tr>
+            <tr><td>SAM 2 (Tiny)</td><td>38.9 M</td><td><span class="cell-score" style="background:#9bdadb">37.3</span></td><td><span class="cell-score" style="background:#f6cda0">84.8</span></td><td>78.2</td></tr>
+            <tr><td>MobileSAM (ViT-Tiny)</td><td>6 M</td><td><span class="cell-score" style="background:#a6dedd">39.5</span></td><td><span class="cell-score" style="background:#f7d3a4">83.2</span></td><td>77.8</td></tr>
+            <tr class="ours"><td>Ours <span class="grp">MobileSAM</span></td><td>6 M</td><td><span class="cell-score" style="background:#f0a982">43.4</span></td><td><span class="cell-score" style="background:#f0a07f">87.2</span></td><td>79.1</td></tr>
+            <tr class="ours"><td>Tiny-MSAM <span class="grp">from scratch</span></td><td>3.5 M</td><td><span class="cell-score" style="background:#bbe3d2">40.9</span></td><td><span class="cell-score" style="background:#f6c79c">81.7</span></td><td>77.0</td></tr>
+            <tr class="ours"><td>Ours <span class="grp">SAM</span></td><td>637 M</td><td><span class="cell-score" style="background:#ee9f78">44.3</span></td><td><span class="cell-score" style="background:#ec8f68">89.0</span></td><td>80.6</td></tr>
+          </tbody>
+        </table>
+        <p class="curve-cap">mIoU on UIIS / IMC / COCO. Cells run warm (strong) → cool (weak) within each column. Our MobileSAM variant beats its own teacher SAM (ViT-H) on UIIS and IMC; Tiny-MSAM reaches <strong>99.4%</strong> of SAM's UIIS accuracy with <strong>0.5%</strong> of its parameters.</p>
+      </div>
+      <div>
+        <table class="lb reveal">
+          <thead>
+            <tr><th>Model</th><th>Weights</th><th>FPS</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>SAM (ViT-H)</td><td>2.43 GB</td><td>4.2</td></tr>
+            <tr><td>SAM 2 (Large)</td><td>856 MB</td><td>11.9</td></tr>
+            <tr><td>SAM 2 (Tiny)</td><td>149 MB</td><td>31.4</td></tr>
+            <tr><td>FastSAM</td><td>138 MB</td><td>37.2</td></tr>
+            <tr><td>EfficientSAM</td><td>39.1 MB</td><td>112.3</td></tr>
+            <tr><td>MobileSAM</td><td>23.18 MB</td><td>127.4</td></tr>
+            <tr class="ours"><td>Tiny-MSAM <span class="grp">Ours</span></td><td>13.42 MB</td><td>164.7</td></tr>
+          </tbody>
+        </table>
+        <p class="curve-cap">Efficiency on the edge. Tiny-MSAM is the lightest and fastest of all open SAM variants — a favorable Pareto point on the accuracy–efficiency curve.</p>
+      </div>
+    </div>
+
+    <div class="findings">
+      <div class="finding reveal"><div class="fnum">01</div><h3>Beats its own teacher</h3><p>After MaskGuide, the MobileSAM student <strong>surpasses SAM (ViT-H)</strong> on UIIS and IMC — better features, not just cheaper ones, because the fused teacher signal is cleaner than the raw one.</p></div>
+      <div class="finding reveal"><div class="fnum">02</div><h3>SAM accuracy, edge budget</h3><p>Tiny-MSAM holds <strong>99.4%</strong> of SAM's UIIS accuracy at <strong>3.5M</strong> params, <strong>13.4MB</strong> and <strong>164.7 FPS</strong> — and it was trained <strong>from scratch</strong>, revealing the method's lower bound.</p></div>
+      <div class="finding reveal"><div class="fnum">03</div><h3>Better than enhance-then-segment</h3><p>Distillation beats running an underwater image-enhancement front-end (Semi-UIR) before segmentation — <strong>87.2 vs 84.5 Avg.</strong> on IMC — by transferring robust priors instead of amplifying artifacts.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CONVERGENCE ============================== -->
+<section class="block" id="analysis">
+  <div class="wrap">
+    <p class="eyebrow">A closer look</p>
+    <h2 class="section-title">MaskGuide <em>converges faster</em>, and higher.</h2>
+    <p class="lead">On the validation set, the same pipeline trained with MaskGuide (red) reaches a higher IoU plateau far sooner than the identical run without it (cyan) — directly explaining the accuracy gains in the tables above.</p>
+
+    <div class="conv-grid">
+      <figure class="panel reveal gcard" style="margin:0;" data-cap="Validation-set IoU convergence for Tiny-MSAM (Stage 2): with MaskGuide vs. without">
+        <div class="panel-head"><span>Tiny-MSAM · Stage 2</span><span class="r">val IoU</span></div>
+        <img src="assets/curve-tinymsam.jpg" alt="Validation IoU convergence curve for Tiny-MSAM Stage 2, MaskGuide vs without MaskGuide">
+      </figure>
+      <figure class="panel reveal gcard" style="margin:0;" data-cap="Validation-set IoU convergence for MobileSAM (Stage 3): with MaskGuide vs. without">
+        <div class="panel-head"><span>MobileSAM · Stage 3</span><span class="r">val IoU</span></div>
+        <img src="assets/curve-mobilesam.jpg" alt="Validation IoU convergence curve for MobileSAM Stage 3, MaskGuide vs without MaskGuide">
+      </figure>
+    </div>
+    <p class="curve-cap">Both backbones converge faster and to a higher final IoU with MaskGuide — stable knowledge transfer rather than noisy, slow distillation.</p>
+  </div>
+</section>
+
+<!-- ============================== QUALITATIVE GALLERY ============================== -->
+<section class="block tight" id="examples" style="background:var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <p class="eyebrow">Side by side</p>
+    <h2 class="section-title">Cleaner masks in <em>hard water</em>.</h2>
+    <p class="lead">Across severe light attenuation, low contrast and cluttered backgrounds, MaskGuide produces more precise, reliable masks than MobileSAM — and matches or beats the much larger SAM. Click any image to enlarge.</p>
+
+    <div class="gal-grid" style="grid-template-columns:1fr;">
+      <figure class="gcard reveal" data-cap="Qualitative comparison across underwater scenarios — Input · SAM · MobileSAM · Ours">
+        <img src="assets/qualitative.png" alt="Qualitative segmentation comparison across underwater scenarios for input, SAM, MobileSAM and our method">
+        <figcaption class="gcap"><span>Per-scenario comparison vs. SAM &amp; MobileSAM</span><span class="tag">qualitative</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CITATION ============================== -->
+<section class="block tight" id="cite">
+  <div class="wrap">
+    <p class="eyebrow">Citation</p>
+    <h2 class="section-title">Cite <em>MaskGuide</em>.</h2>
+    <p class="lead">If MaskGuide or Tiny-MSAM helps your work on marine perception or efficient segmentation, please cite the RA-L paper.</p>
+
+    <div class="cite-box reveal">
+      <div class="cite-head">
+        <span>BibTeX</span>
+        <button class="copy-btn" id="copy-cite">Copy</button>
+      </div>
+<pre id="cite-text">@article{wu2026maskguide,
+  title   = {MaskGuide: Efficient Distillation for Deployable Lightweight
+             Segmentation in Marine Environments},
+  author  = {Wu, Xinrui and Zheng, Ziqiang and Chen, Yiwei and
+             Ma, Zeyu and Yang, Yang and Yeung, Sai-Kit},
+  journal = {IEEE Robotics and Automation Letters (RA-L)},
+  year    = {2026},
+  publisher = {IEEE}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand2">Mask<em>Guide</em></div>
+      <p>Feature-level distillation for deployable, lightweight segmentation in marine environments.</p>
+    </div>
+    <div class="foot-links">
+      <div class="col">
+        <h4>Resources</h4>
+        <a href="https://github.com/gintmr/MaskGuide" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://ieeexplore.ieee.org/document/11479799" target="_blank" rel="noopener">IEEE Xplore</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 MaskGuide · UESTC &amp; HKUST</span>
+    <span>Accepted at IEEE Robotics and Automation Letters (RA-L), 2026</span>
+  </div>
+</footer>
+
+<!-- ============================== LIGHTBOX ============================== -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lb-close" aria-label="Close">&times;</button>
+  <img src="" alt="" id="lb-img">
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

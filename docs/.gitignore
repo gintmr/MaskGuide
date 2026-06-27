@@ -1,0 +1,5 @@
+# The repo root .gitignore ignores images globally (*.png/*.jpg/*.jpeg).
+# Re-include the project-page assets so GitHub Pages can serve them.
+!*.png
+!*.jpg
+!*.jpeg
