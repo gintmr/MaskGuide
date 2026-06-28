@@ -52,6 +52,8 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* keep anchored headings clear of the sticky nav */
+section[id], div[id] { scroll-margin-top: 84px; }
 
 body {
   margin: 0;
@@ -160,16 +162,37 @@ header.nav {
 .accepted .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 0 var(--coral); animation: pulse 2.2s infinite; }
 @keyframes pulse { 0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--coral) 60%,transparent);} 70%{box-shadow:0 0 0 8px transparent;} 100%{box-shadow:0 0 0 0 transparent;} }
 
+/* two-column hero: text + logo/venue card */
+.hero-grid { display: grid; grid-template-columns: minmax(0,1.62fr) minmax(0,1fr); gap: 54px; align-items: center; }
+.hero-main { min-width: 0; }
+.hero-aside { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.logo-card {
+  width: 100%; max-width: 320px; aspect-ratio: 1 / 1;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--aqua) 26%, transparent), transparent 60%),
+    linear-gradient(160deg, var(--panel), color-mix(in srgb, var(--aqua) 10%, var(--panel)));
+  border: 1px solid var(--line-2); border-radius: 26px; box-shadow: var(--shadow);
+  padding: 26px;
+}
+.hero-logo { width: 100%; height: auto; border-radius: 18px; filter: drop-shadow(0 10px 24px rgba(11,42,49,.18)); }
+.hero-venue {
+  text-align: center; font-family: var(--font-mono); font-size: .82rem; line-height: 1.6;
+  color: var(--ink-2); letter-spacing: .02em;
+}
+.hero-venue .vk { display: block; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.hero-venue b { color: var(--accent); }
+
 .hero h1 {
   font-family: var(--font-serif);
   font-weight: 480;
-  font-size: clamp(2.9rem, 7.4vw, 5.6rem);
+  font-size: clamp(2.9rem, 6vw, 5rem);
   line-height: .98;
   letter-spacing: -.02em;
   margin: 0 0 22px;
 }
-.hero h1 .l2 { display: block; font-style: italic; font-size: .54em; color: var(--accent); margin-top: 12px; }
-.hero .lead { font-size: 1.18rem; max-width: 64ch; margin-bottom: 30px; }
+.hero h1 .l2 { display: block; font-style: italic; font-size: .5em; color: var(--accent); margin-top: 12px; }
+.hero .lead { font-size: 1.15rem; max-width: 60ch; margin-bottom: 30px; }
 .hero .lead strong, .hero .lead b { color: var(--ink); font-weight: 600; }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 30px; }
@@ -433,6 +456,10 @@ footer.foot { border-top: 1px solid var(--line); background: var(--bg-2); paddin
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .two-col, .results-grid { grid-template-columns: 1fr; gap: 32px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-aside { order: -1; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; gap: 24px; }
+  .logo-card { max-width: 150px; padding: 18px; border-radius: 20px; }
+  .hero-venue { text-align: left; }
   .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
   .tree { grid-template-columns: 1fr; }
   .tnode { border-right: none; border-bottom: 1px solid var(--line); }

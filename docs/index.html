@@ -48,7 +48,8 @@
 
 <!-- ============================== HERO ============================== -->
 <section class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
+   <div class="hero-main">
     <a class="accepted" href="https://ieeexplore.ieee.org/document/11479799" target="_blank" rel="noopener"><span class="pulse"></span> Accepted at IEEE Robotics and Automation Letters (RA-L) · 2026</a>
     <h1>MaskGuide<span class="l2">lightweight segmentation, built for the ocean.</span></h1>
     <p class="lead">
@@ -64,6 +65,10 @@
       <a class="btn btn-dark" href="https://ieeexplore.ieee.org/document/11479799" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h11l5 5v11H4z"/><path d="M14 4v6h6"/></svg>
         Read the Paper
+      </a>
+      <a class="btn" href="assets/MaskGuide_RAL2026.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2"/></svg>
+        Camera-Ready PDF
       </a>
       <a class="btn" href="https://github.com/gintmr/MaskGuide" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.555-1.11-4.555-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
@@ -91,6 +96,18 @@
         Sai-Kit Yeung <a href="mailto:saikit@ust.hk">saikit@ust.hk</a>
       </div>
     </div>
+   </div>
+
+   <aside class="hero-aside reveal">
+     <div class="logo-card">
+       <img class="hero-logo" src="assets/logo.png" alt="MaskGuide logo — a fish in a tank">
+     </div>
+     <div class="hero-venue">
+       <span class="vk">Published in</span>
+       IEEE Robotics and Automation Letters<br>
+       <b>Vol. 11, No. 6 · June 2026</b>
+     </div>
+   </aside>
   </div>
 </section>
 
@@ -314,18 +331,30 @@
     <h2 class="section-title">Cite <em>MaskGuide</em>.</h2>
     <p class="lead">If MaskGuide or Tiny-MSAM helps your work on marine perception or efficient segmentation, please cite the RA-L paper.</p>
 
+    <div class="cta-row" style="margin-top:22px;">
+      <a class="btn btn-dark" href="assets/MaskGuide_RAL2026.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2"/></svg>
+        Download Camera-Ready PDF
+      </a>
+      <a class="btn" href="https://doi.org/10.1109/LRA.2026.3683334" target="_blank" rel="noopener">DOI: 10.1109/LRA.2026.3683334</a>
+    </div>
+
     <div class="cite-box reveal">
       <div class="cite-head">
         <span>BibTeX</span>
         <button class="copy-btn" id="copy-cite">Copy</button>
       </div>
 <pre id="cite-text">@article{wu2026maskguide,
-  title   = {MaskGuide: Efficient Distillation for Deployable Lightweight
-             Segmentation in Marine Environments},
-  author  = {Wu, Xinrui and Zheng, Ziqiang and Chen, Yiwei and
-             Ma, Zeyu and Yang, Yang and Yeung, Sai-Kit},
-  journal = {IEEE Robotics and Automation Letters (RA-L)},
-  year    = {2026},
+  title     = {MaskGuide: Efficient Distillation for Deployable Lightweight
+               Segmentation in Marine Environments},
+  author    = {Wu, Xinrui and Zheng, Ziqiang and Chen, Yiwei and
+               Ma, Zeyu and Yang, Yang and Yeung, Sai-Kit},
+  journal   = {IEEE Robotics and Automation Letters},
+  year      = {2026},
+  volume    = {11},
+  number    = {6},
+  pages     = {6775--6782},
+  doi       = {10.1109/LRA.2026.3683334},
   publisher = {IEEE}
 }</pre>
     </div>
@@ -342,8 +371,9 @@
     <div class="foot-links">
       <div class="col">
         <h4>Resources</h4>
-        <a href="https://github.com/gintmr/MaskGuide" target="_blank" rel="noopener">GitHub</a>
+        <a href="assets/MaskGuide_RAL2026.pdf" download>Camera-Ready PDF</a>
         <a href="https://ieeexplore.ieee.org/document/11479799" target="_blank" rel="noopener">IEEE Xplore</a>
+        <a href="https://github.com/gintmr/MaskGuide" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
   </div>

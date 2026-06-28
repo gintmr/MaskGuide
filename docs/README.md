@@ -9,7 +9,8 @@ Pure HTML/CSS/JS — no build step. Marine editorial theme with a deep-ocean dar
 - `index.html` — page content
 - `styles.css` — theme + layout (light seafoam / dark abyss; teal accent, coral highlights)
 - `script.js` — theme toggle, scroll reveal, figure album, lightbox, copy-BibTeX
-- `assets/` — figures from the paper
+- `assets/` — figures from the paper, the logo, and the camera-ready PDF
+  (`MaskGuide_RAL2026.pdf`, offered for download in the hero, citation, and footer)
 - `favicon.svg`, `.nojekyll`
 
 ## Preview locally
@@ -37,4 +38,5 @@ labels stay readable in dark mode.
 - Confirm the **GitHub** link (`https://github.com/gintmr/MaskGuide`).
 - The paper link (`https://ieeexplore.ieee.org/document/11479799`) is wired into
   the nav button, the hero "Accepted" badge, the "Read the Paper" CTA, and the
-  footer. Update the BibTeX `@article` once the official RA-L volume/pages exist.
+  footer. The BibTeX is complete (vol. 11, no. 6, pp. 6775–6782, June 2026,
+  DOI 10.1109/LRA.2026.3683334).
