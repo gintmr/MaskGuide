@@ -442,7 +442,9 @@ section.block.tight { padding: 64px 0; }
 .album-cap { margin-top: 14px; }
 
 /* ============================================================ PAPER PREVIEW */
-.pdf-panel { margin-top: 40px; }
+/* centered, document-width column so a portrait page fills it at the right
+   proportion instead of floating small in a wide, short box */
+.pdf-panel { margin: 38px auto 0; max-width: 900px; }
 .pdf-panel .panel-head { flex-wrap: wrap; }
 .pdf-actions { display: inline-flex; gap: 16px; }
 .pdf-actions a {
@@ -451,7 +453,11 @@ section.block.tight { padding: 64px 0; }
 }
 .pdf-actions a:hover { color: var(--accent-2); }
 .pdf-stage { background: var(--bg-2); }
-.pdf-frame { width: 100%; height: 84vh; min-height: 560px; border: 0; display: block; background: var(--bg-2); }
+/* US-Letter page ratio (8.5 : 11) keeps the embedded page in proportion */
+.pdf-frame {
+  width: 100%; aspect-ratio: 8.5 / 11; height: auto;
+  border: 0; display: block; background: var(--bg-2);
+}
 .pdf-fallback { padding: 64px 24px; text-align: center; color: var(--ink-2); }
 .pdf-fallback p { margin: 0 0 16px; }
 
